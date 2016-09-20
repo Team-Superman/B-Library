@@ -1,0 +1,23 @@
+{
+  "name": "b-library",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "team-superman"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/Team-Superman/B-Library",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "handlebars": "^4.0.5",
+    "sammy": "^0.7.6",
+    "toastr": "^2.1.3"
+  }
+}
