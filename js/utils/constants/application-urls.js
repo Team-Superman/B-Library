@@ -3,9 +3,9 @@
 const MAIN_URL = '#/',
       TEST_URL = '#/test'
 
-let urls = {
+let appUrls = {
   MAIN_URL,
   TEST_URL
 }
 
-export {urls}
+export {appUrls}
