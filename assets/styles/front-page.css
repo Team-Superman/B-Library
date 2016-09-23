@@ -1,0 +1,31 @@
+#right-side-mainpage {
+  padding-top: 50px;
+}
+
+#left-side-mainpage {
+  padding-top: 50px;
+}
+
+#left-side-mainpage>h1 {
+  display: table;
+  margin: 0 auto;
+}
+
+#left-side-mainpage>div {
+  display: table;
+  margin: 0 auto;
+}
+
+#left-side-mainpage>div>h3 {
+  font-size: 24px;
+  padding: 20px 0px;
+}
+
+#left-side-mainpage>div>blockquote {
+  margin: 30px 0px;
+}
+
+#left-side-mainpage>div>h3>.glyphicon {
+    font-size: 20px;
+    margin-right: 30px;
+}
