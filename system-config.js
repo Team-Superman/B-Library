@@ -13,8 +13,9 @@ SystemJS.config({
         'sammy': './bower_components/sammy/lib/min/sammy-latest.min.js',
 
         //Utils
-        'requester' : './js/utils/requester.js',
-        'header-generator' : './js/utils/header-generator.js',
+        'requester': './js/utils/requester.js',
+        'header-generator': './js/utils/header-generator.js',
+        'template-generator': './js/utils/template-generator.js',
 
         //Constants
         'application-urls': './js/utils/constants/application-urls.js',
