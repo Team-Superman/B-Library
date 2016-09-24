@@ -44,7 +44,7 @@ let request = (function () {
         }
     }
 
-    return new Requester('asd');
+    return new Requester();
 }());
 
 export {request}

@@ -16,11 +16,14 @@ SystemJS.config({
         'requester': './js/utils/requester.js',
         'header-generator': './js/utils/header-generator.js',
         'template-generator': './js/utils/template-generator.js',
+        'notifier': './js/utils/notifier.js',
 
         //Constants
         'application-urls': './js/utils/constants/application-urls.js',
         'kinvey-urls': './js/utils/constants/kinvey-urls.js',
 
+        //Controllers
+        'page-controller': './js/controllers/page-controller.js',
 
         //Main script
         'app': './js/app.js'

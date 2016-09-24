@@ -13,10 +13,10 @@
   <div class="collapse navbar-collapse" id="navbar-collapse">
     <form class="navbar-form navbar-right" role="search">
       <div class="form-group">
-        <input type="text" class="form-control input-sm" placeholder="Username">
-        <input type="text" class="form-control input-sm" placeholder="Search">
+          <input type="text" id="login-username"class="form-control input-sm" placeholder="Username">
+          <input type="password" id="login-password" class="form-control input-sm" placeholder="Password">
+          <button type="button" id="sign-in-user" class="btn btn-primary btn-sm">Sign in</button>
       </div>
-      <button type="submit" class="btn btn-primary btn-sm">Sign in</button>
     </form>
   </div>
 </div>
@@ -43,36 +43,42 @@
                   <div class="form-group">
                     <label for="inputFirstName" class="col-lg-3 control-label">First Name</label>
                     <div class="col-lg-9">
-                      <input type="text" class="form-control" id="inputFirstName" placeholder="First name">
+                      <input type="text" class="form-control" id="input-first-name" placeholder="First name">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputLastName" class="col-lg-3 control-label">Last Name</label>
                     <div class="col-lg-9">
-                      <input type="text" class="form-control" id="inputLastName" placeholder="Last name">
+                      <input type="text" class="form-control" id="input-last-name" placeholder="Last name">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputUsername" class="col-lg-3 control-label">Username</label>
                     <div class="col-lg-9">
-                      <input type="text" class="form-control" id="inputUsername" placeholder="Username">
+                      <input type="text" class="form-control" id="input-username" placeholder="Username">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputEmailAddress" class="col-lg-3 control-label">Email Address</label>
                     <div class="col-lg-9">
-                      <input type="text" class="form-control" id="inputEmailAddress" placeholder="Email Address">
+                      <input type="text" class="form-control" id="input-email-address" placeholder="Email Address">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputPassword" class="col-lg-3 control-label">Password</label>
                     <div class="col-lg-9">
-                      <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                      <input type="password" class="form-control" id="input-password" placeholder="Password">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPassword" class="col-lg-3 control-label">Confirm password</label>
+                    <div class="col-lg-9">
+                      <input type="password" class="form-control" id="input-confirm-password" placeholder="Confirm password">
                     </div>
                   </div>
                 <div class="form-group">
                     <div class="col-lg-9 col-lg-offset-3">
-                      <button type="submit" class="btn btn-sm btn-primary btn-lg btn-block">Sign up</button>
+                      <button type="button" id="sign-up-user" class="btn btn-sm btn-primary btn-lg btn-block">Sign up</button>
                     </div>
                   </div>
                 </fieldset>
