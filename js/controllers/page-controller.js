@@ -3,7 +3,7 @@
 import 'jquery';
 import {notifier} from 'notifier';
 import {userModel} from 'user-model';
-import Sammy from 'sammy';
+import CryptoJS from 'cryptojs';
 
 let CONTENT_SELECTOR = '#content';
 
@@ -19,23 +19,24 @@ function loadHomePage(template){
   function loadHomePageEvents(){
   //handle requests for sign in and sign up here
     $('#sign-in-user').on('click', function(ev){
-      notifier.show('SIGN IN', 'error');
+      let user = {
+        "username": $('#login-username').val(),
+        "password": CryptoJS.SHA1($('#login-password').val()).toString(),
+      }
 
-      Sammy(function(){
-        this.trigger('redirectToUrl', '#/home');
-      });
+      userModel.login(user);
     });
 
     $('#sign-up-user').on('click', function(ev){
       let user = {
         "username": $('#input-username').val(),
-        "password": $('#input-password').val(),
+        "password": CryptoJS.SHA1($('#input-password').val()).toString(),
         "firstName": $('#input-first-name').val(),
         "lastName": $('#input-last-name').val(),
         "email": $('#input-email-address').val(),
         "readBooks": []
       };
-
+      //validate data here
       userModel.register(user);
       notifier.show('SIGN UP', 'success');
 

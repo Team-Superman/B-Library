@@ -2,7 +2,10 @@
 
 import {header} from 'header-generator';
 import {request} from 'requester';
+import {notifier} from 'notifier';
 import {kinveyUrls} from 'kinvey-urls';
+import CryptoJS from 'cryptojs';
+import Sammy from 'sammy';
 
 
 function register(data){
@@ -11,9 +14,34 @@ function register(data){
          .then((data) => console.log(data));
 }
 
-function login(){
+function login(user){
+  var promise = new Promise(function (resolve, reject) {
+        var data = {
+            username: user.username,
+            password: user.password
+        };
 
-}
+        let head = header.getHeader(false, true);
+
+        request.post(`https://baas.kinvey.com/user/${kinveyUrls.KINVEY_APP_ID}/login`, head, data)
+               .then(response => {
+                 localStorage.setItem('AUTH_TOKEN', response._kmd.authtoken);
+                 localStorage.setItem('USER_NAME', response.username);
+                 localStorage.setItem('USER_ID', response._id);
+                 notifier.show('LOGIN SUCCESSFUL', 'success');
+                 setTimeout(function(){
+                   Sammy(function(){
+                     this.trigger('redirectToUrl', '#/home');
+                   });
+                 })
+               })
+               .catch((error) =>{
+                 notifier.show('Invalid username or password', 'error');
+               });
+    });
+
+    return promise;
+};
 
 function logout(){
 
