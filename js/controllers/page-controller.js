@@ -3,6 +3,7 @@
 import 'jquery';
 import {notifier} from 'notifier';
 import {userModel} from 'user-model';
+import Sammy from 'sammy';
 
 let CONTENT_SELECTOR = '#content';
 
@@ -19,6 +20,10 @@ function loadHomePage(template){
   //handle requests for sign in and sign up here
     $('#sign-in-user').on('click', function(ev){
       notifier.show('SIGN IN', 'error');
+
+      Sammy(function(){
+        this.trigger('redirectToUrl', '#/home');
+      });
     });
 
     $('#sign-up-user').on('click', function(ev){
