@@ -25,6 +25,9 @@ SystemJS.config({
         //Controllers
         'page-controller': './js/controllers/page-controller.js',
 
+        //Models
+        'user-model': './js/models/user-model.js',
+
         //Main script
         'app': './js/app.js'
       }

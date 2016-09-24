@@ -23,10 +23,6 @@ let header = (function () {
           headers.Authorization = createBasicCredentials();
       }
 
-      if(dataRequired){
-        headers['Content-Type'] = 'aplication/json';
-      }
-
       return headers;
     }
   }

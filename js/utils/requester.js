@@ -5,12 +5,21 @@ import 'jquery';
 let request = (function () {
 
     function createRequest(url, method, headers, data) {
+        let contentType = null;
+
+        if(method === 'PUT' || method === 'POST'){
+          contentType = 'application/json';
+        }
+
+        data = data ? JSON.stringify(data) : null;
+
         let promise = new Promise((resolve, reject) => {
             $.ajax({
                 url: url,
                 method: method,
                 headers: headers,
-                data: data ? JSON.stringify(data) : null,
+                data: data,
+                contentType: contentType,
                 success(response) {
                     resolve(response);
                 },
