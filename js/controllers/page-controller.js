@@ -5,11 +5,11 @@ import {notifier} from 'notifier';
 import {userModel} from 'user-model';
 import CryptoJS from 'cryptojs';
 
-let CONTENT_SELECTOR = '#content';
+let ROOT_SELECTOR = '#root';
 
 function loadHomePage(template){
     let promise = new Promise((resolve, reject) => {
-      $(CONTENT_SELECTOR).html(template());
+      $(ROOT_SELECTOR).html(template());
       resolve();
     });
 
@@ -17,7 +17,6 @@ function loadHomePage(template){
   }
 
   function loadHomePageEvents(){
-  //handle requests for sign in and sign up here
     $('#sign-in-user').on('click', function(ev){
       let user = {
         "username": $('#login-username').val(),
@@ -38,15 +37,24 @@ function loadHomePage(template){
       };
       //validate data here
       userModel.register(user);
-      notifier.show('SIGN UP', 'success');
-
-      //TODO redirect
     });
+  }
+
+  function loadUserNavigation(template){
+    let user = localStorage.getItem('USER_NAME');
+    let promise = new Promise((resolve, reject) => {
+      $(ROOT_SELECTOR).empty();
+      $(ROOT_SELECTOR).append(template(user));
+      resolve();
+    });
+
+    return promise;
   }
 
 let pageLoader = {
   loadHomePage,
-  loadHomePageEvents
+  loadHomePageEvents,
+  loadUserNavigation
 };
 
 export {pageLoader};

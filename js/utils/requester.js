@@ -36,21 +36,21 @@ let request = (function () {
       constructor(){
       }
 
-        get(url, headers) {
-            return createRequest(url, 'GET', headers);
-        }
+      get(url, headers) {
+          return createRequest(url, 'GET', headers);
+      }
 
-        post(url, headers, data) {
-            return createRequest(url, 'POST', headers, data);
-        }
+      post(url, headers, data) {
+          return createRequest(url, 'POST', headers, data);
+      }
 
-        put(url, headers, data) {
-            return createRequest(url, 'PUT', headers, data);
-        }
+      put(url, headers, data) {
+          return createRequest(url, 'PUT', headers, data);
+      }
 
-        delete(url, headers) {
-            return createRequest(url, 'DELETE', headers);
-        }
+      delete(url, headers) {
+          return createRequest(url, 'DELETE', headers);
+      }
     }
 
     return new Requester();

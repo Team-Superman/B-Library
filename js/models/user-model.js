@@ -11,7 +11,9 @@ import Sammy from 'sammy';
 function register(data){
   let head = header.getHeader(false, true);
   request.post(`https://baas.kinvey.com/user/${kinveyUrls.KINVEY_APP_ID}`, head, data)
-         .then((data) => console.log(data));
+         .then(response =>{
+                 notifier.show('SIGN UP', 'success');
+               });
 }
 
 function login(user){
