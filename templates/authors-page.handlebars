@@ -1,0 +1,38 @@
+<main>
+    <div class="row">
+    <div class="col-md-6 portfolio-item" id="left-side-mainpage">
+        <div id="home-page-books" class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Results</h1>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    
+                            <a href="#" class="list-group-item">
+                                <h4 class="list-group-item-heading">---</h4>
+                                <p class="list-group-item-text">-––</p>
+                            </a>  
+                    
+                </div>
+            </div>    
+        </div>
+    </div>
+    <div class="col-md-6 portfolio-item" id="left-side-mainpage">
+        <div id="home-page-authors" class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Popular Authors</h1>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    {{#each authors}}
+                        <a href="#" class="list-group-item">
+                            <h4 class="list-group-item-heading">{{Name}}</h4>
+                            <p class="list-group-item-text">{{Age}}</p>
+                        </a> 
+                    {{/each}}
+                </div>
+            </div>   
+        </div>
+    </div>
+</div>
+</main>

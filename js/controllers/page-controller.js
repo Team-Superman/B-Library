@@ -7,6 +7,7 @@ import CryptoJS from 'cryptojs';
 
 let ROOT_SELECTOR = '#root';
 
+
 function loadHomePage(template) {
     let promise = new Promise((resolve, reject) => {
         $(ROOT_SELECTOR).html(template());
@@ -16,16 +17,20 @@ function loadHomePage(template) {
     return promise;
 }
 
-function loadUserMainPage(template, data) {
-    console.log(data);
-
-    console.log(data.books);
+function loadUserMainPage(template, data) {    
     let promise = new Promise((resolve, reject) => {
         $(ROOT_SELECTOR).append(template(data));
         resolve();
     });
 
     return promise;
+}
+
+function loadAuthorsPage(template, data){
+    let promise = new Promise((resoleve, reject) => {
+        $(ROOT_SELECTOR).append(template(data));
+        resolve();
+    });
 }
 
 function getUserLoginDetails() {
@@ -37,7 +42,14 @@ function getUserLoginDetails() {
     return user;
 }
 
+function loadAuthorsPageEvents(){
+     $('#search-author-button').on('click', function(ev){
+                console.log("ubavec");
+            });
+}
+
 function loadHomePageEvents() {
+
     $('#sign-in-user').on('click', function(ev) {
         userModel.login(getUserLoginDetails());
     });
@@ -84,7 +96,9 @@ let pageLoader = {
     loadHomePageEvents,
     loadUserNavigation,
     loadUserNavigationEvents,
-    loadUserMainPage
+    loadUserMainPage,
+    loadAuthorsPageEvents, 
+    loadAuthorsPage
 };
 
 export { pageLoader };
