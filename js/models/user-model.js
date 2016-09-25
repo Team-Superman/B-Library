@@ -60,7 +60,11 @@ function logout() {
 }
 
 function current() {
-
+    return {
+        authtoken: localStorage.getItem('AUTH_TOKEN'),
+        username: localStorage.getItem('USER_NAME'),
+        id: localStorage.getItem('ID')
+    }
 }
 
 let userModel = { register, login, logout, current };

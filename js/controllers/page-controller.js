@@ -16,14 +16,36 @@ function loadHomePage(template) {
     return promise;
 }
 
+function loadUserMainPage(template, data) {
+    console.log(data);
+
+    console.log(data.books);
+    let promise = new Promise((resolve, reject) => {
+        $(ROOT_SELECTOR).append(template(data));
+        resolve();
+    });
+
+    return promise;
+}
+
+function getUserLoginDetails() {
+    let user = {
+        "username": $('#login-username').val(),
+        "password": CryptoJS.SHA1($('#login-password').val()).toString(),
+    }
+
+    return user;
+}
+
 function loadHomePageEvents() {
     $('#sign-in-user').on('click', function(ev) {
-        let user = {
-            "username": $('#login-username').val(),
-            "password": CryptoJS.SHA1($('#login-password').val()).toString(),
-        }
+        userModel.login(getUserLoginDetails());
+    });
 
-        userModel.login(user);
+    $('#login-password').on('keydown', function(ev) {
+        if (ev.which === 13) {
+            userModel.login(getUserLoginDetails());
+        }
     });
 
     $('#sign-up-user').on('click', function(ev) {
@@ -61,7 +83,8 @@ let pageLoader = {
     loadHomePage,
     loadHomePageEvents,
     loadUserNavigation,
-    loadUserNavigationEvents
+    loadUserNavigationEvents,
+    loadUserMainPage
 };
 
 export { pageLoader };
