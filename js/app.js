@@ -8,19 +8,20 @@ import { request } from 'requester';
 import { header } from 'header-generator';
 import { template } from 'template-generator';
 import { pageLoader } from 'page-controller';
+import { eventLoader } from 'event-controller';
 
 let app = new Sammy(function() {
 
     this.get(appUrls.MAIN_URL, function() {
         template.get('front-page')
             .then(temp => pageLoader.loadHomePage(temp))
-            .then(() => pageLoader.loadHomePageEvents());
+            .then(() => eventLoader.loadHomePageEvents());
     });
 
     this.get(appUrls.HOME_URL, function() {
         template.get('user-navigation')
             .then(temp => pageLoader.loadUserNavigation(temp))
-            .then(() => pageLoader.loadUserNavigationEvents());
+            .then(() => eventLoader.loadUserNavigationEvents());
 
         let head = header.getHeader(true, false);
         let data = {};
@@ -35,17 +36,13 @@ let app = new Sammy(function() {
                     })
             });
 
-            
-
-
-
         //$('#root').html('HOMEPAGE WHEN USER IS LOGGED IN');
     });
 
     this.get(appUrls.AUTHORS_URL, function(){
         template.get('user-navigation')
         .then(tmp => pageLoader.loadUserNavigation(tmp))
-        .then(() => pageLoader.loadUserNavigationEvents());
+        .then(() => eventLoader.loadUserNavigationEvents());
 
         let head = header.getHeader(true, false);
         let data = {};
@@ -55,11 +52,9 @@ let app = new Sammy(function() {
        .then(() => {
            template.get('authors-page')
        .then(temp => pageLoader.loadAuthorsPage(temp, data))
-       .then(() => pageLoader.loadAuthorsPageEvents())  
+       .then(() => eventLoader.loadAuthorsPageEvents())  
            
-       });
-
-      
+       });     
         
     })
 
