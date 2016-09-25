@@ -46,10 +46,10 @@ function loadUserNavigationEvents() {
     });
 }
 
-function loadAuthorsPageEvents(){
-     $('#search-author-button').on('click', function(ev){
-                console.log("ubavec");
-            });
+function loadAuthorsPageEvents() {
+    $('#search-author-button').on('click', function(ev) {
+        console.log("ubavec");
+    });
 }
 
 let eventLoader = {

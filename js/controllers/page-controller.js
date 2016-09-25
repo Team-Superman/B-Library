@@ -3,7 +3,7 @@
 import 'jquery';
 
 let ROOT_SELECTOR = '#root';
-
+let MAIN_SELECTOR = 'main';
 
 function loadHomePage(template) {
     let promise = new Promise((resolve, reject) => {
@@ -14,7 +14,7 @@ function loadHomePage(template) {
     return promise;
 }
 
-function loadUserMainPage(template, data) {    
+function loadUserMainPage(template, data) {
     let promise = new Promise((resolve, reject) => {
         $(ROOT_SELECTOR).append(template(data));
         resolve();
@@ -23,9 +23,10 @@ function loadUserMainPage(template, data) {
     return promise;
 }
 
-function loadAuthorsPage(template, data){
+function loadAuthorsPage(template, data) {
     let promise = new Promise((resoleve, reject) => {
         $(ROOT_SELECTOR).append(template(data));
+        console.log($(MAIN_SELECTOR));
         resolve();
     });
 }

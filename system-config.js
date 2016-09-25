@@ -25,7 +25,7 @@ SystemJS.config({
 
         //Controllers
         'page-controller': './js/controllers/page-controller.js',
-        'evnet-controller': './js/controllers/event-controller.js',
+        'event-controller': './js/controllers/event-controller.js',
 
         //Models
         'user-model': './js/models/user-model.js',

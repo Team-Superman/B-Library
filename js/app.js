@@ -39,23 +39,23 @@ let app = new Sammy(function() {
         //$('#root').html('HOMEPAGE WHEN USER IS LOGGED IN');
     });
 
-    this.get(appUrls.AUTHORS_URL, function(){
+    this.get(appUrls.AUTHORS_URL, function() {
         template.get('user-navigation')
-        .then(tmp => pageLoader.loadUserNavigation(tmp))
-        .then(() => eventLoader.loadUserNavigationEvents());
+            .then(tmp => pageLoader.loadUserNavigation(tmp))
+            .then(() => eventLoader.loadUserNavigationEvents());
 
         let head = header.getHeader(true, false);
         let data = {};
-       
-       request.get(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/authors`, head)
-       .then((auth) => {data.authors = auth})
-       .then(() => {
-           template.get('authors-page')
-       .then(temp => pageLoader.loadAuthorsPage(temp, data))
-       .then(() => eventLoader.loadAuthorsPageEvents())  
-           
-       });     
-        
+
+        request.get(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/authors`, head)
+            .then((auth) => { data.authors = auth })
+            .then(() => {
+                template.get('authors-page')
+                    .then(temp => pageLoader.loadAuthorsPage(temp, data))
+                    .then(() => eventLoader.loadAuthorsPageEvents())
+
+            });
+
     })
 
     this.bind('redirectToUrl', function(event, url) {
