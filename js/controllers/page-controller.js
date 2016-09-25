@@ -2,21 +2,30 @@
 
 import 'jquery';
 
-let ROOT_SELECTOR = '#root';
-let MAIN_SELECTOR = 'main';
+let NAV_SELECTOR = 'nav';
+let MAIN_SELECTOR = 'main'
 
-function loadHomePage(template) {
+function loadFrontPage(template) {
     let promise = new Promise((resolve, reject) => {
-        $(ROOT_SELECTOR).html(template());
+        $(MAIN_SELECTOR).html(template());
         resolve();
     });
 
     return promise;
 }
 
-function loadUserMainPage(template, data) {
+function loadFrontNavigation(template) {
     let promise = new Promise((resolve, reject) => {
-        $(ROOT_SELECTOR).append(template(data));
+        $(NAV_SELECTOR).html(template())
+        resolve();
+    })
+
+    return promise;
+}
+
+function loadUserHomePage(template, data) {
+    let promise = new Promise((resolve, reject) => {
+        $(MAIN_SELECTOR).html(template(data));
         resolve();
     });
 
@@ -25,8 +34,7 @@ function loadUserMainPage(template, data) {
 
 function loadAuthorsPage(template, data) {
     let promise = new Promise((resoleve, reject) => {
-        $(ROOT_SELECTOR).append(template(data));
-        console.log($(MAIN_SELECTOR));
+        $(MAIN_SELECTOR).html(template(data));
         resolve();
     });
 }
@@ -34,8 +42,7 @@ function loadAuthorsPage(template, data) {
 function loadUserNavigation(template) {
     let user = localStorage.getItem('USER_NAME');
     let promise = new Promise((resolve, reject) => {
-        $(ROOT_SELECTOR).empty();
-        $(ROOT_SELECTOR).append(template(user));
+        $(NAV_SELECTOR).html(template(user));
         resolve();
     });
 
@@ -44,9 +51,10 @@ function loadUserNavigation(template) {
 
 
 let pageLoader = {
-    loadHomePage,
+    loadFrontPage,
+    loadFrontNavigation,
     loadUserNavigation,
-    loadUserMainPage,
+    loadUserHomePage,
     loadAuthorsPage
 };
 

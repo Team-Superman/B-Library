@@ -13,9 +13,12 @@ import { eventLoader } from 'event-controller';
 let app = new Sammy(function() {
 
     this.get(appUrls.MAIN_URL, function() {
+        template.get('front-navigation')
+            .then(temp => pageLoader.loadFrontNavigation(temp));
+
         template.get('front-page')
-            .then(temp => pageLoader.loadHomePage(temp))
-            .then(() => eventLoader.loadHomePageEvents());
+            .then(temp => pageLoader.loadFrontPage(temp))
+            .then(() => eventLoader.loadFrontPageEvents());
     });
 
     this.get(appUrls.HOME_URL, function() {
@@ -32,7 +35,7 @@ let app = new Sammy(function() {
                     .then((res) => { data.authors = res })
                     .then(() => {
                         template.get('home-page')
-                            .then(temp => pageLoader.loadUserMainPage(temp, data))
+                            .then(temp => pageLoader.loadUserHomePage(temp, data))
                     })
             });
 
@@ -40,10 +43,6 @@ let app = new Sammy(function() {
     });
 
     this.get(appUrls.AUTHORS_URL, function() {
-        template.get('user-navigation')
-            .then(tmp => pageLoader.loadUserNavigation(tmp))
-            .then(() => eventLoader.loadUserNavigationEvents());
-
         let head = header.getHeader(true, false);
         let data = {};
 
@@ -53,10 +52,13 @@ let app = new Sammy(function() {
                 template.get('authors-page')
                     .then(temp => pageLoader.loadAuthorsPage(temp, data))
                     .then(() => eventLoader.loadAuthorsPageEvents())
-
             });
 
-    })
+    });
+
+    // this.get(appUrls.PROFILE_URL, function() {
+
+    // })
 
     this.bind('redirectToUrl', function(event, url) {
         this.redirect(url);

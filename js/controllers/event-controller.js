@@ -14,7 +14,7 @@ function getUserLoginDetails() {
     return user;
 }
 
-function loadHomePageEvents() {
+function loadFrontPageEvents() {
 
     $('#sign-in-user').on('click', function(ev) {
         userModel.login(getUserLoginDetails());
@@ -53,7 +53,7 @@ function loadAuthorsPageEvents() {
 }
 
 let eventLoader = {
-    loadHomePageEvents,
+    loadFrontPageEvents,
     loadAuthorsPageEvents,
     loadUserNavigationEvents
 }
