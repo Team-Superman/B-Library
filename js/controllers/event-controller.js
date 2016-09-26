@@ -42,6 +42,9 @@ function loadFrontPageEvents() {
         if ($this.val() === confirmPassword.val()) {
             confirmPassword.parents('.form-group').removeClass('has-error');
         }
+        else{
+            confirmPassword.parents('.form-group').removeClass('has-error');
+        }
     })
 
     $('#sign-up-user').on('click', function(ev) {
