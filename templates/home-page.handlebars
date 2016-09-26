@@ -9,18 +9,19 @@
                         {{#each books}}
                           <div class="row book-container">
                               <div class="col-sm-4">
-                                <img src={{cover._downloadURL}} alt="empty" class="img-responsive"/>
+                                <img src="{{cover._downloadURL}}" alt="empty" class="img-responsive"/>
                               </div>
                               <div class="col-sm-8 book-content">
-                                <h2>{{title}}</h2>
+                                <h2 id="book-title">{{title}}</h2>
                                 <p class="book-content-author">by {{author}}</p>
                                 <p class="book-content-rating"><b>Rating:</b> {{rating}}</p>
-                                <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#book-info-{{isbn}}"}>Learn more</a>
-                                <a href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#book-read-{{isbn}}"}>Mark as read</a>
+                                <a href="#" class="btn btn-primary btn-sm book-learn-more" data-toggle="modal" data-target="#book-info"}>Learn more</a>
+                                <a href="#" class="btn btn-success btn-sm mark-as-read" data-toggle="modal" data-target="#book-read"}>Mark as read</a>
                               </div>
                           </div>
+                        {{/each}}
                           <!-- Modal -->
-                          <div class="modal" id="book-info-{{isbn}}">
+                          <div class="modal" id="book-info">
                             <div class="modal-dialog modal-lg">
                               <div class="modal-content">
                                 <div class="modal-header">
@@ -29,16 +30,16 @@
                                 <div class="modal-body">
                                   <div class="row">
                                       <div class="col-sm-4">
-                                        <img src={{cover._downloadURL}} alt="empty" class="img-responsive"/>
+                                        <img id="book-img" src="" alt="empty" class="img-responsive"/>
                                       </div>
                                       <div class="col-sm-8 book-content">
-                                        <h2>{{title}}</h4>
-                                        <p class="book-content-author">by {{author}}</p>
-                                        <p class="book-content-rating"><b>Rating:</b> {{rating}}</p>
-                                        <p class="book-content-publish-year"><b>Published:</b> {{year}}</p>
-                                        <p class="book-content-pages"><b>Pages:</b> {{pages}}</p>
-                                        <p class="book-content-isbn"><b>ISBN:</b> {{isbn}}</p>
-                                        <p class="book-content-description">{{{description}}}</p>
+                                        <h2>{{title}}</h2>
+                                        <p class="book-content-author"></p>
+                                        <p class="book-content-rating"></p>
+                                        <p class="book-content-publish-year"></p>
+                                        <p class="book-content-pages"></p>
+                                        <p class="book-content-isbn"></p>
+                                        <p class="book-content-description"></p>
                                       </div>
                                   </div>
                                 </div>
@@ -49,7 +50,7 @@
                             </div>
                           </div>
                           <!-- sd -->
-                          <div class="modal" id="book-read-{{isbn}}">
+                          <div class="modal" id="book-read">
                             <div class="modal-dialog modal-lg">
                               <div class="modal-content">
                                 <div class="modal-header">
@@ -87,7 +88,6 @@
                               </div>
                             </div>
                           </div>
-                        {{/each}}
                     </div>
                 </div>
             </div>
@@ -103,18 +103,19 @@
                         {{#each authors}}
                           <div class="row author-container">
                               <div class="col-sm-4">
-                                <img src={{picture._downloadURL}} alt="empty" class="img-responsive"/>
+                                <img src="{{picture._downloadURL}}" alt="empty" class="img-responsive"/>
                               </div>
                               <div class="col-sm-8 author-content">
                                 <h2>{{firstName}} {{lastName}}</h2>
                                 <p class="author-content-genre"><b>Genre:</b> {{genre}}</p>
                                 <p class="author-content-favorite"><b>Added as favorite</b>: {{amountOfFavorites}}</p>
-                                <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#author-info-{{_id}}"}>Learn more</a>
+                                <a href="#" class="btn btn-primary btn-sm author-learn-more" data-toggle="modal" data-target="#author-info">Learn more</a>
                                 <a href="#" class="btn btn-success btn-sm">Add to favorites</a>
                               </div>
                           </div>
+                        {{/each}}
                           <!-- Modal -->
-                          <div class="modal" id="author-info-{{_id}}">
+                          <div class="modal" id="author-info">
                             <div class="modal-dialog modal-lg">
                               <div class="modal-content">
                                 <div class="modal-header">
@@ -123,14 +124,14 @@
                                 <div class="modal-body">
                                   <div class="row">
                                       <div class="col-sm-4">
-                                        <img src={{picture._downloadURL}} alt="empty" class="img-responsive"/>
+                                        <img id="author-img" src="" alt="empty" class="img-responsive"/>
                                       </div>
                                       <div class="col-sm-8 author-content">
-                                        <h2>{{firstName}} {{lastName}}</h4>
-                                        <p class="author-content-genre"><b>Genre:</b> {{genre}}</p>
-                                        <p class="author-content-birth-date"><b>Date of birth:</b> {{dateOfBirth}}</p>
-                                        <p class="author-content-birth-place"><b>Place of birth:</b> {{born}}</p>
-                                        <p class="author-content-description">{{{description}}}</p>
+                                        <h2></h2>
+                                        <p class="author-content-genre"></p>
+                                        <p class="author-content-birth-date"></p>
+                                        <p class="author-content-birth-place"></p>
+                                        <p class="author-content-description"></p>
                                       </div>
                                   </div>
                                 </div>
@@ -140,7 +141,6 @@
                               </div>
                             </div>
                           </div>
-                        {{/each}}
                     </div>
                 </div>
             </div>

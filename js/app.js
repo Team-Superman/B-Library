@@ -36,8 +36,10 @@ let app = new Sammy(function() {
                     .then(() => {
                         template.get('home-page')
                             .then(temp => pageLoader.loadUserHomePage(temp, data))
+                            .then(() => eventLoader.loadHomePageEvents(data));
                     })
             });
+
 
         //$('#root').html('HOMEPAGE WHEN USER IS LOGGED IN');
     });

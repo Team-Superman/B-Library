@@ -72,6 +72,35 @@ function loadUserNavigationEvents() {
     });
 }
 
+function loadHomePageEvents(data) {
+    $('.book-learn-more').on('click', function(ev) {
+        let bookTitle = $(ev.target).parent().find('h2').html();
+        let book = data.books.find(x => x.title === bookTitle);
+
+        $('#book-img').attr('src', book.cover._downloadURL);
+        $('#book-info .book-content h2').html(book.title);
+        $('#book-info .book-content .book-content-author').html(`by ${book.author}`);
+        $('#book-info .book-content .book-content-rating').html(`<b>Rating:</b> ${book.rating}`);
+        $('#book-info .book-content .book-content-publish-year').html(`<b>Published:</b> ${book.year}`);
+        $('#book-info .book-content .book-content-pages').html(`<b>Pages:</b> ${book.pages}`);
+        $('#book-info .book-content .book-content-isbn').html(`ISBN:</b> ${book.isbn}`);
+        $('#book-info .book-content .book-content-description').html(book.description);
+    });
+
+    $('.author-learn-more').on('click', function(ev) {
+        let authorNames = $(ev.target).parent().find('h2').html().split(' ');
+        let author = data.authors.find(x => x.firstName === authorNames[0] && x.lastName === authorNames[1]);
+
+        $('#author-img').attr('src', author.picture._downloadURL);
+        $('#author-info .author-content h2').html(`${author.firstName} ${author.lastName}`);
+        $('#author-info .author-content .author-content-genre').html(`<b>Genre:</b> ${author.genre}`);
+        $('#author-info .author-content .author-content-birth-date').html(`<b>Date of birth:</b> ${author.dateOfBirth}`);
+        $('#author-info .author-content .author-content-birth-place').html(`<b>Place of birth:</b> ${author.born}`);
+        $('#author-info .author-content .author-content-description').html(author.description);
+
+    });
+}
+
 function loadAuthorsPageEvents() {
     $('#search-author-button').on('click', function(ev) {
         console.log("ubavec");
@@ -81,7 +110,8 @@ function loadAuthorsPageEvents() {
 let eventLoader = {
     loadFrontPageEvents,
     loadAuthorsPageEvents,
-    loadUserNavigationEvents
+    loadUserNavigationEvents,
+    loadHomePageEvents
 }
 
 export { eventLoader }
