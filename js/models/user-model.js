@@ -13,6 +13,10 @@ function register(data) {
     request.post(`https://baas.kinvey.com/user/${kinveyUrls.KINVEY_APP_ID}`, head, data)
         .then(response => {
             notifier.show('SIGN UP', 'success');
+        })
+        .catch((err) => {
+            err = err.responseJSON.description;
+            notifier.show(err, 'error');
         });
 }
 
