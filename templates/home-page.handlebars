@@ -8,13 +8,51 @@
                 <div class="panel-body">
                     <div class="list-group">
                         {{#each books}}
-                                <a href="#" class="list-group-item">
-                                    <h4 class="list-group-item-heading">{{title}}</h4>
-                                    <p class="list-group-item-text">{{author}}</p>
-                                </a>  
+                          <div class="row">
+                              <div class="col-sm-4">
+                                <img src={{cover._downloadURL}} alt="empty" class="img-responsive"/>
+                              </div>
+                              <div class="col-sm-8 book-content">
+                                <h2>{{title}}</h4>
+                                <p class="book-content-author">by {{author}}</p>
+                                <p class="book-content-author">Rating: {{rating}}</p>
+                                <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#book-info-{{isbn}}"}>Learn more</a>
+                                <a href="#" class="btn btn-success btn-sm">Mark as read</a>
+                              </div>
+                          </div>
+                          <!-- Modal -->
+                          <div class="modal" id="book-info-{{isbn}}">
+                            <div class="modal-dialog modal-lg">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="row">
+                                      <div class="col-sm-4">
+                                        <img src={{cover._downloadURL}} alt="empty" class="img-responsive"/>
+                                      </div>
+                                      <div class="col-sm-8 book-content">
+                                        <h2>{{title}}</h4>
+                                        <p class="book-content-author">by {{author}}</p>
+                                        <p class="book-content-rating"><b>Rating:</b> {{rating}}</p>
+                                        <p class="book-content-publish-year"><b>Published:</b> {{year}}</p>
+                                        <p class="book-content-pages"><b>Pages:</b> {{pages}}</p>
+                                        <p class="book-content-isbn"><b>ISBN:</b> {{isbn}}</p>
+                                        <p class="book-content-description">{{{description}}}</p>
+
+                                      </div>
+                                  </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         {{/each}}
                     </div>
-                </div>    
+                </div>
             </div>
         </div>
         <div class="col-md-6 portfolio-item" id="left-side-mainpage">
@@ -28,10 +66,10 @@
                             <a href="#" class="list-group-item">
                                 <h4 class="list-group-item-heading">{{Name}}</h4>
                                 <p class="list-group-item-text">{{Age}}</p>
-                            </a> 
+                            </a>
                         {{/each}}
                     </div>
-                </div>   
+                </div>
             </div>
         </div>
     </div>

@@ -31,6 +31,7 @@ let app = new Sammy(function() {
         request.get(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/books`, head)
             .then((res) => { data.books = res })
             .then(() => {
+                console.log(data.books);
                 request.get(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/authors`, head)
                     .then((res) => { data.authors = res })
                     .then(() => {
