@@ -1,4 +1,3 @@
-<main>
     <div class="row">
         <div class="col-md-6 portfolio-item" id="left-side-mainpage">
             <div id="home-page-books" class="panel panel-primary">
@@ -8,14 +7,14 @@
                 <div class="panel-body">
                     <div class="list-group">
                         {{#each books}}
-                          <div class="row">
+                          <div class="row book-container">
                               <div class="col-sm-4">
                                 <img src={{cover._downloadURL}} alt="empty" class="img-responsive"/>
                               </div>
                               <div class="col-sm-8 book-content">
-                                <h2>{{title}}</h4>
+                                <h2>{{title}}</h2>
                                 <p class="book-content-author">by {{author}}</p>
-                                <p class="book-content-author">Rating: {{rating}}</p>
+                                <p class="book-content-rating"><b>Rating:</b> {{rating}}</p>
                                 <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#book-info-{{isbn}}"}>Learn more</a>
                                 <a href="#" class="btn btn-success btn-sm">Mark as read</a>
                               </div>
@@ -55,6 +54,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-md-6 portfolio-item" id="left-side-mainpage">
             <div id="home-page-authors" class="panel panel-primary">
                 <div class="panel-heading">
@@ -63,14 +63,47 @@
                 <div class="panel-body">
                     <div class="list-group">
                         {{#each authors}}
-                            <a href="#" class="list-group-item">
-                                <h4 class="list-group-item-heading">{{Name}}</h4>
-                                <p class="list-group-item-text">{{Age}}</p>
-                            </a>
+                          <div class="row author-container">
+                              <div class="col-sm-4">
+                                <img src={{picture._downloadURL}} alt="empty" class="img-responsive"/>
+                              </div>
+                              <div class="col-sm-8 author-content">
+                                <h2>{{firstName}} {{lastName}}</h2>
+                                <p class="author-content-genre"><b>Genre:</b> {{genre}}</p>
+                                <p class="author-content-favorite"><b>Added as favorite</b>: {{amountOfFavorites}}</p>
+                                <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#author-info-{{_id}}"}>Learn more</a>
+                                <a href="#" class="btn btn-success btn-sm">Add to favorites</a>
+                              </div>
+                          </div>
+                          <!-- Modal -->
+                          <div class="modal" id="author-info-{{_id}}">
+                            <div class="modal-dialog modal-lg">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="row">
+                                      <div class="col-sm-4">
+                                        <img src={{picture._downloadURL}} alt="empty" class="img-responsive"/>
+                                      </div>
+                                      <div class="col-sm-8 author-content">
+                                        <h2>{{firstName}} {{lastName}}</h4>
+                                        <p class="author-content-genre"><b>Genre:</b> {{genre}}</p>
+                                        <p class="author-content-birth-date"><b>Date of birth:</b> {{dateOfBirth}}</p>
+                                        <p class="author-content-birth-place"><b>Place of birth:</b> {{born}}</p>
+                                        <p class="author-content-description">{{{description}}}</p>
+                                      </div>
+                                  </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         {{/each}}
                     </div>
                 </div>
             </div>
-        </div>
     </div>
-</main>

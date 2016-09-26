@@ -7,10 +7,29 @@
   margin: 5px 0px;
 }
 
+.book-container, .author-container {
+  padding: 10px 5px;
+  margin-bottom: 15px;
+  border: 1px solid #2C3E50;
+  border-radius: 4px;
+}
+
 .book-content > .book-content-author {
   font-style: italic;
 }
 
-.book-content > .book-content-author, .book-content-rating, .book-content-publish-year, .book-content-pages, .book-content-isbn .book-content-description{
+.book-content > .book-content-author, .book-content-rating, .book-content-publish-year, .book-content-pages, .book-content-isbn, .book-content-description {
     margin: 2px 0px;
+}
+
+.book-content > .book-content-description  {
+  margin-top: 10px;
+}
+
+.author-content > .author-content-genre, .author-content-birth-date, .author-content-birth-place, .author-content-favorite, .author-content-description {
+    margin: 2px 0px;
+}
+
+.author-content > .author-content-description  {
+  margin-top: 10px;
 }
