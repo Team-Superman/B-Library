@@ -47,7 +47,7 @@ let app = new Sammy(function() {
 
         template.get('authors-page')
             .then(temp => pageLoader.loadAuthorsPage(temp, data))
-            .then(() => eventLoader.loadAuthorsPageEvents());
+            .then(() => eventLoader.loadAuthorsPageEvents(data));
 
     });
 

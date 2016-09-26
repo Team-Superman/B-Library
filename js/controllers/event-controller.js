@@ -72,10 +72,59 @@ function loadUserNavigationEvents() {
     });
 }
 
-function loadAuthorsPageEvents() {
+function loadAuthorsPageEvents(data) {
     $('#search-author-button').on('click', function(ev) {
         console.log("ubavec");
+        console.log(data);
+        console.log(data.authors);
+        let firstNameValue = $('#first-name-search').val();
+        let lastNameValue = $('#last-name-search').val();
+        //TODO:filter(x => x.firstName)
+
+        function getSearchedAuthors(firstNameValue, lastNameValue){
+            if(firstNameValue !== ""){
+                for (var index = 0; index < data.authors.length; index++) {
+                    var element = data.authors[index];
+                        if(element.firstName === firstNameValue){
+                            console.log(index);
+                            let currentAuthorId = "#" + data.authors[index]._id;
+                            console.log(currentAuthorId);
+                            $(currentAuthorId).show();
+                            break;
+                        }
+                }
+            }
+        }
+
+       
+        getSearchedAuthors(firstNameValue, lastNameValue);
+    
     });
+
+    $('#first-name-search').on('input', function(ev) {
+        for (var index = 0; index < data.authors.length; index++) {
+                    var element = data.authors[index];
+                       
+                    let currentAuthorId = "#" + data.authors[index]._id;
+
+                    $(currentAuthorId).hide();
+                           
+        }
+        $('#search-name-change').text("Search Results");
+    });
+
+    $('#show-all-authors').on('click', function(){
+        for (var index = 0; index < data.authors.length; index++) {
+                    var element = data.authors[index];
+                       
+                    let currentAuthorId = "#" + data.authors[index]._id;
+
+                    $(currentAuthorId).show();
+                           
+        }
+    });
+
+    
 }
 
 let eventLoader = {
