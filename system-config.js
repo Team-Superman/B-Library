@@ -18,6 +18,7 @@ SystemJS.config({
         'header-generator': './js/utils/header-generator.js',
         'template-generator': './js/utils/template-generator.js',
         'notifier': './js/utils/notifier.js',
+        'validator': './js/utils/validator.js',
 
         //Constants
         'application-urls': './js/utils/constants/application-urls.js',

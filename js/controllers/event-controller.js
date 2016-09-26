@@ -3,6 +3,7 @@
 import 'jquery';
 import { notifier } from 'notifier';
 import { userModel } from 'user-model';
+import { validator } from 'validator';
 import CryptoJS from 'cryptojs';
 
 function getUserLoginDetails() {
@@ -28,7 +29,7 @@ function loadFrontPageEvents() {
 
     $('#input-confirm-password').on('input', function(ev) {
         let $this = $(ev.target);
-        
+
         if ($this.val() !== $('#input-password').val()) {
             $this.parents('.form-group').addClass('has-error');
         } else {
@@ -41,9 +42,8 @@ function loadFrontPageEvents() {
         let confirmPassword = $('#input-confirm-password')
         if ($this.val() === confirmPassword.val()) {
             confirmPassword.parents('.form-group').removeClass('has-error');
-        }
-        else{
-            confirmPassword.parents('.form-group').removeClass('has-error');
+        } else {
+            confirmPassword.parents('.form-group').addClass('has-error');
         }
     })
 
@@ -58,22 +58,11 @@ function loadFrontPageEvents() {
             "readBooks": []
         };
 
-        if ($('#input-password').val() !== $('#input-confirm-password').val()) {
-            notifier.show('Confirm password field is different than password field', 'error');
-            return;
+        if (validator.validateNames(user.firstName, user.lastName) &&
+            validator.validateUsername(user.username) &&
+            validator.validatePassword()) {
+            userModel.register(user);
         }
-
-        if (user.username.length < 4 || user.username.length > 20) {
-            notifier.show('Username must be between 4 and 20 characters long inclusive!', 'error');
-            return;
-        }
-
-        if (!/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])/.test($('#input-password').val())) {
-            notifier.show('Password must contain at least one upper case letter, one lower case and one digit!',
-                'error');
-            return;
-        }
-        userModel.register(user);
     });
 }
 
