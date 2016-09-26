@@ -33,7 +33,7 @@ function loadUserHomePage(template, data) {
 }
 
 function loadAuthorsPage(template, data) {
-    let promise = new Promise((resoleve, reject) => {
+    let promise = new Promise((resolve, reject) => {
         $(MAIN_SELECTOR).html(template(data));
         resolve();
     });
