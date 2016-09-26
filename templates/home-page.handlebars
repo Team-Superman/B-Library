@@ -16,7 +16,7 @@
                                 <p class="book-content-author">by {{author}}</p>
                                 <p class="book-content-rating"><b>Rating:</b> {{rating}}</p>
                                 <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#book-info-{{isbn}}"}>Learn more</a>
-                                <a href="#" class="btn btn-success btn-sm">Mark as read</a>
+                                <a href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#book-read-{{isbn}}"}>Mark as read</a>
                               </div>
                           </div>
                           <!-- Modal -->
@@ -39,11 +39,49 @@
                                         <p class="book-content-pages"><b>Pages:</b> {{pages}}</p>
                                         <p class="book-content-isbn"><b>ISBN:</b> {{isbn}}</p>
                                         <p class="book-content-description">{{{description}}}</p>
-
                                       </div>
                                   </div>
                                 </div>
                                 <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- sd -->
+                          <div class="modal" id="book-read-{{isbn}}">
+                            <div class="modal-dialog modal-lg">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                  <form class="form-horizontal">
+                                    <fieldset>
+                                      <legend>Legend</legend>
+                                      <div class="form-group">
+                                        <label for="book-review-{{isbn}}" class="col-lg-2 control-label">Review</label>
+                                        <div class="col-lg-10">
+                                           <textarea class="form-control" rows="3" id="book-review-{{isbn}}" style="margin-top: 0px; margin-bottom: 0px; height: 200px;"></textarea>
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="book-rating-{{isbn}}" class="col-lg-2 control-label">Rating</label>
+                                        <div class="col-lg-10">
+                                          <select class="form-control" id="book-rating-{{isbn}}">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                          </select>
+                                        </div>
+                                      </div>
+                                    </fieldset>
+                                  </from>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-primary">Read</button>
                                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                 </div>
                               </div>
