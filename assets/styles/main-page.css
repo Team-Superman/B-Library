@@ -33,3 +33,7 @@
 .author-content > .author-content-description  {
   margin-top: 10px;
 }
+
+textarea {
+  resize: none;
+}
