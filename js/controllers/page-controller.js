@@ -49,13 +49,26 @@ function loadUserNavigation(template) {
     return promise;
 }
 
+function loadErrorPage() {
+    let promise = new Promise((resolve, reject) => {
+        let errorBackground = $('<img/>').attr('src', '../../assets/images/error-page.jpg')
+                                         .attr('class', 'img-responsive');
+        console.log('here');
+        $(MAIN_SELECTOR).html(errorBackground);
+        resolve();
+    });
+
+    return promise;
+}
+
 
 let pageLoader = {
     loadFrontPage,
     loadFrontNavigation,
     loadUserNavigation,
     loadUserHomePage,
-    loadAuthorsPage
+    loadAuthorsPage,
+    loadErrorPage
 };
 
 export { pageLoader };

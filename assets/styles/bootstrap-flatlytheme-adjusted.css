@@ -2,7 +2,7 @@
   border-radius: 0px;
 }
 
-.navbar.navbar-inverse>.container-fluid>.navbar-header>img {
+.navbar.navbar-inverse>.container-fluid>.navbar-header>a>img {
   display: inline-block;
   margin: 10px;
 }
