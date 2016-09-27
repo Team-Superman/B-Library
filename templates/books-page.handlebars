@@ -1,0 +1,97 @@
+<div class="row">
+    <div class="col-md-6 portfolio-item" id="left-side-mainpage">
+        <div id="home-page-books" class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Results</h1>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="control-label">Search by Book title</label>
+                    <div class="input-group">
+                        <input class="form-control" id="book-title-search" type="text">
+                        <span class="input-group-btn">
+                        <!--<button class="btn btn-default" type="button">Button</button>-->
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Search by Book Genre</label>
+                    <div class="input-group">
+                        <input class="form-control" id="book-genre-search" type="text">
+                        <span class="input-group-btn">
+                        <!--<button class="btn btn-default" type="button">Search</button>-->
+                        </span>
+                    </div>
+                </div>
+                <button class="btn btn-default" id="search-book-button" type="button">Search book</button>
+                <button class="btn btn-default" id="show-all-books" type="button">Show all books</button>
+
+
+
+                <div class="list-group">
+
+                            <a href="#" class="list-group-item">
+                                <h4 class="list-group-item-heading">---</h4>
+                                <p class="list-group-item-text">-––</p>
+                            </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+      <div class="col-md-6 portfolio-item" id="left-side-mainpage">
+            <div id="home-page-books" class="panel panel-primary">
+                <div class="panel-heading">
+                    <h1 class="panel-title" id="search-name-change">Popular Books</h1>
+                </div>
+                <div class="panel-body">
+                    <div class="list-group">
+                        {{#each books}}
+                          <div class="row book-container" id="{{_id}}">
+                              <div class="col-sm-4">
+                                <img src={{cover._downloadURL}} alt="empty" class="img-responsive"/>
+                              </div>
+                              <div class="col-sm-8 author-content">
+                                <h2>{{author}}</h2>
+                                <p class="book-content-genre"><b>Genre:</b> {{genre}}</p>
+                                <!--<p class="author-content-favorite"><b>Added as favorite</b>: {{amountOfFavorites}}</p>
+                                <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#author-info-{{_id}}"}>Learn more</a>
+                                <a href="#" class="btn btn-success btn-sm">Add to favorites</a>-->
+                              </div>
+                          </div>
+                          <!-- Modal -->
+                          <!--<div class="modal" id="author-info-{{_id}}">
+                            <div class="modal-dialog modal-lg">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="row">
+                                      <div class="col-sm-4">
+                                        <img src={{picture._downloadURL}} alt="empty" class="img-responsive"/>
+                                      </div>
+                                      <div class="col-sm-8 author-content">
+                                        <h2>{{firstName}} {{lastName}}</h4>
+                                        <p class="author-content-genre"><b>Genre:</b> {{genre}}</p>
+                                        <p class="author-content-birth-date"><b>Date of birth:</b> {{dateOfBirth}}</p>
+                                        <p class="author-content-birth-place"><b>Place of birth:</b> {{born}}</p>
+                                        <p class="author-content-description">{{{description}}}</p>
+                                      </div>
+                                  </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>-->
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+    </div>
+
+
+    </div>
