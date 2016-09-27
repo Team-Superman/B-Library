@@ -70,9 +70,23 @@ let app = new Sammy(function() {
             })
         });
 
-    // this.get(appUrls.BOOKS_URL, function() {
+    this.get(appUrls.BOOKS_URL, function() {
+        if (!localStorage.AUTH_TOKEN) {
+          this.redirect(appUrls.MAIN_URL);
+          return;
+        }
+        let data = {};
 
-    // })
+        let head = header.getHeader(true, false);
+
+        request.get(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/books`, head)
+            .then((auth) => { data.books = auth })
+            .then(() => {
+              template.get('books-page')
+                  .then(temp => pageLoader.loadAuthorsPage(temp, data))
+                  .then(() => eventLoader.loadAuthorsPageEvents(data));
+            })
+    })
 
     // this.get(appUrls.COMMUNITY_URL, function() {
 

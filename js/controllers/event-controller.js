@@ -157,11 +157,27 @@ function loadAuthorsPageEvents(data) {
 
 }
 
+function loadBooksPageEvents(data) {
+
+$('#show-all-books').on('click', function() {
+        for (var index = 0; index < data.bookss.length; index++) {
+            var element = data.books[index];
+
+            let currentBookId = "#" + data.books[index]._id;
+
+            $(currentBookId).show();
+
+        }
+    });
+}
+
+
 let eventLoader = {
     loadFrontPageEvents,
     loadAuthorsPageEvents,
     loadUserNavigationEvents,
-    loadHomePageEvents
+    loadHomePageEvents,
+    loadBooksPageEvents
 }
 
 export { eventLoader }
