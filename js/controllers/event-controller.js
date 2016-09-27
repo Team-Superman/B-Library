@@ -103,7 +103,8 @@ function loadHomePageEvents(data) {
 }
 
 function loadAuthorsPageEvents(data) {
-    $('#search-author-button').on('click', function(ev) {
+    $('#no-results-paragraph').hide();
+    $('#search-author-button').on('click', function(ev) {        
         console.log("ubavec");
         console.log(data);
         console.log(data.authors);
@@ -114,16 +115,28 @@ function loadAuthorsPageEvents(data) {
         
         function searchByFirstName(firstNameValue){                
             if (firstNameValue !== "") {          
-            let newArray = data.authors.filter(x => x.firstName.indexOf(firstNameValue) >= 0);                
-            newArray.forEach(function(element){                    
-                $(`#${element._id}`).show();
-            });                
+                let newArray = data.authors.filter(x => x.firstName.indexOf(firstNameValue) >= 0); 
+                console.log("here");
+                console.log(newArray);
+                if(newArray.length === 0){
+                    $('#no-results-paragraph').show();                    
+                } else {
+                    $('#no-results-paragraph').hide();                    
+                }          
+                newArray.forEach(function(element){                    
+                    $(`#${element._id}`).show();
+                });                
             }    
         }          
 
         function searchByLastName(lastNameValue){                              
             if (lastNameValue !== "") {          
             let newArray = data.authors.filter(x => x.lastName.indexOf(lastNameValue) >= 0);
+            if(newArray.length === 0){
+                    $('#no-results-paragraph').show();                    
+            } else {
+                    $('#no-results-paragraph').hide();                    
+            }    
             newArray.forEach(function(element){                    
                 $(`#${element._id}`).show();
             });                
@@ -140,16 +153,7 @@ function loadAuthorsPageEvents(data) {
 
     });
 
-    $('#first-name-search').on('input', function(ev) {
-        // for (var index = 0; index < data.authors.length; index++) {
-        //     var element = data.authors[index];
-
-        //     let currentAuthorId = "#" + data.authors[index]._id;
-
-        //     $(currentAuthorId).hide();
-
-        // }
-
+    $('#first-name-search').on('input', function(ev) {     
         data.authors.forEach(function(element){
             $(`#${element._id}`).hide();
         });
@@ -161,18 +165,14 @@ function loadAuthorsPageEvents(data) {
         data.authors.forEach(function(element){
             $(`#${element._id}`).hide();
         });
+
         $('#search-name-change').text("Search Results");
     });
 
-    $('#show-all-authors').on('click', function() {
-        for (var index = 0; index < data.authors.length; index++) {
-            var element = data.authors[index];
-
-            let currentAuthorId = "#" + data.authors[index]._id;
-
-            $(currentAuthorId).show();
-
-        }
+    $('#show-all-authors').on('click', function() {       
+        data.authors.forEach(function(element){
+            $(`#${element._id}`).show();
+        });
     });
 
 
