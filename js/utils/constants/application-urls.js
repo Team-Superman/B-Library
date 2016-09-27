@@ -2,12 +2,18 @@
 
 const MAIN_URL = '#/',
     HOME_URL = '#/home',
-    AUTHORS_URL = '#/authors';
+    AUTHORS_URL = '#/authors',
+    BOOKS_URL = '#/books',
+    COMMUNITY_URL = '#/community',
+    PROFILE_URL = '#/profile';
 
 let appUrls = {
     MAIN_URL,
     HOME_URL,
-    AUTHORS_URL
+    AUTHORS_URL,
+    BOOKS_URL,
+    COMMUNITY_URL,
+    PROFILE_URL
 }
 
 export { appUrls }

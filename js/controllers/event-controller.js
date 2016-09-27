@@ -60,6 +60,7 @@ function loadFrontPageEvents() {
 
         if (validator.validateNames(user.firstName, user.lastName) &&
             validator.validateUsername(user.username) &&
+            validator.validateEmail(user.email) &&
             validator.validatePassword()) {
             userModel.register(user);
         }

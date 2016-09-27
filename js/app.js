@@ -70,6 +70,14 @@ let app = new Sammy(function() {
             })
         });
 
+    // this.get(appUrls.BOOKS_URL, function() {
+
+    // })
+
+    // this.get(appUrls.COMMUNITY_URL, function() {
+
+    // })
+
     // this.get(appUrls.PROFILE_URL, function() {
 
     // })

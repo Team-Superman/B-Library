@@ -12,7 +12,12 @@ function register(data) {
     let head = header.getHeader(false, true);
     request.post(`https://baas.kinvey.com/user/${kinveyUrls.KINVEY_APP_ID}`, head, data)
         .then(response => {
-            notifier.show('SIGN UP', 'success');
+            notifier.show('SIGN UP SUCCESSFUL', 'success');
+            let user = {
+              username: response.username,
+              password: response.password
+            }
+            login(user);
         })
         .catch((err) => {
             err = err.responseJSON.description;
@@ -34,7 +39,7 @@ function login(user) {
                 localStorage.setItem('AUTH_TOKEN', response._kmd.authtoken);
                 localStorage.setItem('USER_NAME', response.username);
                 localStorage.setItem('USER_ID', response._id);
-                notifier.show('LOGIN SUCCESSFUL', 'success');
+                notifier.show('SIGN IN SUCCESSFUL', 'success');
                 setTimeout(function() {
                     Sammy(function() {
                         this.trigger('redirectToUrl', '#/home');
