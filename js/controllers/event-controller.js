@@ -108,38 +108,59 @@ function loadAuthorsPageEvents(data) {
         console.log(data);
         console.log(data.authors);
         let firstNameValue = $('#first-name-search').val();
-        let lastNameValue = $('#last-name-search').val();
+        let lastNameValue = $('#last-name-search').val();  
         //TODO:filter(x => x.firstName)
 
-        function getSearchedAuthors(firstNameValue, lastNameValue) {
-            if (firstNameValue !== "") {
-                for (var index = 0; index < data.authors.length; index++) {
-                    var element = data.authors[index];
-                    if (element.firstName === firstNameValue) {
-                        console.log(index);
-                        let currentAuthorId = "#" + data.authors[index]._id;
-                        console.log(currentAuthorId);
-                        $(currentAuthorId).show();
-                        break;
-                    }
-                }
+        
+        function searchByFirstName(firstNameValue){                
+            if (firstNameValue !== "") {          
+            let newArray = data.authors.filter(x => x.firstName.indexOf(firstNameValue) >= 0);                
+            newArray.forEach(function(element){                    
+                $(`#${element._id}`).show();
+            });                
+            }    
+        }          
+
+        function searchByLastName(lastNameValue){                              
+            if (lastNameValue !== "") {          
+            let newArray = data.authors.filter(x => x.lastName.indexOf(lastNameValue) >= 0);
+            newArray.forEach(function(element){                    
+                $(`#${element._id}`).show();
+            });                
             }
         }
 
 
-        getSearchedAuthors(firstNameValue, lastNameValue);
+        searchByFirstName(firstNameValue);
+        searchByLastName(lastNameValue);
+        
+
+
+       
 
     });
 
     $('#first-name-search').on('input', function(ev) {
-        for (var index = 0; index < data.authors.length; index++) {
-            var element = data.authors[index];
+        // for (var index = 0; index < data.authors.length; index++) {
+        //     var element = data.authors[index];
 
-            let currentAuthorId = "#" + data.authors[index]._id;
+        //     let currentAuthorId = "#" + data.authors[index]._id;
 
-            $(currentAuthorId).hide();
+        //     $(currentAuthorId).hide();
 
-        }
+        // }
+
+        data.authors.forEach(function(element){
+            $(`#${element._id}`).hide();
+        });
+        
+        $('#search-name-change').text("Search Results");
+    });
+
+    $('#last-name-search').on('input', function(){
+        data.authors.forEach(function(element){
+            $(`#${element._id}`).hide();
+        });
         $('#search-name-change').text("Search Results");
     });
 
