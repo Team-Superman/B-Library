@@ -61,6 +61,10 @@ let app = new Sammy(function() {
 
         let head = header.getHeader(true, false);
 
+        template.get('user-navigation')
+            .then(temp => pageLoader.loadUserNavigation(temp))
+            .then(() => eventLoader.loadUserNavigationEvents());
+
         request.get(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/authors`, head)
             .then((auth) => { data.authors = auth })
             .then(() => {
@@ -76,6 +80,9 @@ let app = new Sammy(function() {
           return;
         }
         let data = {};
+        template.get('user-navigation')
+            .then(temp => pageLoader.loadUserNavigation(temp))
+            .then(() => eventLoader.loadUserNavigationEvents());
 
         let head = header.getHeader(true, false);
 
@@ -84,7 +91,7 @@ let app = new Sammy(function() {
             .then(() => {
               template.get('books-page')
                   .then(temp => pageLoader.loadAuthorsPage(temp, data))
-                  .then(() => eventLoader.loadAuthorsPageEvents(data));
+                  .then(() => eventLoader.loadBooksPageEvents(data));
             })
     })
 

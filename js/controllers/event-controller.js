@@ -104,10 +104,8 @@ function loadHomePageEvents(data) {
 
 function loadAuthorsPageEvents(data) {
     $('#no-results-paragraph').hide();
-    $('#search-author-button').on('click', function(ev) {        
-        console.log("ubavec");
-        console.log(data);
-        console.log(data.authors);
+    $('#search-author-button').on('click', function(ev) {     
+       
         let firstNameValue = $('#first-name-search').val();
         let lastNameValue = $('#last-name-search').val();  
         //TODO:filter(x => x.firstName)
@@ -178,18 +176,74 @@ function loadAuthorsPageEvents(data) {
 
 }
 
-function loadBooksPageEvents(data) {
+function loadBooksPageEvents(data) {  
+    $('#no-results-paragraph').hide();
 
-$('#show-all-books').on('click', function() {
-        for (var index = 0; index < data.bookss.length; index++) {
-            var element = data.books[index];
+    $('#search-book-button').on('click', function(){
+        let bookTitleValue = $('#book-title-search').val();
+        let bookGenreValue = $('#book-genre-search').val();  
 
-            let currentBookId = "#" + data.books[index]._id;
+         function searchByTitle(bookTitleValue){                
+            if (bookTitleValue !== "") {          
+                let newArray = data.books.filter(x => x.title.indexOf(bookTitleValue) >= 0); 
+                console.log("here");
+                console.log(newArray);
+                if(newArray.length === 0){
+                    $('#no-results-paragraph').show();                    
+                } else {
+                    $('#no-results-paragraph').hide();                    
+                }          
+                newArray.forEach(function(element){                    
+                    $(`#${element._id}`).show();
+                });                
+            }    
+        }          
 
-            $(currentBookId).show();
-
+        function searchByGenre(bookGenreValue){                              
+            if (bookGenreValue !== "") {          
+                let newArray = data.books.filter(x => x.genre.indexOf(bookGenreValue) >= 0);
+                if(newArray.length === 0){
+                        $('#no-results-paragraph').show();                    
+                } else {
+                        $('#no-results-paragraph').hide();                    
+                }    
+                newArray.forEach(function(element){                    
+                    $(`#${element._id}`).show();
+                });                
+            } 
         }
+
+
+       searchByTitle(bookTitleValue);
+       searchByGenre(bookGenreValue);
+
+    })
+
+    $('#show-all-books').on('click', function() {
+            console.log(data.books);
+        data.books.forEach(function(element){
+            $(`#${element._id}`).show();
+        });
     });
+
+    $('#book-title-search').on('input', function(ev) {     
+        data.books.forEach(function(element){
+            $(`#${element._id}`).hide();
+        });
+        
+        $('#search-name-change').text("Search Results");
+    });
+
+    $('#book-genre-search').on('input', function(){
+        data.books.forEach(function(element){
+            $(`#${element._id}`).hide();
+        });
+
+        $('#search-name-change').text("Search Results");
+    });
+
+
+
 }
 
 
