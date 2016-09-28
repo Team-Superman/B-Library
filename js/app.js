@@ -88,8 +88,19 @@ let app = new Sammy(function() {
     // })
 
     this.get(appUrls.PROFILE_URL, function() {
-        template.get('profile-page')
-            .then(temp => pageLoader.loadProfilePage(temp));
+        let username = localStorage.getItem('USER_NAME')
+        let userdata;
+        let head = header.getHeader(true, false);
+        request.get(`https://baas.kinvey.com/user/${kinveyUrls.KINVEY_APP_ID}/?pattern=${username}&resolve_depth=5&retainReferences=false`, head)
+            .then((user) => {
+                userdata = user[0];
+                userdata.firstAuthors = userdata.favoriteAuthors.slice(0, 4);
+                userdata.firstBooks = userdata.readBooks.slice(0, 4);
+            })
+            .then(() => console.log(userdata))
+            .then(() => { return template.get('profile-page') })
+            .then(temp => pageLoader.loadProfilePage(temp, userdata));
+        //.then(() => eventLoader.loadProfilePageEvents(data));
     })
 
     this.get(/.*/, function() {

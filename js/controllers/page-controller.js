@@ -52,7 +52,7 @@ function loadUserNavigation(template) {
 function loadErrorPage() {
     let promise = new Promise((resolve, reject) => {
         let errorBackground = $('<img/>').attr('src', '../../assets/images/error-page.jpg')
-                                         .attr('class', 'img-responsive');
+            .attr('class', 'img-responsive');
         $(MAIN_SELECTOR).html(errorBackground);
         resolve();
     });
@@ -60,13 +60,13 @@ function loadErrorPage() {
     return promise;
 }
 
-function loadProfilePage(template){
-  let promise = new Promise((resolve, reject) => {
-    $(MAIN_SELECTOR).html(template());
-    resolve();
-  })
+function loadProfilePage(template, data) {
+    let promise = new Promise((resolve, reject) => {
+        $(MAIN_SELECTOR).html(template(data));
+        resolve();
+    })
 
-  return promise;
+    return promise;
 }
 
 
