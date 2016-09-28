@@ -345,8 +345,7 @@ function loadProfilePageEvents(data) {
 
             }
         }
-        return false;
-    })
+    });
 }
 
 let eventLoader = {
