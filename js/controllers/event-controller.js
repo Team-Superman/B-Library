@@ -324,11 +324,25 @@ function loadProfilePageEvents(data) {
 
         for (let i = startIndex; i < startIndex + 4; i += 1) {
             if ($this.parents('#read-books').length > 0) {
-                let selector = `#book-field-${i - startIndex} .thumbnail img`
-                $(selector).attr('src', data.readBooks[i].book.cover._downloadURL)
+                let fieldID = `#book-field-${i - startIndex}`;
+                let selector = `${fieldID} .thumbnail img`
+                if (data.readBooks[i]) {
+                    $(selector).attr('src', data.readBooks[i].book.cover._downloadURL)
+                    $(fieldID).show();
+                } else {
+                    $(fieldID).hide();
+                }
+
             } else {
-                let selector = `#author-field-${i - startIndex} .thumbnail img`
-                $(selector).attr('src', data.favoriteAuthors[i].picture._downloadURL)
+                let fieldID = `#author-field-${i - startIndex}`;
+                let selector = `${fieldID} .thumbnail img`
+                if (data.favoriteAuthors[i]) {
+                    $(selector).attr('src', data.favoriteAuthors[i].picture._downloadURL);
+                    $(fieldID).show();
+                } else {
+                    $(fieldID).hide();
+                }
+
             }
         }
         return false;
