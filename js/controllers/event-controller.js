@@ -110,8 +110,8 @@ function loadHomePageEvents(data) {
 
     });
 
-    let promise = new Promise((resolve, reject) =>{
-      resolve(data);
+    let promise = new Promise((resolve, reject) => {
+        resolve(data);
     })
 
     return promise;
@@ -126,33 +126,33 @@ function loadAuthorsPageEvents(data) {
         //TODO:filter(x => x.firstName)
 
 
-        function searchByFirstName(firstNameValue){
+        function searchByFirstName(firstNameValue) {
             if (firstNameValue !== "") {
                 let newArray = data.authors.filter(x => x.firstName.indexOf(firstNameValue) >= 0);
                 console.log("here");
                 console.log(newArray);
-                if(newArray.length === 0){
+                if (newArray.length === 0) {
                     $('#no-results-paragraph').show();
                 } else {
                     $('#no-results-paragraph').hide();
                 }
-                newArray.forEach(function(element){
+                newArray.forEach(function(element) {
                     $(`#${element._id}`).show();
                 });
             }
         }
 
-        function searchByLastName(lastNameValue){
+        function searchByLastName(lastNameValue) {
             if (lastNameValue !== "") {
-            let newArray = data.authors.filter(x => x.lastName.indexOf(lastNameValue) >= 0);
-            if(newArray.length === 0){
+                let newArray = data.authors.filter(x => x.lastName.indexOf(lastNameValue) >= 0);
+                if (newArray.length === 0) {
                     $('#no-results-paragraph').show();
-            } else {
+                } else {
                     $('#no-results-paragraph').hide();
-            }
-            newArray.forEach(function(element){
-                $(`#${element._id}`).show();
-            });
+                }
+                newArray.forEach(function(element) {
+                    $(`#${element._id}`).show();
+                });
             }
         }
 
@@ -167,15 +167,15 @@ function loadAuthorsPageEvents(data) {
     });
 
     $('#first-name-search').on('input', function(ev) {
-        data.authors.forEach(function(element){
+        data.authors.forEach(function(element) {
             $(`#${element._id}`).hide();
         });
 
         $('#search-name-change').text("Search Results");
     });
 
-    $('#last-name-search').on('input', function(){
-        data.authors.forEach(function(element){
+    $('#last-name-search').on('input', function() {
+        data.authors.forEach(function(element) {
             $(`#${element._id}`).hide();
         });
 
@@ -183,7 +183,7 @@ function loadAuthorsPageEvents(data) {
     });
 
     $('#show-all-authors').on('click', function() {
-        data.authors.forEach(function(element){
+        data.authors.forEach(function(element) {
             $(`#${element._id}`).show();
         });
     });
@@ -194,63 +194,63 @@ function loadAuthorsPageEvents(data) {
 function loadBooksPageEvents(data) {
     $('#no-results-paragraph').hide();
 
-    $('#search-book-button').on('click', function(){
+    $('#search-book-button').on('click', function() {
         let bookTitleValue = $('#book-title-search').val();
         let bookGenreValue = $('#book-genre-search').val();
 
-         function searchByTitle(bookTitleValue){
+        function searchByTitle(bookTitleValue) {
             if (bookTitleValue !== "") {
                 let newArray = data.books.filter(x => x.title.indexOf(bookTitleValue) >= 0);
                 console.log("here");
                 console.log(newArray);
-                if(newArray.length === 0){
+                if (newArray.length === 0) {
                     $('#no-results-paragraph').show();
                 } else {
                     $('#no-results-paragraph').hide();
                 }
-                newArray.forEach(function(element){
+                newArray.forEach(function(element) {
                     $(`#${element._id}`).show();
                 });
             }
         }
 
-        function searchByGenre(bookGenreValue){
+        function searchByGenre(bookGenreValue) {
             if (bookGenreValue !== "") {
                 let newArray = data.books.filter(x => x.genre.indexOf(bookGenreValue) >= 0);
-                if(newArray.length === 0){
-                        $('#no-results-paragraph').show();
+                if (newArray.length === 0) {
+                    $('#no-results-paragraph').show();
                 } else {
-                        $('#no-results-paragraph').hide();
+                    $('#no-results-paragraph').hide();
                 }
-                newArray.forEach(function(element){
+                newArray.forEach(function(element) {
                     $(`#${element._id}`).show();
                 });
             }
         }
 
 
-       searchByTitle(bookTitleValue);
-       searchByGenre(bookGenreValue);
+        searchByTitle(bookTitleValue);
+        searchByGenre(bookGenreValue);
 
     })
 
     $('#show-all-books').on('click', function() {
-            console.log(data.books);
-        data.books.forEach(function(element){
+        console.log(data.books);
+        data.books.forEach(function(element) {
             $(`#${element._id}`).show();
         });
     });
 
     $('#book-title-search').on('input', function(ev) {
-        data.books.forEach(function(element){
+        data.books.forEach(function(element) {
             $(`#${element._id}`).hide();
         });
 
         $('#search-name-change').text("Search Results");
     });
 
-    $('#book-genre-search').on('input', function(){
-        data.books.forEach(function(element){
+    $('#book-genre-search').on('input', function() {
+        data.books.forEach(function(element) {
             $(`#${element._id}`).hide();
         });
 
@@ -258,64 +258,82 @@ function loadBooksPageEvents(data) {
     });
 }
 
-function loadBooksButtonEvent(data){
-  $('.read-review').on('click', function(ev) {
-      let reviewModal = $(ev.target).parent().parent();
+function loadBooksButtonEvent(data) {
+    $('.read-review').on('click', function(ev) {
+        let reviewModal = $(ev.target).parent().parent();
 
-      let bookTitle = reviewModal.find('legend').html();
-      let book = data.books.find(x => x.title === bookTitle);
+        let bookTitle = reviewModal.find('legend').html();
+        let book = data.books.find(x => x.title === bookTitle);
 
-      let review = reviewModal.find('textarea').val();
-      let rating = reviewModal.find('select').val() | 0;
+        let review = reviewModal.find('textarea').val();
+        let rating = reviewModal.find('select').val() | 0;
 
-      let oldCountRead = book.countRead;
-      let oldRating = book.rating;
+        let oldCountRead = book.countRead;
+        let oldRating = book.rating;
 
-      let newCountRead = oldCountRead + 1;
-      let newBookRating = ((oldRating * oldCountRead) + rating) / newCountRead;
-      newBookRating = Math.round(newBookRating * 10) / 10;
+        let newCountRead = oldCountRead + 1;
+        let newBookRating = ((oldRating * oldCountRead) + rating) / newCountRead;
+        newBookRating = Math.round(newBookRating * 10) / 10;
 
-      book.countRead = newCountRead;
-      book.rating = newBookRating;
+        book.countRead = newCountRead;
+        book.rating = newBookRating;
 
-      let head = header.getHeader(true, false);
-      request.put(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/books/${book._id}`, head, book)
-        .then(() =>{
-          return request.get(`https://baas.kinvey.com/user/${kinveyUrls.KINVEY_APP_ID}/${localStorage.USER_ID}`, head)
-        })
-        .then((user) =>{
-          let readBook = {
-            'rating': rating,
-            'review': review,
-            'book': {
-              '_type': "KinveyRef",
-              '_id': book._id,
-              '_collection': "books"
-            }
-          }
-          user.readBooks.push(readBook);
-          return request.put(`https://baas.kinvey.com/user/${kinveyUrls.KINVEY_APP_ID}/${localStorage.USER_ID}`, head, user);
-        }).then((response) => {
-              notifier.show('Book added successfully', 'success');
-          })
-          .catch((err) => {
-              err = err.responseJSON.description;
-              notifier.show(err, 'error');
-          });
+        let head = header.getHeader(true, false);
+        request.put(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/books/${book._id}`, head, book)
+            .then(() => {
+                return request.get(`https://baas.kinvey.com/user/${kinveyUrls.KINVEY_APP_ID}/${localStorage.USER_ID}`, head)
+            })
+            .then((user) => {
+                let readBook = {
+                    'rating': rating,
+                    'review': review,
+                    'book': {
+                        '_type': "KinveyRef",
+                        '_id': book._id,
+                        '_collection': "books"
+                    }
+                }
+                user.readBooks.push(readBook);
+                return request.put(`https://baas.kinvey.com/user/${kinveyUrls.KINVEY_APP_ID}/${localStorage.USER_ID}`, head, user);
+            }).then((response) => {
+                notifier.show('Book added successfully', 'success');
+            })
+            .catch((err) => {
+                err = err.responseJSON.description;
+                notifier.show(err, 'error');
+            });
 
-      setTimeout(() => {
-        $('.close-read').trigger('click');
-      }, 500);
+        setTimeout(() => {
+            $('.close-read').trigger('click');
+        }, 500);
     });
 
     $('.close-read').on('click', function(ev) {
-      let reviewModal = $(ev.target).parent().parent();
+        let reviewModal = $(ev.target).parent().parent();
 
-      reviewModal.find('textarea').val('');
-      reviewModal.find('select').val('1');
+        reviewModal.find('textarea').val('');
+        reviewModal.find('select').val('1');
     });
 }
 
+function loadProfilePageEvents(data) {
+    $('.page').on('click', function(ev) {
+        let $this = $(ev.target);
+        let pageNumebr = $this.html();
+        let startIndex = (pageNumebr * 4) - 4;
+
+        for (let i = startIndex; i < startIndex + 4; i += 1) {
+            if ($this.parents('#read-books').length > 0) {
+                let selector = `#book-field-${i - startIndex} .thumbnail img`
+                $(selector).attr('src', data.readBooks[i].book.cover._downloadURL)
+            } else {
+                let selector = `#author-field-${i - startIndex} .thumbnail img`
+                $(selector).attr('src', data.favoriteAuthors[i].picture._downloadURL)
+            }
+        }
+        return false;
+    })
+}
 
 let eventLoader = {
     loadFrontPageEvents,
@@ -323,7 +341,8 @@ let eventLoader = {
     loadUserNavigationEvents,
     loadHomePageEvents,
     loadBooksPageEvents,
-    loadBooksButtonEvent
+    loadBooksButtonEvent,
+    loadProfilePageEvents
 }
 
 export { eventLoader }

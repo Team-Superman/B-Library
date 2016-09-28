@@ -96,11 +96,13 @@ let app = new Sammy(function() {
                 userdata = user[0];
                 userdata.firstAuthors = userdata.favoriteAuthors.slice(0, 4);
                 userdata.firstBooks = userdata.readBooks.slice(0, 4);
+                userdata.totalBookPages = userdata.readBooks.length / 4;
+                userdata.totalAuthorsPages = userdata.favoriteAuthors.length / 4;
             })
             .then(() => console.log(userdata))
             .then(() => { return template.get('profile-page') })
-            .then(temp => pageLoader.loadProfilePage(temp, userdata));
-        //.then(() => eventLoader.loadProfilePageEvents(data));
+            .then(temp => pageLoader.loadProfilePage(temp, userdata))
+            .then(() => eventLoader.loadProfilePageEvents(userdata));
     })
 
     this.get(/.*/, function() {

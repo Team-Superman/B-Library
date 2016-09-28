@@ -6,27 +6,37 @@ import 'jquery';
 
 var cache = {};
 
-function get(name){
-  let promise = new Promise((resolve, reject) => {
+(function() {
+    handlebars.registerHelper('for', function(from, to, incr, block) {
+        var accum = '';
+        for (var i = from; i < to + 1; i += incr) {
+            accum += block.fn(i);
+        }
+        return accum;
+    });
+})()
 
-    if(cache[name]){
-     resolve(cache[name]);
-     return;
-    }
+function get(name) {
+    let promise = new Promise((resolve, reject) => {
 
-    let url = `templates/${name}.handlebars`;
-    $.get(url, function(templateHtml){
-      let template = handlebars.compile(templateHtml);
-      cache[name] = template;
-      resolve(template);
-    })
-  });
+        if (cache[name]) {
+            resolve(cache[name]);
+            return;
+        }
 
-  return promise;
+        let url = `templates/${name}.handlebars`;
+        $.get(url, function(templateHtml) {
+            let template = handlebars.compile(templateHtml);
+            cache[name] = template;
+            resolve(template);
+        })
+    });
+
+    return promise;
 }
 
 let template = {
-  get: get
+    get: get
 };
 
-export {template}
+export { template }
