@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="search-item" id="left-side-community-page">
+        <div id="community-page-users" class="users panel">
+            <div class="panel-heading">
+                <h1 class="panel-title">Results</h1>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="control-label">Search by name</label>
+                    <div class="input-group">
+                        <input class="form-control" id="user-firstName-search" type="text" placeholder="First name">
+                        <span class="input-group-btn">
+                        </span>
+                    </div>
+                    <div class="input-group">
+                        <input class="form-control" id="user-lastName-search" type="text" placeholder="Last name">
+                        <span class="input-group-btn">
+                        </span>
+                    </div>
+                </div>
+                <button class="btn btn-default" id="search-user-button" type="button">Search user</button>
+            </div>
+        </div>
+    </div>
+    <div class="results-item" id="left-side-community-page">
+        <div id="community-page-users" class="panel panel-primary">
+            <div class="panel-body">
+                <div class="alert alert-dismissible alert-warning" id="no-results-paragraph">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <p>There is no such user.</p>
+                </div>
+                <div class="panel-heading">
+                    <h1 class="panel-title" id="search-user">Results</h1>
+                </div>
+                <div class="users-info">
+                    {{{{#each users}}
+                        <div class="profile-info">
+                            <div><b>First name:</b> {{firstName}}</div>
+                            <div><b>Last name:</b> {{lastName}}</div>
+                        </div>
+                    {{/each}}}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
