@@ -99,9 +99,10 @@ let app = new Sammy(function() {
 
     // })
 
-    // this.get(appUrls.PROFILE_URL, function() {
-
-    // })
+    this.get(appUrls.PROFILE_URL, function() {
+      template.get('profile-page')
+        .then(temp => pageLoader.loadProfilePage(temp));
+    })
 
     this.get(/.*/, function () {
       if (localStorage.AUTH_TOKEN) {

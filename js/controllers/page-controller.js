@@ -53,12 +53,20 @@ function loadErrorPage() {
     let promise = new Promise((resolve, reject) => {
         let errorBackground = $('<img/>').attr('src', '../../assets/images/error-page.jpg')
                                          .attr('class', 'img-responsive');
-        console.log('here');
         $(MAIN_SELECTOR).html(errorBackground);
         resolve();
     });
 
     return promise;
+}
+
+function loadProfilePage(template){
+  let promise = new Promise((resolve, reject) => {
+    $(MAIN_SELECTOR).html(template());
+    resolve();
+  })
+
+  return promise;
 }
 
 
@@ -68,7 +76,8 @@ let pageLoader = {
     loadUserNavigation,
     loadUserHomePage,
     loadAuthorsPage,
-    loadErrorPage
+    loadErrorPage,
+    loadProfilePage
 };
 
 export { pageLoader };

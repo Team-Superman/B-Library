@@ -1,0 +1,40 @@
+.profile-container {
+  margin-top: 120px;
+}
+
+.profile-content {
+  margin: 20px;
+  border-radius: 10px;
+  border: 1px solid #AAAAAA;
+}
+
+.profile-content > img{
+  max-width: 160px;
+  margin: -80px auto 0;
+}
+
+.profile-content > .profile-info {
+  text-align: center;
+}
+
+.profile-content > .nav, .nav-tabs{
+  margin-top: 10px;
+}
+
+.profile-content > .profile-info> .profile-details{
+  margin: 20px 5px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.profile-content > .profile-info> .profile-details > div{
+  margin: 5px;
+}
+
+.collection-container {
+  margin-top: 10px;
+}
+
+.btn-responsive {
+    white-space: normal !important;
+}
