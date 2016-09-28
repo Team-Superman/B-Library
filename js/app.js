@@ -45,7 +45,8 @@ let app = new Sammy(function() {
             .then((auth) => { top5.authors = auth })
             .then(() => { return template.get('home-page') })
             .then(temp => pageLoader.loadUserHomePage(temp, top5))
-            .then(() => eventLoader.loadHomePageEvents(top5));
+            .then(() => eventLoader.loadHomePageEvents(top5))
+            .then((data) => eventLoader.loadBooksButtonEvent(data));
     });
 
     this.get(appUrls.AUTHORS_URL, function() {
