@@ -76,8 +76,8 @@ function loadUserNavigationEvents() {
     });
 }
 
-function loadHomePageEvents(data) {
-    $('.book-learn-more').on('click', function(ev) {
+function loadModalEvents(data){      
+     $('.book-learn-more').on('click', function(ev) {
         let bookTitle = $(ev.target).parent().find('h2').html();
         let book = data.books.find(x => x.title === bookTitle);
 
@@ -117,7 +117,12 @@ function loadHomePageEvents(data) {
     return promise;
 }
 
-function loadAuthorsPageEvents(data) {
+function loadHomePageEvents(data) {
+   loadModalEvents(data);
+}
+
+function loadAuthorsPageEvents(data) { 
+    loadModalEvents(data);  
     $('#no-results-paragraph').hide();
     $('#search-author-button').on('click', function(ev) {
 
@@ -192,6 +197,7 @@ function loadAuthorsPageEvents(data) {
 }
 
 function loadBooksPageEvents(data) {
+    loadModalEvents(data);
     $('#no-results-paragraph').hide();
 
     $('#search-book-button').on('click', function() {
@@ -355,7 +361,8 @@ let eventLoader = {
     loadHomePageEvents,
     loadBooksPageEvents,
     loadBooksButtonEvent,
-    loadProfilePageEvents
+    loadProfilePageEvents,
+    loadModalEvents
 }
 
 export { eventLoader }

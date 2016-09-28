@@ -63,6 +63,7 @@ let app = new Sammy(function() {
             .then(() => { return template.get('authors-page') })
             .then(temp => pageLoader.loadAuthorsPage(temp, data))
             .then(() => eventLoader.loadAuthorsPageEvents(data));
+            // .then(() => eventLoader.loadModalEvents(data));
 
     });
 
@@ -80,6 +81,7 @@ let app = new Sammy(function() {
             .then(() => { return template.get('books-page') })
             .then(temp => pageLoader.loadAuthorsPage(temp, data))
             .then(() => eventLoader.loadBooksPageEvents(data));
+            // .then(() => eventLoader.loadModalEvents(data));
 
     })
 
