@@ -14,8 +14,8 @@ let app = new Sammy(function() {
 
     this.get(appUrls.MAIN_URL, function() {
         if (localStorage.AUTH_TOKEN) {
-          this.redirect(appUrls.HOME_URL);
-          return;
+            this.redirect(appUrls.HOME_URL);
+            return;
         }
 
         template.get('front-navigation')
@@ -28,8 +28,8 @@ let app = new Sammy(function() {
 
     this.get(appUrls.HOME_URL, function() {
         if (!localStorage.AUTH_TOKEN) {
-          this.redirect(appUrls.MAIN_URL);
-          return;
+            this.redirect(appUrls.MAIN_URL);
+            return;
         }
 
         let top5 = {};
@@ -41,58 +41,45 @@ let app = new Sammy(function() {
         let head = header.getHeader(true, false);
         request.get(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/books/?query={}&limit=5&sort={"countRead": -1}`, head)
             .then((books) => { top5.books = books })
-            .then(() => {
-                request.get(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/authors?query={}&limit=5&sort={"amountOfFavorites": -1}`, head)
-                    .then((auth) => { top5.authors = auth })
-                    .then(() => {
-                        template.get('home-page')
-                            .then(temp => pageLoader.loadUserHomePage(temp, top5))
-                            .then(() => eventLoader.loadHomePageEvents(top5));
-                    })
-            });
+            .then(() => { return request.get(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/authors?query={}&limit=5&sort={"amountOfFavorites": -1}`, head) })
+            .then((auth) => { top5.authors = auth })
+            .then(() => { return template.get('home-page') })
+            .then(temp => pageLoader.loadUserHomePage(temp, top5))
+            .then(() => eventLoader.loadHomePageEvents(top5));
     });
 
     this.get(appUrls.AUTHORS_URL, function() {
         if (!localStorage.AUTH_TOKEN) {
-          this.redirect(appUrls.MAIN_URL);
-          return;
+            this.redirect(appUrls.MAIN_URL);
+            return;
         }
+
         let data = {};
-
         let head = header.getHeader(true, false);
-
-        template.get('user-navigation')
-            .then(temp => pageLoader.loadUserNavigation(temp))
-            .then(() => eventLoader.loadUserNavigationEvents());
 
         request.get(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/authors`, head)
             .then((auth) => { data.authors = auth })
-            .then(() => {
-              template.get('authors-page')
-                  .then(temp => pageLoader.loadAuthorsPage(temp, data))
-                  .then(() => eventLoader.loadAuthorsPageEvents(data));
-            })
-        });
+            .then(() => { return template.get('authors-page') })
+            .then(temp => pageLoader.loadAuthorsPage(temp, data))
+            .then(() => eventLoader.loadAuthorsPageEvents(data));
+
+    });
 
     this.get(appUrls.BOOKS_URL, function() {
         if (!localStorage.AUTH_TOKEN) {
-          this.redirect(appUrls.MAIN_URL);
-          return;
+            this.redirect(appUrls.MAIN_URL);
+            return;
         }
-        let data = {};
-        template.get('user-navigation')
-            .then(temp => pageLoader.loadUserNavigation(temp))
-            .then(() => eventLoader.loadUserNavigationEvents());
 
+        let data = {};
         let head = header.getHeader(true, false);
 
         request.get(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/books`, head)
             .then((auth) => { data.books = auth })
-            .then(() => {
-              template.get('books-page')
-                  .then(temp => pageLoader.loadAuthorsPage(temp, data))
-                  .then(() => eventLoader.loadBooksPageEvents(data));
-            })
+            .then(() => { return template.get('books-page') })
+            .then(temp => pageLoader.loadAuthorsPage(temp, data))
+            .then(() => eventLoader.loadBooksPageEvents(data));
+
     })
 
     // this.get(appUrls.COMMUNITY_URL, function() {
@@ -100,22 +87,22 @@ let app = new Sammy(function() {
     // })
 
     this.get(appUrls.PROFILE_URL, function() {
-      template.get('profile-page')
-        .then(temp => pageLoader.loadProfilePage(temp));
+        template.get('profile-page')
+            .then(temp => pageLoader.loadProfilePage(temp));
     })
 
-    this.get(/.*/, function () {
-      if (localStorage.AUTH_TOKEN) {
-        template.get('user-navigation')
-            .then(temp => pageLoader.loadUserNavigation(temp))
-            .then(() => eventLoader.loadUserNavigationEvents());
-      }else{
-        template.get('front-navigation')
-            .then(temp => pageLoader.loadFrontNavigation(temp))
-            .then(() => eventLoader.loadFrontPageEvents());
-      }
+    this.get(/.*/, function() {
+        if (localStorage.AUTH_TOKEN) {
+            template.get('user-navigation')
+                .then(temp => pageLoader.loadUserNavigation(temp))
+                .then(() => eventLoader.loadUserNavigationEvents());
+        } else {
+            template.get('front-navigation')
+                .then(temp => pageLoader.loadFrontNavigation(temp))
+                .then(() => eventLoader.loadFrontPageEvents());
+        }
 
-      pageLoader.loadErrorPage();
+        pageLoader.loadErrorPage();
 
     });
 
