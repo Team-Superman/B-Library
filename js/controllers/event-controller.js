@@ -2,8 +2,11 @@
 
 import 'jquery';
 import { notifier } from 'notifier';
+import { request } from 'requester';
+import { header } from 'header-generator';
 import { userModel } from 'user-model';
 import { validator } from 'validator';
+import { kinveyUrls } from 'kinvey-urls';
 import CryptoJS from 'cryptojs';
 
 function getUserLoginDetails() {
@@ -88,6 +91,12 @@ function loadHomePageEvents(data) {
         $('#book-info .book-content .book-content-description').html(book.description);
     });
 
+    $('.mark-as-read').on('click', function(ev) {
+        let bookTitle = $(ev.target).parent().find('h2').html();
+
+        $('#book-read').find('legend').html(bookTitle);
+    });
+
     $('.author-learn-more').on('click', function(ev) {
         let authorNames = $(ev.target).parent().find('h2').html().split(' ');
         let author = data.authors.find(x => x.firstName === authorNames[0] && x.lastName === authorNames[1]);
@@ -100,62 +109,68 @@ function loadHomePageEvents(data) {
         $('#author-info .author-content .author-content-description').html(author.description);
 
     });
+
+    let promise = new Promise((resolve, reject) =>{
+      resolve(data);
+    })
+
+    return promise;
 }
 
 function loadAuthorsPageEvents(data) {
     $('#no-results-paragraph').hide();
-    $('#search-author-button').on('click', function(ev) {     
-       
+    $('#search-author-button').on('click', function(ev) {
+
         let firstNameValue = $('#first-name-search').val();
-        let lastNameValue = $('#last-name-search').val();  
+        let lastNameValue = $('#last-name-search').val();
         //TODO:filter(x => x.firstName)
 
-        
-        function searchByFirstName(firstNameValue){                
-            if (firstNameValue !== "") {          
-                let newArray = data.authors.filter(x => x.firstName.indexOf(firstNameValue) >= 0); 
+
+        function searchByFirstName(firstNameValue){
+            if (firstNameValue !== "") {
+                let newArray = data.authors.filter(x => x.firstName.indexOf(firstNameValue) >= 0);
                 console.log("here");
                 console.log(newArray);
                 if(newArray.length === 0){
-                    $('#no-results-paragraph').show();                    
+                    $('#no-results-paragraph').show();
                 } else {
-                    $('#no-results-paragraph').hide();                    
-                }          
-                newArray.forEach(function(element){                    
+                    $('#no-results-paragraph').hide();
+                }
+                newArray.forEach(function(element){
                     $(`#${element._id}`).show();
-                });                
-            }    
-        }          
+                });
+            }
+        }
 
-        function searchByLastName(lastNameValue){                              
-            if (lastNameValue !== "") {          
+        function searchByLastName(lastNameValue){
+            if (lastNameValue !== "") {
             let newArray = data.authors.filter(x => x.lastName.indexOf(lastNameValue) >= 0);
             if(newArray.length === 0){
-                    $('#no-results-paragraph').show();                    
+                    $('#no-results-paragraph').show();
             } else {
-                    $('#no-results-paragraph').hide();                    
-            }    
-            newArray.forEach(function(element){                    
+                    $('#no-results-paragraph').hide();
+            }
+            newArray.forEach(function(element){
                 $(`#${element._id}`).show();
-            });                
+            });
             }
         }
 
 
         searchByFirstName(firstNameValue);
         searchByLastName(lastNameValue);
-        
 
 
-       
+
+
 
     });
 
-    $('#first-name-search').on('input', function(ev) {     
+    $('#first-name-search').on('input', function(ev) {
         data.authors.forEach(function(element){
             $(`#${element._id}`).hide();
         });
-        
+
         $('#search-name-change').text("Search Results");
     });
 
@@ -167,7 +182,7 @@ function loadAuthorsPageEvents(data) {
         $('#search-name-change').text("Search Results");
     });
 
-    $('#show-all-authors').on('click', function() {       
+    $('#show-all-authors').on('click', function() {
         data.authors.forEach(function(element){
             $(`#${element._id}`).show();
         });
@@ -176,41 +191,41 @@ function loadAuthorsPageEvents(data) {
 
 }
 
-function loadBooksPageEvents(data) {  
+function loadBooksPageEvents(data) {
     $('#no-results-paragraph').hide();
 
     $('#search-book-button').on('click', function(){
         let bookTitleValue = $('#book-title-search').val();
-        let bookGenreValue = $('#book-genre-search').val();  
+        let bookGenreValue = $('#book-genre-search').val();
 
-         function searchByTitle(bookTitleValue){                
-            if (bookTitleValue !== "") {          
-                let newArray = data.books.filter(x => x.title.indexOf(bookTitleValue) >= 0); 
+         function searchByTitle(bookTitleValue){
+            if (bookTitleValue !== "") {
+                let newArray = data.books.filter(x => x.title.indexOf(bookTitleValue) >= 0);
                 console.log("here");
                 console.log(newArray);
                 if(newArray.length === 0){
-                    $('#no-results-paragraph').show();                    
+                    $('#no-results-paragraph').show();
                 } else {
-                    $('#no-results-paragraph').hide();                    
-                }          
-                newArray.forEach(function(element){                    
+                    $('#no-results-paragraph').hide();
+                }
+                newArray.forEach(function(element){
                     $(`#${element._id}`).show();
-                });                
-            }    
-        }          
+                });
+            }
+        }
 
-        function searchByGenre(bookGenreValue){                              
-            if (bookGenreValue !== "") {          
+        function searchByGenre(bookGenreValue){
+            if (bookGenreValue !== "") {
                 let newArray = data.books.filter(x => x.genre.indexOf(bookGenreValue) >= 0);
                 if(newArray.length === 0){
-                        $('#no-results-paragraph').show();                    
+                        $('#no-results-paragraph').show();
                 } else {
-                        $('#no-results-paragraph').hide();                    
-                }    
-                newArray.forEach(function(element){                    
+                        $('#no-results-paragraph').hide();
+                }
+                newArray.forEach(function(element){
                     $(`#${element._id}`).show();
-                });                
-            } 
+                });
+            }
         }
 
 
@@ -226,11 +241,11 @@ function loadBooksPageEvents(data) {
         });
     });
 
-    $('#book-title-search').on('input', function(ev) {     
+    $('#book-title-search').on('input', function(ev) {
         data.books.forEach(function(element){
             $(`#${element._id}`).hide();
         });
-        
+
         $('#search-name-change').text("Search Results");
     });
 
@@ -241,9 +256,64 @@ function loadBooksPageEvents(data) {
 
         $('#search-name-change').text("Search Results");
     });
+}
 
+function loadBooksButtonEvent(data){
+  $('.read-review').on('click', function(ev) {
+      let reviewModal = $(ev.target).parent().parent();
 
+      let bookTitle = reviewModal.find('legend').html();
+      let book = data.books.find(x => x.title === bookTitle);
 
+      let review = reviewModal.find('textarea').val();
+      let rating = reviewModal.find('select').val() | 0;
+
+      let oldCountRead = book.countRead;
+      let oldRating = book.rating;
+
+      let newCountRead = oldCountRead + 1;
+      let newBookRating = ((oldRating * oldCountRead) + rating) / newCountRead;
+      newBookRating = Math.round(newBookRating * 10) / 10;
+
+      book.countRead = newCountRead;
+      book.rating = newBookRating;
+
+      let head = header.getHeader(true, false);
+      request.put(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/books/${book._id}`, head, book)
+        .then(() =>{
+          return request.get(`https://baas.kinvey.com/user/${kinveyUrls.KINVEY_APP_ID}/${localStorage.USER_ID}`, head)
+        })
+        .then((user) =>{
+          let readBook = {
+            'rating': rating,
+            'review': review,
+            'book': {
+              '_type': "KinveyRef",
+              '_id': book._id,
+              '_collection': "books"
+            }
+          }
+          user.readBooks.push(readBook);
+          return request.put(`https://baas.kinvey.com/user/${kinveyUrls.KINVEY_APP_ID}/${localStorage.USER_ID}`, head, user);
+        }).then((response) => {
+              notifier.show('Book added successfully', 'success');
+          })
+          .catch((err) => {
+              err = err.responseJSON.description;
+              notifier.show(err, 'error');
+          });
+
+      setTimeout(() => {
+        $('.close-read').trigger('click');
+      }, 500);
+    });
+
+    $('.close-read').on('click', function(ev) {
+      let reviewModal = $(ev.target).parent().parent();
+
+      reviewModal.find('textarea').val('');
+      reviewModal.find('select').val('1');
+    });
 }
 
 
@@ -252,7 +322,8 @@ let eventLoader = {
     loadAuthorsPageEvents,
     loadUserNavigationEvents,
     loadHomePageEvents,
-    loadBooksPageEvents
+    loadBooksPageEvents,
+    loadBooksButtonEvent
 }
 
 export { eventLoader }
