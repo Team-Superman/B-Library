@@ -118,11 +118,17 @@ function loadModalEvents(data){
 }
 
 function loadHomePageEvents(data) {
-   loadModalEvents(data);
+       loadModalEvents(data);  
+        let promise = new Promise((resolve, reject) => {
+        resolve(data);
+    })
+
+    return promise;  
 }
+  
 
 function loadAuthorsPageEvents(data) { 
-    loadModalEvents(data);  
+    loadModalEvents(data);     
     $('#no-results-paragraph').hide();
     $('#search-author-button').on('click', function(ev) {
 
@@ -163,16 +169,11 @@ function loadAuthorsPageEvents(data) {
 
 
         searchByFirstName(firstNameValue);
-        searchByLastName(lastNameValue);
-
-
-
-
-
+        searchByLastName(lastNameValue);        
     });
 
     $('#first-name-search').on('input', function(ev) {
-        data.authors.forEach(function(element) {
+        data.authors.forEach(function(element) {            
             $(`#${element._id}`).hide();
         });
 
