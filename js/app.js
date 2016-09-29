@@ -53,7 +53,8 @@ let app = new Sammy(function() {
             .then((temp) => pageLoader.loadModal(temp))
             .then(() => eventLoader.loadHomePageEvents(top5))
             .then((data) => eventLoader.loadModalEvents(data))
-            .then((data) => eventLoader.loadBooksButtonEvent(data));
+            .then((data) => eventLoader.loadBooksButtonEvent(data))
+            .then((data) => eventLoader.loadAuthorButtonEvent(data));
     });
 
     this.get(appUrls.AUTHORS_URL, function() {
@@ -76,6 +77,7 @@ let app = new Sammy(function() {
             .then(() => { return template.get('author-info-modal') })
             .then((temp) => pageLoader.loadModal(temp))
             .then(() => eventLoader.loadAuthorsPageEvents(data))
+            .then((data) => eventLoader.loadAuthorButtonEvent(data))
             .then((data) => eventLoader.loadModalEvents(data));
     });
 

@@ -108,7 +108,7 @@ function loadModalEvents(data){
         if(!authorName){
           authorName = $(ev.target).parents().eq(2).find('h2').html();
         }
-        
+
         let author = data.authors.find(x => { return `${x.firstName} ${x.lastName}` === authorName;});
 
         $('#author-img').attr('src', author.picture._downloadURL);
@@ -229,7 +229,8 @@ function loadBooksButtonEvent(data) {
                 }
                 user.readBooks.push(readBook);
                 return request.put(`https://baas.kinvey.com/user/${kinveyUrls.KINVEY_APP_ID}/${localStorage.USER_ID}`, head, user);
-            }).then((response) => {
+            })
+            .then((response) => {
                 notifier.show('Book added successfully', 'success');
             })
             .catch((err) => {
@@ -248,7 +249,52 @@ function loadBooksButtonEvent(data) {
         reviewModal.find('textarea').val('');
         reviewModal.find('select').val('1');
     });
+
+    let promise = new Promise((resolve, reject) => {
+      resolve(data);
+    });
+
+    return promise;
 }
+
+function loadAuthorButtonEvent(data) {
+    $('.author-add-favorite').on('click', function(ev) {
+      let authorName = $(ev.target).parent().eq(1).find('h2').html();
+      if(!authorName){
+        authorName = $(ev.target).parents().eq(2).find('h2').html();
+      }
+
+      let author = data.authors.find(x => { return `${x.firstName} ${x.lastName}` === authorName});
+
+      author.amountOfFavorites += 1;
+
+      let head = header.getHeader(true, false);
+      request.put(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/authors/${author._id}`, head, author)
+        .then(() => {
+          return request.get(`https://baas.kinvey.com/user/${kinveyUrls.KINVEY_APP_ID}/${localStorage.USER_ID}`, head)
+        })
+        .then((user) => {
+          let amountOfFavoriteAuthors = Object.keys(user.favoriteAuthors).length;
+          let nextPropertyKey = (amountOfFavoriteAuthors + 1).toString();
+          user.favoriteAuthors[nextPropertyKey] = author;
+
+          return request.put(`https://baas.kinvey.com/user/${kinveyUrls.KINVEY_APP_ID}/${localStorage.USER_ID}`, head, user);
+        })
+        .then((response) => {
+          notifier.show('Author added successfully', 'success');
+        })
+        .catch((err) => {
+          err = err.responseJSON.description;
+          notifier.show(err, 'error');
+        })
+    });
+
+    let promise = new Promise((resolve, reject)=>{
+      resolve(data);
+    })
+
+    return promise;
+};
 
 function loadProfilePageEvents(data) {
     $('.page').on('click', function(ev) {
@@ -303,8 +349,6 @@ function loadProfilePageEvents(data) {
 
       let reviewedBook = data.readBooks.find(x => x.book.title === bookTitle);
 
-      console.log(reviewedBook.book.cover._downloadURL);
-
       $('#book-review-img').attr('src', reviewedBook.book.cover._downloadURL);
       $('#book-review .book-content h2').html(reviewedBook.book.title);
       $('#book-review .book-content .book-content-rating').html(`<b>Rating:</b> ${reviewedBook.rating}`);
@@ -326,7 +370,8 @@ let eventLoader = {
     loadBooksPageEvents,
     loadBooksButtonEvent,
     loadProfilePageEvents,
-    loadModalEvents
+    loadModalEvents,
+    loadAuthorButtonEvent
 }
 
 export { eventLoader }
