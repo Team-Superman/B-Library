@@ -14,13 +14,14 @@
                               <div class="col-sm-8 book-content">
                                 <h2 id="book-title">{{title}}</h2>
                                 <p class="book-content-author">by {{author}}</p>
+                                <p class="book-content-count-read"><b>Read:</b> {{countRead}}</p>
                                 <p class="book-content-rating"><b>Rating:</b> {{rating}}</p>
                                 <a href="#" class="btn btn-primary btn-sm book-learn-more" data-toggle="modal" data-target="#book-info"}>Learn more</a>
                                 <a href="#" class="btn btn-success btn-sm mark-as-read" data-toggle="modal" data-target="#book-read"}>Mark as read</a>
                               </div>
                           </div>
                         {{/each}}
-                          <!-- Modal -->
+                          <!-- Modal book-info -->
                           <div class="modal" id="book-info">
                             <div class="modal-dialog modal-lg">
                               <div class="modal-content">
@@ -33,7 +34,7 @@
                                         <img id="book-img" src="" alt="empty" class="img-responsive"/>
                                       </div>
                                       <div class="col-sm-8 book-content">
-                                        <h2>{{title}}</h2>
+                                        <h2></h2>
                                         <p class="book-content-author"></p>
                                         <p class="book-content-rating"></p>
                                         <p class="book-content-publish-year"></p>
@@ -49,7 +50,7 @@
                               </div>
                             </div>
                           </div>
-                          <!-- sd -->
+                          <!-- Modal book read -->
                           <div class="modal" id="book-read">
                             <div class="modal-dialog modal-lg">
                               <div class="modal-content">
@@ -61,15 +62,15 @@
                                     <fieldset>
                                       <legend>Legend</legend>
                                       <div class="form-group">
-                                        <label for="book-review-{{isbn}}" class="col-lg-2 control-label">Review</label>
+                                        <label for="book-review" class="col-lg-2 control-label">Review</label>
                                         <div class="col-lg-10">
-                                           <textarea class="form-control review" rows="3" id="book-review-{{isbn}}" style="margin-top: 0px; margin-bottom: 0px; height: 200px;"></textarea>
+                                           <textarea class="form-control review" rows="3" id="book-review" style="margin-top: 0px; margin-bottom: 0px; height: 200px;"></textarea>
                                         </div>
                                       </div>
                                       <div class="form-group">
-                                        <label for="book-rating-{{isbn}}" class="col-lg-2 control-label">Rating</label>
+                                        <label for="book-rating" class="col-lg-2 control-label">Rating</label>
                                         <div class="col-lg-10">
-                                          <select class="form-control rating" id="book-rating-{{isbn}}">
+                                          <select class="form-control rating" id="book-rating">
                                             <option>1</option>
                                             <option>2</option>
                                             <option>3</option>
@@ -114,7 +115,7 @@
                               </div>
                           </div>
                         {{/each}}
-                          <!-- Modal -->
+                          <!-- Modal author info-->
                           <div class="modal" id="author-info">
                             <div class="modal-dialog modal-lg">
                               <div class="modal-content">

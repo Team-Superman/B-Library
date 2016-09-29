@@ -38,3 +38,7 @@
 .btn-responsive {
     white-space: normal !important;
 }
+
+.hidden-title {
+  display: none;
+}

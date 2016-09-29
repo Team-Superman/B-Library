@@ -62,9 +62,8 @@ let app = new Sammy(function() {
             .then((auth) => { data.authors = auth })
             .then(() => { return template.get('authors-page') })
             .then(temp => pageLoader.loadAuthorsPage(temp, data))
-            .then(() => eventLoader.loadAuthorsPageEvents(data));
-            // .then(() => eventLoader.loadModalEvents(data));
-
+            .then(() => eventLoader.loadAuthorsPageEvents(data))
+            .then((data) => eventLoader.loadModalEvents(data));
     });
 
     this.get(appUrls.BOOKS_URL, function() {
@@ -80,9 +79,9 @@ let app = new Sammy(function() {
             .then((auth) => { data.books = auth })
             .then(() => { return template.get('books-page') })
             .then(temp => pageLoader.loadAuthorsPage(temp, data))
-            .then(() => eventLoader.loadBooksPageEvents(data));
-            // .then(() => eventLoader.loadModalEvents(data));
-
+            .then(() => eventLoader.loadBooksPageEvents(data))
+            .then((data) => eventLoader.loadModalEvents(data))
+            .then((data) => eventLoader.loadBooksButtonEvent(data));
     })
 
     // this.get(appUrls.COMMUNITY_URL, function() {

@@ -3,10 +3,6 @@
     width: 85%;
 }
 
-.book-content > h2 {
-  margin: 5px 0px;
-}
-
 .book-container, .author-container {
   padding: 10px 5px;
   margin-bottom: 15px;
@@ -18,7 +14,7 @@
   font-style: italic;
 }
 
-.book-content > .book-content-author, .book-content-rating, .book-content-publish-year, .book-content-pages, .book-content-isbn, .book-content-description {
+.book-content > .book-content-author, .book-content-rating, .book-content-count-read, .book-content-publish-year, .book-content-pages, .book-content-isbn, .book-content-description {
     margin: 2px 0px;
 }
 

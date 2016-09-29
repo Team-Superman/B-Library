@@ -76,7 +76,7 @@ function loadUserNavigationEvents() {
     });
 }
 
-function loadModalEvents(data){      
+function loadModalEvents(data){
      $('.book-learn-more').on('click', function(ev) {
         let bookTitle = $(ev.target).parent().find('h2').html();
         let book = data.books.find(x => x.title === bookTitle);
@@ -118,17 +118,16 @@ function loadModalEvents(data){
 }
 
 function loadHomePageEvents(data) {
-       loadModalEvents(data);  
-        let promise = new Promise((resolve, reject) => {
-        resolve(data);
+    loadModalEvents(data);
+    let promise = new Promise((resolve, reject) => {
+    resolve(data);
     })
 
-    return promise;  
+    return promise;
 }
-  
 
-function loadAuthorsPageEvents(data) { 
-    loadModalEvents(data);     
+
+function loadAuthorsPageEvents(data) {
     $('#no-results-paragraph').hide();
     $('#search-author-button').on('click', function(ev) {
 
@@ -136,12 +135,9 @@ function loadAuthorsPageEvents(data) {
         let lastNameValue = $('#last-name-search').val();
         //TODO:filter(x => x.firstName)
 
-
         function searchByFirstName(firstNameValue) {
             if (firstNameValue !== "") {
                 let newArray = data.authors.filter(x => x.firstName.indexOf(firstNameValue) >= 0);
-                console.log("here");
-                console.log(newArray);
                 if (newArray.length === 0) {
                     $('#no-results-paragraph').show();
                 } else {
@@ -169,11 +165,11 @@ function loadAuthorsPageEvents(data) {
 
 
         searchByFirstName(firstNameValue);
-        searchByLastName(lastNameValue);        
+        searchByLastName(lastNameValue);
     });
 
     $('#first-name-search').on('input', function(ev) {
-        data.authors.forEach(function(element) {            
+        data.authors.forEach(function(element) {
             $(`#${element._id}`).hide();
         });
 
@@ -194,13 +190,16 @@ function loadAuthorsPageEvents(data) {
         });
     });
 
+    let promise = new Promise((resolve, reject) => {
+      resolve(data);
+    });
 
+    return promise;
 }
 
 function loadBooksPageEvents(data) {
-    loadModalEvents(data);
-    $('#no-results-paragraph').hide();
 
+    $('#no-results-paragraph').hide();
     $('#search-book-button').on('click', function() {
         let bookTitleValue = $('#book-title-search').val();
         let bookGenreValue = $('#book-genre-search').val();
@@ -208,8 +207,6 @@ function loadBooksPageEvents(data) {
         function searchByTitle(bookTitleValue) {
             if (bookTitleValue !== "") {
                 let newArray = data.books.filter(x => x.title.indexOf(bookTitleValue) >= 0);
-                console.log("here");
-                console.log(newArray);
                 if (newArray.length === 0) {
                     $('#no-results-paragraph').show();
                 } else {
@@ -234,11 +231,8 @@ function loadBooksPageEvents(data) {
                 });
             }
         }
-
-
         searchByTitle(bookTitleValue);
         searchByGenre(bookGenreValue);
-
     })
 
     $('#show-all-books').on('click', function() {
@@ -263,6 +257,12 @@ function loadBooksPageEvents(data) {
 
         $('#search-name-change').text("Search Results");
     });
+
+    let promise = new Promise((resolve, reject) => {
+      resolve(data);
+    });
+
+    return promise;
 }
 
 function loadBooksButtonEvent(data) {
@@ -332,9 +332,11 @@ function loadProfilePageEvents(data) {
         for (let i = startIndex; i < startIndex + 4; i += 1) {
             if ($this.parents('#read-books').length > 0) {
                 let fieldID = `#book-field-${i - startIndex}`;
-                let selector = `${fieldID} .thumbnail img`
+                let selectorCover = `${fieldID} .thumbnail img`;
+                let selectorHiddenTitle = `${fieldID} .thumbnail h2`;
                 if (data.readBooks[i]) {
-                    $(selector).attr('src', data.readBooks[i].book.cover._downloadURL)
+                    $(selectorCover).attr('src', data.readBooks[i].book.cover._downloadURL)
+                    $(selectorHiddenTitle).html(data.readBooks[i].book.title);
                     $(fieldID).show();
                 } else {
                     $(fieldID).hide();
@@ -349,10 +351,44 @@ function loadProfilePageEvents(data) {
                 } else {
                     $(fieldID).hide();
                 }
-
             }
-        }
+        };
     });
+
+    $('.book-learn-more').on('click', function(ev) {
+       let bookTitle = $(ev.target).parents().eq(2).find('h2').html();
+
+       let reviewedBook = data.readBooks.find(x => x.book.title === bookTitle);
+       let book = reviewedBook.book;
+
+       $('#book-img').attr('src', book.cover._downloadURL);
+       $('#book-info .book-content h2').html(book.title);
+       $('#book-info .book-content .book-content-author').html(`by ${book.author}`);
+       $('#book-info .book-content .book-content-rating').html(`<b>Rating:</b> ${book.rating}`);
+       $('#book-info .book-content .book-content-publish-year').html(`<b>Published:</b> ${book.year}`);
+       $('#book-info .book-content .book-content-pages').html(`<b>Pages:</b> ${book.pages}`);
+       $('#book-info .book-content .book-content-isbn').html(`ISBN:</b> ${book.isbn}`);
+       $('#book-info .book-content .book-content-description').html(book.description);
+   });
+
+   $('.book-read-review').on('click', function(ev) {
+      let bookTitle = $(ev.target).parents().eq(2).find('h2').html();
+
+      let reviewedBook = data.readBooks.find(x => x.book.title === bookTitle);
+
+      console.log(reviewedBook.book.cover._downloadURL);
+
+      $('#book-review-img').attr('src', reviewedBook.book.cover._downloadURL);
+      $('#book-review .book-content h2').html(reviewedBook.book.title);
+      $('#book-review .book-content .book-content-rating').html(`<b>Rating:</b> ${reviewedBook.rating}`);
+      $('#book-review .book-content .book-content-review').html(`${reviewedBook.review}`);
+  });
+
+    let promise = new Promise((resolve, reject) => {
+      resolve(data);
+    });
+
+    return promise;
 }
 
 let eventLoader = {
