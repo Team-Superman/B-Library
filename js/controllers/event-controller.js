@@ -98,8 +98,8 @@ function loadModalEvents(data){
     });
 
     $('.author-learn-more').on('click', function(ev) {
-        let authorNames = $(ev.target).parent().find('h2').html().split(' ');
-        let author = data.authors.find(x => x.firstName === authorNames[0] && x.lastName === authorNames[1]);
+        let authorName = $(ev.target).parent().find('h2').html();
+        let author = data.authors.find(x => { return `${x.firstName} ${x.lastName}` === authorName;});
 
         $('#author-img').attr('src', author.picture._downloadURL);
         $('#author-info .author-content h2').html(`${author.firstName} ${author.lastName}`);
@@ -118,7 +118,6 @@ function loadModalEvents(data){
 }
 
 function loadHomePageEvents(data) {
-    loadModalEvents(data);
     let promise = new Promise((resolve, reject) => {
     resolve(data);
     })
@@ -128,6 +127,7 @@ function loadHomePageEvents(data) {
 
 
 function loadAuthorsPageEvents(data) {
+  console.log(data);
     $('#no-results-paragraph').hide();
     $('#search-author-button').on('click', function(ev) {
 

@@ -35,8 +35,10 @@ function loadUserHomePage(template, data) {
 function loadAuthorsPage(template, data) {
     let promise = new Promise((resolve, reject) => {
         $(MAIN_SELECTOR).html(template(data));
-        resolve();
+        resolve(data);
     });
+
+    return promise;
 }
 
 function loadUserNavigation(template) {
@@ -69,6 +71,15 @@ function loadProfilePage(template, data) {
     return promise;
 }
 
+function loadModal(template) {
+  console.log(template);
+    let promise = new Promise((resolve, reject) => {
+      $(MAIN_SELECTOR).append(template());
+      resolve();
+    });
+
+    return promise;
+}
 
 let pageLoader = {
     loadFrontPage,
@@ -77,7 +88,8 @@ let pageLoader = {
     loadUserHomePage,
     loadAuthorsPage,
     loadErrorPage,
-    loadProfilePage
+    loadProfilePage,
+    loadModal
 };
 
 export { pageLoader };

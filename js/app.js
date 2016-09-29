@@ -45,7 +45,14 @@ let app = new Sammy(function() {
             .then((auth) => { top5.authors = auth })
             .then(() => { return template.get('home-page') })
             .then(temp => pageLoader.loadUserHomePage(temp, top5))
+            .then(() => { return template.get('book-info-modal') })
+            .then((temp) => pageLoader.loadModal(temp))
+            .then(() => { return template.get('book-read-modal') })
+            .then((temp) => pageLoader.loadModal(temp))
+            .then(() => { return template.get('author-info-modal') })
+            .then((temp) => pageLoader.loadModal(temp))
             .then(() => eventLoader.loadHomePageEvents(top5))
+            .then((data) => eventLoader.loadModalEvents(data))
             .then((data) => eventLoader.loadBooksButtonEvent(data));
     });
 
@@ -62,6 +69,8 @@ let app = new Sammy(function() {
             .then((auth) => { data.authors = auth })
             .then(() => { return template.get('authors-page') })
             .then(temp => pageLoader.loadAuthorsPage(temp, data))
+            .then(() => { return template.get('author-info-modal') })
+            .then((temp) => pageLoader.loadModal(temp))
             .then(() => eventLoader.loadAuthorsPageEvents(data))
             .then((data) => eventLoader.loadModalEvents(data));
     });
@@ -79,6 +88,10 @@ let app = new Sammy(function() {
             .then((auth) => { data.books = auth })
             .then(() => { return template.get('books-page') })
             .then(temp => pageLoader.loadAuthorsPage(temp, data))
+            .then(() => { return template.get('book-info-modal') })
+            .then((temp) => pageLoader.loadModal(temp))
+            .then(() => { return template.get('book-read-modal') })
+            .then((temp) => pageLoader.loadModal(temp))
             .then(() => eventLoader.loadBooksPageEvents(data))
             .then((data) => eventLoader.loadModalEvents(data))
             .then((data) => eventLoader.loadBooksButtonEvent(data));
@@ -103,7 +116,12 @@ let app = new Sammy(function() {
             .then(() => console.log(userdata))
             .then(() => { return template.get('profile-page') })
             .then(temp => pageLoader.loadProfilePage(temp, userdata))
-            .then(() => eventLoader.loadProfilePageEvents(userdata));
+            .then(() => { return template.get('book-info-modal') })
+            .then((temp) => pageLoader.loadModal(temp))
+            .then(() => { return template.get('book-review-modal') })
+            .then((temp) => pageLoader.loadModal(temp))
+            .then(() => eventLoader.loadProfilePageEvents(userdata))
+            .then(() => eventLoader.loadModalEvents(data));
     })
 
     this.get(/.*/, function() {
