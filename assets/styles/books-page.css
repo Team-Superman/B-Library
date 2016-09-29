@@ -1,0 +1,14 @@
+.search-content {
+  padding-bottom: 15px;
+  margin: 20px;
+  border-radius: 10px;
+  border: 1px solid #dce4ec;
+}
+
+.search-group {
+  margin: 15px 0px;
+}
+
+.search-group > input {
+  margin-bottom: 10px;
+}

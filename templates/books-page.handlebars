@@ -1,59 +1,42 @@
-<div class="row">
-    <div class="col-md-6 portfolio-item" id="left-side-mainpage">
-        <div id="home-page-books" class="panel panel-primary">
-            <div class="panel-heading">
-                <h1 class="panel-title">Results</h1>
-            </div>
-            <div class="panel-body">
-                <div class="form-group">
-                    <label class="control-label">Search by Book title</label>
-                    <div class="input-group">
-                        <input class="form-control" id="book-title-search" type="text">
-                        <span class="input-group-btn">
-                        </span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Search by Book Genre</label>
-                    <div class="input-group">
-                        <input class="form-control" id="book-genre-search" type="text">
-                        <span class="input-group-btn">
-                        </span>
-                    </div>
-                </div>
-                <button class="btn btn-default" id="search-book-button" type="button">Search book</button>
-                <button class="btn btn-default" id="show-all-books" type="button">Show all books</button>
-            </div>
+<div class="row search-container">
+	<div class="col-xs-10 col-sm-10 col-md-3 col search-content">
+		<div class="profile-info">
+			<div class='col xs-11'>
+        <div class="form-group search-group">
+          <input class="form-control" id="focusedInput" type="text">
+          <a href="#" class="btn btn-primary btn-sm btn-block btn-responsive book-learn-more">Search</a>
         </div>
-    </div>
-    <div class="col-md-6 portfolio-item" id="left-side-mainpage">
-          <div id="home-page-books" class="panel panel-primary">
-              <div class="panel-heading">
-                  <h1 class="panel-title">Popular Books</h1>
+        <ul class="nav nav-pills nav-stacked">
+          <li><a href="#">Classics</a></li>
+          <li><a href="#">Fantasy</a></li>
+          <li><a href="#">Fiction</a></li>
+          <li><a href="#">Mystery</a></li>
+          <li><a href="#">Science Fiction</a></li>
+        </ul>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-10 col-sm-10 col-md-8 col search-content">
+      <div class="row collection-container">
+        {{#each firstBooks}}
+          <div id="book-field-{{@key}}" class="col-xs-6 col-md-3">
+            <div class="thumbnail" id="{{_id}}">
+              <h2 class="hidden-title">{{title}}</h2>
+              <img src="{{cover._downloadURL}}" alt="">
+              <div class="caption">
+                <p>
+                  <a href="#" class="btn btn-primary btn-sm btn-block btn-responsive book-learn-more" data-toggle="modal" data-target="#book-info">Learn more</a>
+                  <a href="#" class="btn btn-success btn-sm btn-block btn-responsive btn-sm mark-as-read" data-toggle="modal" data-target="#book-read">Mark as read</a>
+                </p>
               </div>
-              <div class="panel-body">
-                  <div class="alert alert-dismissible alert-warning" id="no-results-paragraph">
-                      <button type="button" class="close" data-dismiss="alert">&times;</button>
-                      <h4>No results found</h4>
-                      <p>Unfortunetly, we haven't that book.</p>
-                  </div>
-                  <div class="list-group">
-                      {{#each books}}
-                        <div class="row book-container" id="{{_id}}">
-                            <div class="col-sm-4">
-                              <img src="{{cover._downloadURL}}" alt="empty" class="img-responsive"/>
-                            </div>
-                            <div class="col-sm-8 book-content">
-                              <h2 id="book-title">{{title}}</h2>
-                              <p class="book-content-author">by {{author}}</p>
-                              <p class="book-content-rating"><b>Rating:</b> {{rating}}</p>
-                              <a href="#" class="btn btn-primary btn-sm book-learn-more" data-toggle="modal" data-target="#book-info"}>Learn more</a>
-                              <a href="#" class="btn btn-success btn-sm mark-as-read" data-toggle="modal" data-target="#book-read"}>Mark as read</a>
-                            </div>
-                        </div>
-                      {{/each}}
-                  </div>
-              </div>
+            </div>
           </div>
+        {{/each}}
       </div>
+    <ul class="pagination">
+      {{#for 1 totalBookPages 1}}
+        <li><a class="page" href="/" onclick="return false">{{this}}</a></li>
+      {{/for}}
+    </ul>
+  </div>
 </div>

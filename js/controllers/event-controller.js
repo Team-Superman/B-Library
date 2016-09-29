@@ -79,6 +79,9 @@ function loadUserNavigationEvents() {
 function loadModalEvents(data){
      $('.book-learn-more').on('click', function(ev) {
         let bookTitle = $(ev.target).parent().find('h2').html();
+        if(!bookTitle){
+          bookTitle = $(ev.target).parents().eq(2).find('h2').html();
+        }
         let book = data.books.find(x => x.title === bookTitle);
 
         $('#book-img').attr('src', book.cover._downloadURL);
@@ -93,12 +96,19 @@ function loadModalEvents(data){
 
     $('.mark-as-read').on('click', function(ev) {
         let bookTitle = $(ev.target).parent().find('h2').html();
+        if(!bookTitle){
+          bookTitle = $(ev.target).parents().eq(2).find('h2').html();
+        }
 
         $('#book-read').find('legend').html(bookTitle);
     });
 
     $('.author-learn-more').on('click', function(ev) {
         let authorName = $(ev.target).parent().find('h2').html();
+        if(!authorName){
+          authorName = $(ev.target).parents().eq(2).find('h2').html();
+        }
+        
         let author = data.authors.find(x => { return `${x.firstName} ${x.lastName}` === authorName;});
 
         $('#author-img').attr('src', author.picture._downloadURL);
@@ -125,70 +135,27 @@ function loadHomePageEvents(data) {
     return promise;
 }
 
-
 function loadAuthorsPageEvents(data) {
-  console.log(data);
-    $('#no-results-paragraph').hide();
-    $('#search-author-button').on('click', function(ev) {
 
-        let firstNameValue = $('#first-name-search').val();
-        let lastNameValue = $('#last-name-search').val();
-        //TODO:filter(x => x.firstName)
-
-        function searchByFirstName(firstNameValue) {
-            if (firstNameValue !== "") {
-                let newArray = data.authors.filter(x => x.firstName.indexOf(firstNameValue) >= 0);
-                if (newArray.length === 0) {
-                    $('#no-results-paragraph').show();
-                } else {
-                    $('#no-results-paragraph').hide();
-                }
-                newArray.forEach(function(element) {
-                    $(`#${element._id}`).show();
-                });
-            }
-        }
-
-        function searchByLastName(lastNameValue) {
-            if (lastNameValue !== "") {
-                let newArray = data.authors.filter(x => x.lastName.indexOf(lastNameValue) >= 0);
-                if (newArray.length === 0) {
-                    $('#no-results-paragraph').show();
-                } else {
-                    $('#no-results-paragraph').hide();
-                }
-                newArray.forEach(function(element) {
-                    $(`#${element._id}`).show();
-                });
-            }
-        }
-
-
-        searchByFirstName(firstNameValue);
-        searchByLastName(lastNameValue);
+  $('.page').on('click', function(ev) {
+      let $this = $(ev.target);
+      let pageNumber = $this.html();
+      let startIndex = (pageNumber * 4) - 4;
+      for (let i = startIndex; i < startIndex + 4; i += 1) {
+              let fieldID = `#author-field-${i - startIndex}`;
+              let selectorCover = `${fieldID} .thumbnail img`;
+              let selectorHiddenTitle = `${fieldID} .thumbnail h2`;
+              if (data.authors[i]) {
+                  $(selectorCover).attr('src', data.authors[i].picture._downloadURL)
+                  $(selectorHiddenTitle).html(`${data.authors[i].firstName} ${data.authors[i].lastName}`);
+                  $(fieldID).show();
+              } else {
+                  $(fieldID).hide();
+              }
+      };
     });
 
-    $('#first-name-search').on('input', function(ev) {
-        data.authors.forEach(function(element) {
-            $(`#${element._id}`).hide();
-        });
-
-        $('#search-name-change').text("Search Results");
-    });
-
-    $('#last-name-search').on('input', function() {
-        data.authors.forEach(function(element) {
-            $(`#${element._id}`).hide();
-        });
-
-        $('#search-name-change').text("Search Results");
-    });
-
-    $('#show-all-authors').on('click', function() {
-        data.authors.forEach(function(element) {
-            $(`#${element._id}`).show();
-        });
-    });
+    //New search approach
 
     let promise = new Promise((resolve, reject) => {
       resolve(data);
@@ -198,65 +165,25 @@ function loadAuthorsPageEvents(data) {
 }
 
 function loadBooksPageEvents(data) {
-
-    $('#no-results-paragraph').hide();
-    $('#search-book-button').on('click', function() {
-        let bookTitleValue = $('#book-title-search').val();
-        let bookGenreValue = $('#book-genre-search').val();
-
-        function searchByTitle(bookTitleValue) {
-            if (bookTitleValue !== "") {
-                let newArray = data.books.filter(x => x.title.indexOf(bookTitleValue) >= 0);
-                if (newArray.length === 0) {
-                    $('#no-results-paragraph').show();
-                } else {
-                    $('#no-results-paragraph').hide();
-                }
-                newArray.forEach(function(element) {
-                    $(`#${element._id}`).show();
-                });
-            }
-        }
-
-        function searchByGenre(bookGenreValue) {
-            if (bookGenreValue !== "") {
-                let newArray = data.books.filter(x => x.genre.indexOf(bookGenreValue) >= 0);
-                if (newArray.length === 0) {
-                    $('#no-results-paragraph').show();
-                } else {
-                    $('#no-results-paragraph').hide();
-                }
-                newArray.forEach(function(element) {
-                    $(`#${element._id}`).show();
-                });
-            }
-        }
-        searchByTitle(bookTitleValue);
-        searchByGenre(bookGenreValue);
-    })
-
-    $('#show-all-books').on('click', function() {
-        console.log(data.books);
-        data.books.forEach(function(element) {
-            $(`#${element._id}`).show();
-        });
+  $('.page').on('click', function(ev) {
+      let $this = $(ev.target);
+      let pageNumber = $this.html();
+      let startIndex = (pageNumber * 8) - 8;
+      for (let i = startIndex; i < startIndex + 8; i += 1) {
+              let fieldID = `#book-field-${i - startIndex}`;
+              let selectorCover = `${fieldID} .thumbnail img`;
+              let selectorHiddenTitle = `${fieldID} .thumbnail h2`;
+              if (data.books[i]) {
+                  $(selectorCover).attr('src', data.books[i].cover._downloadURL)
+                  $(selectorHiddenTitle).html(data.books[i].title);
+                  $(fieldID).show();
+              } else {
+                  $(fieldID).hide();
+              }
+      };
     });
 
-    $('#book-title-search').on('input', function(ev) {
-        data.books.forEach(function(element) {
-            $(`#${element._id}`).hide();
-        });
-
-        $('#search-name-change').text("Search Results");
-    });
-
-    $('#book-genre-search').on('input', function() {
-        data.books.forEach(function(element) {
-            $(`#${element._id}`).hide();
-        });
-
-        $('#search-name-change').text("Search Results");
-    });
+    //New search approach
 
     let promise = new Promise((resolve, reject) => {
       resolve(data);
@@ -326,8 +253,8 @@ function loadBooksButtonEvent(data) {
 function loadProfilePageEvents(data) {
     $('.page').on('click', function(ev) {
         let $this = $(ev.target);
-        let pageNumebr = $this.html();
-        let startIndex = (pageNumebr * 4) - 4;
+        let pageNumber = $this.html();
+        let startIndex = (pageNumber * 4) - 4;
 
         for (let i = startIndex; i < startIndex + 4; i += 1) {
             if ($this.parents('#read-books').length > 0) {

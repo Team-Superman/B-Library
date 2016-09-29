@@ -1,62 +1,35 @@
-<div class="row">
-    <div class="col-md-6 portfolio-item" id="left-side-mainpage">
-        <div id="home-page-books" class="panel panel-primary">
-            <div class="panel-heading">
-            <h1 class="panel-title">Results</h1>
-            </div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label class="control-label">Search by First Name</label>
-                            <div class="input-group">
-                                <input class="form-control" id="first-name-search" type="text">
-                                <span class="input-group-btn">
-                                </span>
-                            </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Search by Last Name</label>
-                        <div class="input-group">
-                        <input class="form-control" id="last-name-search" type="text">
-                        <span class="input-group-btn">
-                        <!--<button class="btn btn-default" type="button">Search</button>-->
-                        </span>
-                        </div>
-                    </div>
-                <button class="btn btn-default" id="search-author-button" type="button">Search</button>
-                <button class="btn btn-default" id="show-all-authors" type="button">Show all</button>
-            </div>
+<div class="row search-container">
+	<div class="col-xs-10 col-sm-10 col-md-3 col search-content">
+		<div class="profile-info">
+			<div class='col xs-11'>
+        <div class="form-group search-group">
+          <input class="form-control" id="focusedInput" type="text">
+          <a href="#" class="btn btn-primary btn-sm btn-block btn-responsive book-learn-more">Search</a>
         </div>
-    </div>
-
-    <div class="col-md-6 portfolio-item" id="left-side-mainpage">
-        <div id="home-page-authors" class="panel panel-primary">
-            <div class="panel-heading">
-                <h1 class="panel-title" id="search-name-change">Popular Authors</h1>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-10 col-sm-10 col-md-8 col search-content">
+      <div class="row collection-container">
+        {{#each firstAuthors}}
+          <div id="author-field-{{@key}}" class="col-xs-6 col-md-3">
+            <div class="thumbnail" id="{{_id}}">
+              <h2 class="hidden-title">{{firstName}} {{lastName}}</h2>
+              <img src="{{picture._downloadURL}}" alt="">
+              <div class="caption">
+                <p>
+                  <a href="#" class="btn btn-primary btn-sm btn-block btn-responsive author-learn-more" data-toggle="modal" data-target="#author-info">Learn more</a>
+                  <a href="#" class="btn btn-success btn-sm btn-block btn-responsive btn-sm">Mark as read</a>
+                </p>
+              </div>
             </div>
-            <div class="panel-body">
-                <div class="list-group">
-                    <div class="alert alert-dismissible alert-warning" id="no-results-paragraph">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <h4>No results found</h4>
-                        <p>Unfortunetly, we haven't author with this name.</p>
-                    </div>
-                    <div class="list-group">
-                        {{#each authors}}
-                          <div class="row author-container" id="{{_id}}">
-                              <div class="col-sm-4">
-                                <img src="{{picture._downloadURL}}" alt="empty" class="img-responsive"/>
-                              </div>
-                              <div class="col-sm-8 author-content">
-                                <h2>{{firstName}} {{lastName}}</h2>
-                                <p class="author-content-genre"><b>Genre:</b> {{genre}}</p>
-                                <p class="author-content-favorite"><b>Added as favorite</b>: {{amountOfFavorites}}</p>
-                                <a href="#" class="btn btn-primary btn-sm author-learn-more" data-toggle="modal" data-target="#author-info">Learn more</a>
-                                <a href="#" class="btn btn-success btn-sm">Add to favorites</a>
-                              </div>
-                          </div>
-                        {{/each}}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+          </div>
+        {{/each}}
+      </div>
+    <ul class="pagination">
+      {{#for 1 totalAuthorPages 1}}
+        <li><a class="page" href="/" onclick="return false">{{this}}</a></li>
+      {{/for}}
+    </ul>
+  </div>
+</div>

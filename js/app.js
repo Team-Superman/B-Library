@@ -66,7 +66,11 @@ let app = new Sammy(function() {
         let head = header.getHeader(true, false);
 
         request.get(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/authors`, head)
-            .then((auth) => { data.authors = auth })
+            .then((auth) => {
+              data.authors = auth;
+              data.firstAuthors = auth.slice(0, 4);
+              data.totalAuthorPages = auth.length / 4;
+            })
             .then(() => { return template.get('authors-page') })
             .then(temp => pageLoader.loadAuthorsPage(temp, data))
             .then(() => { return template.get('author-info-modal') })
@@ -85,7 +89,11 @@ let app = new Sammy(function() {
         let head = header.getHeader(true, false);
 
         request.get(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/books`, head)
-            .then((auth) => { data.books = auth })
+            .then((books) => {
+              data.books = books;
+              data.firstBooks = books.slice(0, 8);
+              data.totalBookPages = books.length / 8;
+            })
             .then(() => { return template.get('books-page') })
             .then(temp => pageLoader.loadAuthorsPage(temp, data))
             .then(() => { return template.get('book-info-modal') })
