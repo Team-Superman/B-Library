@@ -123,15 +123,14 @@ let app = new Sammy(function() {
                 userdata.totalBookPages = userdata.readBooks.length / 4;
                 userdata.totalAuthorsPages = userdata.favoriteAuthors.length / 4;
             })
-            .then(() => console.log(userdata))
             .then(() => { return template.get('profile-page') })
             .then(temp => pageLoader.loadProfilePage(temp, userdata))
             .then(() => { return template.get('book-info-modal') })
             .then((temp) => pageLoader.loadModal(temp))
             .then(() => { return template.get('book-review-modal') })
             .then((temp) => pageLoader.loadModal(temp))
-            .then(() => eventLoader.loadProfilePageEvents(userdata))
-            .then(() => eventLoader.loadModalEvents(data));
+            .then(() => eventLoader.loadProfilePageEvents(userdata));
+            //.then(() => eventLoader.loadModalEvents(data));
     })
 
     this.get(/.*/, function() {

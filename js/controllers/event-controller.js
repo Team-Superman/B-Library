@@ -276,7 +276,11 @@ function loadAuthorButtonEvent(data) {
         .then((user) => {
           let amountOfFavoriteAuthors = Object.keys(user.favoriteAuthors).length;
           let nextPropertyKey = (amountOfFavoriteAuthors + 1).toString();
-          user.favoriteAuthors[nextPropertyKey] = author;
+          user.favoriteAuthors[nextPropertyKey] = {
+            '_type': "KinveyRef",
+            '_id': author._id,
+            '_collection': "books"
+          }
 
           return request.put(`https://baas.kinvey.com/user/${kinveyUrls.KINVEY_APP_ID}/${localStorage.USER_ID}`, head, user);
         })
@@ -316,6 +320,7 @@ function loadProfilePageEvents(data) {
                 }
 
             } else {
+                console.log(data.favoriteAuthors[i]);
                 let fieldID = `#author-field-${i - startIndex}`;
                 let selector = `${fieldID} .thumbnail img`
                 if (data.favoriteAuthors[i]) {

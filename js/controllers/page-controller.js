@@ -73,7 +73,6 @@ function loadProfilePage(template, data) {
 }
 
 function loadModal(template) {
-  console.log(template);
     let promise = new Promise((resolve, reject) => {
       $(MAIN_SELECTOR).append(template());
       resolve();
