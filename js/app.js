@@ -68,9 +68,9 @@ let app = new Sammy(function() {
 
         request.get(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/authors`, head)
             .then((auth) => {
-              data.authors = auth;
-              data.firstAuthors = auth.slice(0, 4);
-              data.totalAuthorPages = auth.length / 4;
+                data.authors = auth;
+                data.firstAuthors = auth.slice(0, 4);
+                data.totalAuthorPages = auth.length / 4;
             })
             .then(() => { return template.get('authors-page') })
             .then(temp => pageLoader.loadAuthorsPage(temp, data))
@@ -92,9 +92,9 @@ let app = new Sammy(function() {
 
         request.get(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/books`, head)
             .then((books) => {
-              data.books = books;
-              data.firstBooks = books.slice(0, 8);
-              data.totalBookPages = books.length / 8;
+                data.books = books;
+                data.firstBooks = books.slice(0, 8);
+                data.totalBookPages = books.length / 8;
             })
             .then(() => { return template.get('books-page') })
             .then(temp => pageLoader.loadAuthorsPage(temp, data))
@@ -107,9 +107,19 @@ let app = new Sammy(function() {
             .then((data) => eventLoader.loadBooksButtonEvent(data));
     })
 
-    // this.get(appUrls.COMMUNITY_URL, function() {
+    this.get(appUrls.COMMUNITY_URL, function() {
+        if (!localStorage.AUTH_TOKEN) {
+            this.redirect(appUrls.MAIN_URL);
+            return;
+        }
 
-    // })
+        template.get('community-page')
+            .then((temp) => {
+                pageLoader.loadCommunityPage(temp);
+                console.log(temp);
+            });
+
+    })
 
     this.get(appUrls.PROFILE_URL, function() {
         let username = localStorage.getItem('USER_NAME')
@@ -130,7 +140,7 @@ let app = new Sammy(function() {
             .then(() => { return template.get('book-review-modal') })
             .then((temp) => pageLoader.loadModal(temp))
             .then(() => eventLoader.loadProfilePageEvents(userdata));
-            //.then(() => eventLoader.loadModalEvents(data));
+        //.then(() => eventLoader.loadModalEvents(data));
     })
 
     this.get(/.*/, function() {
