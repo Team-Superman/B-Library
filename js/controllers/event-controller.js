@@ -145,9 +145,11 @@ function loadAuthorsPageEvents(data) {
               let fieldID = `#author-field-${i - startIndex}`;
               let selectorCover = `${fieldID} .thumbnail img`;
               let selectorHiddenTitle = `${fieldID} .thumbnail h2`;
+              let selectorAnchor = `${fieldID} .thumbnail a `
               if (data.authors[i]) {
                   $(selectorCover).attr('src', data.authors[i].picture._downloadURL)
                   $(selectorHiddenTitle).html(`${data.authors[i].firstName} ${data.authors[i].lastName}`);
+                  $(selectorAnchor).attr('href', `#/authors/${data.authors[i]._id}`);
                   $(fieldID).show();
               } else {
                   $(fieldID).hide();
@@ -271,24 +273,25 @@ function loadAuthorButtonEvent(data) {
       let head = header.getHeader(true, false);
       request.put(`${kinveyUrls.KINVEY_AUTHORS_URL}/${author._id}`, head, author)
         .then(() => {
-          return request.get(`${kinveyUrls.KINVEY_USER_URL}/?pattern=${localStorage.USER_NAME}&resolve_depth=5&retainReferences=false`, head);
+          return request.get(`${kinveyUrls.KINVEY_USER_URL}/?pattern=${localStorage.USER_NAME}`, head);
         })
         .then((users) => {
           let newUser = users[0];
-
+          console.log(newUser);
           let favAuthor = {
             '_type': "KinveyRef",
             '_id': author._id,
             '_collection': "books"
           }
 
-          head['Custom-Add-Author'] = 'true';
+          head['custom-author'] = 'true';
 
           newUser.favoriteAuthors.push(favAuthor);
 
           return request.put(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head, newUser);
         })
         .then((response) => {
+          console.log(response);
           notifier.show('Author added successfully', 'success');
         })
         .catch((err) => {
@@ -306,6 +309,7 @@ function loadAuthorButtonEvent(data) {
 };
 
 function loadProfilePageEvents(data) {
+  console.log(data);
     $('.page').on('click', function(ev) {
         let $this = $(ev.target);
         let pageNumber = $this.html();
@@ -327,9 +331,11 @@ function loadProfilePageEvents(data) {
             } else {
                 console.log(data.favoriteAuthors[i]);
                 let fieldID = `#author-field-${i - startIndex}`;
-                let selector = `${fieldID} .thumbnail img`
+                let selector = `${fieldID} .thumbnail img`;
+                let selectorAnchor = `${fieldID} .thumbnail a`;
                 if (data.favoriteAuthors[i]) {
                     $(selector).attr('src', data.favoriteAuthors[i].picture._downloadURL);
+                    $(selectorAnchor).attr('href', `#/authors/${data.favoriteAuthors[i]._id}`);
                     $(fieldID).show();
                 } else {
                     $(fieldID).hide();

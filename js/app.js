@@ -81,6 +81,7 @@ let app = new Sammy(function() {
             .then((data) => eventLoader.loadModalEvents(data));
     });
 
+<<<<<<< HEAD
     this.get(`${appUrls.AUTHORS_URL}/:id`, function() {
         if (!localStorage.AUTH_TOKEN) {
             this.redirect(appUrls.MAIN_URL);
@@ -107,6 +108,40 @@ let app = new Sammy(function() {
             .then((temp) => pageLoader.loadAuthorBooksPage(temp, data))
             .then(() => eventLoader.loadAuthorButtonEvent(data));
         //.catch(() => this.redirect(appUrls.BOOK_ERROR_URL));
+=======
+    this.get(`${appUrls.AUTHORS_URL}/:id`, function(){
+      if (!localStorage.AUTH_TOKEN) {
+          this.redirect(appUrls.MAIN_URL);
+          return;
+      }
+
+      let head = header.getHeader(true, false);
+
+      let data = {
+        'authors': [],
+      };
+
+      request.get(`${kinveyUrls.KINVEY_AUTHORS_URL}/${this.params.id}?resolve_depth=3&retainReferences=false`, head)
+        .then((author) => {
+          data.authors.push(author);
+          data.books = author.listOfBooks.books;
+          data.firstBooks = author.listOfBooks.books.slice(0, 4);
+          data.totalBookPages = author.listOfBooks.books.length / 4;
+          console.log(data);
+         })
+        .then(() => { return template.get('author-single-page')})
+        .then((temp) => pageLoader.loadPage(temp, data))
+        .then(() => { return template.get('author-single-page-books') })
+        .then((temp) => pageLoader.loadAuthorBooksPage(temp, data))
+        .then(() => { return template.get('book-info-modal') })
+        .then((temp) => pageLoader.loadModal(temp))
+        .then(() => { return template.get('book-read-modal') })
+        .then((temp) => pageLoader.loadModal(temp))
+        .then(() => eventLoader.loadAuthorButtonEvent(data))
+        .then(() => eventLoader.loadModalEvents(data))
+        .then(() => eventLoader.loadBooksButtonEvent(data))
+        .catch(() => this.redirect(appUrls.AUTHOR_ERROR_URL));
+>>>>>>> 69e4698791e7b07711f210a02e10b94b6eac70dd
     })
 
     this.get(appUrls.BOOKS_URL, function() {

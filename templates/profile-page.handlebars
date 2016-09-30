@@ -46,7 +46,9 @@
 						{{#each firstAuthors}}
 					  <div id="author-field-{{@key}}" class="col-xs-6 col-md-3">
 					    <div class="thumbnail">
-								<img src="{{picture._downloadURL}}" alt="">
+	              <a href="#/authors/{{_id}}">
+									<img src="{{picture._downloadURL}}" alt="">
+								</a>
 					      <div class="caption">
 					        <p>
 										<a href="#" class="btn btn-primary btn-sm btn-block btn-responsive">Learn more</a>
