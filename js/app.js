@@ -81,7 +81,6 @@ let app = new Sammy(function() {
             .then((data) => eventLoader.loadModalEvents(data));
     });
 
-<<<<<<< HEAD
     this.get(`${appUrls.AUTHORS_URL}/:id`, function() {
         if (!localStorage.AUTH_TOKEN) {
             this.redirect(appUrls.MAIN_URL);
@@ -108,7 +107,7 @@ let app = new Sammy(function() {
             .then((temp) => pageLoader.loadAuthorBooksPage(temp, data))
             .then(() => eventLoader.loadAuthorButtonEvent(data));
         //.catch(() => this.redirect(appUrls.BOOK_ERROR_URL));
-=======
+    });
     this.get(`${appUrls.AUTHORS_URL}/:id`, function(){
       if (!localStorage.AUTH_TOKEN) {
           this.redirect(appUrls.MAIN_URL);
@@ -141,7 +140,6 @@ let app = new Sammy(function() {
         .then(() => eventLoader.loadModalEvents(data))
         .then(() => eventLoader.loadBooksButtonEvent(data))
         .catch(() => this.redirect(appUrls.AUTHOR_ERROR_URL));
->>>>>>> 69e4698791e7b07711f210a02e10b94b6eac70dd
     })
 
     this.get(appUrls.BOOKS_URL, function() {
