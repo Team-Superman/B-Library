@@ -81,6 +81,26 @@ let app = new Sammy(function() {
             .then((data) => eventLoader.loadModalEvents(data));
     });
 
+    this.get(`${appUrls.AUTHORS_URL}/:id`, function(){
+      if (!localStorage.AUTH_TOKEN) {
+          this.redirect(appUrls.MAIN_URL);
+          return;
+      }
+
+      let head = header.getHeader(true, false);
+
+      let data = {
+        'authors': [],
+      };
+
+      request.get(`${kinveyUrls.KINVEY_AUTHORS_URL}/${this.params.id}?resolve_depth=3&retainReferences=false`, head)
+        .then((author) => { data.authors.push(author); console.log(data); })
+        .then(() => { return template.get('author-single-page')})
+        .then((temp) => pageLoader.loadPage(temp, data))
+        .then(() => eventLoader.loadAuthorButtonEvent(data));
+        //.catch(() => this.redirect(appUrls.BOOK_ERROR_URL));
+    })
+
     this.get(appUrls.BOOKS_URL, function() {
         if (!localStorage.AUTH_TOKEN) {
             this.redirect(appUrls.MAIN_URL);

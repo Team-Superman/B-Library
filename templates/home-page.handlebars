@@ -38,7 +38,9 @@
                         {{#each authors}}
                           <div class="row author-container">
                               <div class="col-sm-4">
-                                <img src="{{picture._downloadURL}}" alt="empty" class="img-responsive"/>
+                                <a href="#/authors/{{_id}}">
+                                  <img src="{{picture._downloadURL}}" alt="empty" class="img-responsive"/>
+                                </a>
                               </div>
                               <div class="col-sm-8 author-content">
                                 <h2>{{firstName}} {{lastName}}</h2>

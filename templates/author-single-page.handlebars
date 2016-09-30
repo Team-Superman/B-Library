@@ -1,0 +1,28 @@
+{{#each authors}}
+<div class="row">
+  <div class="col-sm-10 col-centered">
+    <div class="row single-author-container">
+        <div class="col-sm-4">
+          <a href="#/authors/{{_id}}">
+          <img src="{{picture._downloadURL}}" alt="empty" class="img-responsive"/>
+          </a>
+        </div>
+        <div class="col-sm-8 book-content">
+          <h2 id="book-title">{{firstName}} {{lastName}}</h2>
+          <p class="author-content-genre"><b>Genre:</b> {{genre}}</p>
+          <p class="author-content-birth-date"><b>Date of birth:</b> {{dateOfBirth}}</p>
+          <p class="author-content-birth-place"><b>Place of birth:</b> {{born}}</p>
+          <textarea readonly class="form-control book-content-description">{{description}}</textarea>
+          <a href="#/authors/{{_id}}" class="btn btn-success btn-sm author-add-favorite pull-right">Add to favorites</a>
+        </div>
+    </div>
+  </div>
+  <div class="row single-author-container">
+    <div class="col-sm-10 col-centered">
+      {{#each listOfBooks.books}}
+      <a href="#/books/{{_id}}">{{title}}</a>
+      {{/each}}
+    </div>
+  </div>
+</div>
+{{/each}}

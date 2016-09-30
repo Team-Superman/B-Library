@@ -1,0 +1,33 @@
+.single-author-container {
+  margin: 20px;
+  border-radius: 10px;
+  border: 1px solid #dce4ec;
+  padding-bottom: 15px;
+}
+
+.single-author-container img {
+  margin-top: 15px;
+}
+
+.single-author-container h2 {
+  margin-top: 15px;
+}
+
+.single-author-container p {
+  margin: 5px 0px;
+}
+
+.single-author-container textarea {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  height: 350px;
+}
+
+.single-author-container .author-add-favorite {
+  margin-top: 10px;
+}
+
+.col-centered {
+    float: none;
+    margin: 0 auto;
+}
