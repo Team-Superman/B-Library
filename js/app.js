@@ -81,23 +81,26 @@ let app = new Sammy(function() {
             .then((data) => eventLoader.loadModalEvents(data));
     });
 
-    this.get(`${appUrls.AUTHORS_URL}/:id`, function(){
-      if (!localStorage.AUTH_TOKEN) {
-          this.redirect(appUrls.MAIN_URL);
-          return;
-      }
+    this.get(`${appUrls.AUTHORS_URL}/:id`, function() {
+        if (!localStorage.AUTH_TOKEN) {
+            this.redirect(appUrls.MAIN_URL);
+            return;
+        }
 
-      let head = header.getHeader(true, false);
+        let head = header.getHeader(true, false);
 
-      let data = {
-        'authors': [],
-      };
+        let data = {
+            'authors': [],
+        };
 
-      request.get(`${kinveyUrls.KINVEY_AUTHORS_URL}/${this.params.id}?resolve_depth=3&retainReferences=false`, head)
-        .then((author) => { data.authors.push(author); console.log(data); })
-        .then(() => { return template.get('author-single-page')})
-        .then((temp) => pageLoader.loadPage(temp, data))
-        .then(() => eventLoader.loadAuthorButtonEvent(data));
+        request.get(`${kinveyUrls.KINVEY_AUTHORS_URL}/${this.params.id}?resolve_depth=3&retainReferences=false`, head)
+            .then((author) => {
+                data.authors.push(author);
+                console.log(data);
+            })
+            .then(() => { return template.get('author-single-page') })
+            .then((temp) => pageLoader.loadPage(temp, data))
+            .then(() => eventLoader.loadAuthorButtonEvent(data));
         //.catch(() => this.redirect(appUrls.BOOK_ERROR_URL));
     })
 
@@ -127,27 +130,27 @@ let app = new Sammy(function() {
             .then((data) => eventLoader.loadBooksButtonEvent(data));
     })
 
-    this.get(`${appUrls.BOOKS_URL}/:id`, function(){
-      if (!localStorage.AUTH_TOKEN) {
-          this.redirect(appUrls.MAIN_URL);
-          return;
-      }
+    this.get(`${appUrls.BOOKS_URL}/:id`, function() {
+        if (!localStorage.AUTH_TOKEN) {
+            this.redirect(appUrls.MAIN_URL);
+            return;
+        }
 
-      let head = header.getHeader(true, false);
+        let head = header.getHeader(true, false);
 
-      let data = {
-        'books': [],
-      };
+        let data = {
+            'books': [],
+        };
 
-      request.get(`${kinveyUrls.KINVEY_BOOKS_URL}/${this.params.id}`, head)
-        .then((book) => { data.books.push(book); })
-        .then(() => { return template.get('book-single-page')})
-        .then((temp) => pageLoader.loadPage(temp, data))
-        .then(() => { return template.get('book-read-modal') })
-        .then((temp) => pageLoader.loadModal(temp))
-        .then(() => eventLoader.loadModalEvents(data))
-        .then(() => eventLoader.loadBooksButtonEvent(data))
-        .catch(() => this.redirect(appUrls.BOOK_ERROR_URL));
+        request.get(`${kinveyUrls.KINVEY_BOOKS_URL}/${this.params.id}`, head)
+            .then((book) => { data.books.push(book); })
+            .then(() => { return template.get('book-single-page') })
+            .then((temp) => pageLoader.loadPage(temp, data))
+            .then(() => { return template.get('book-read-modal') })
+            .then((temp) => pageLoader.loadModal(temp))
+            .then(() => eventLoader.loadModalEvents(data))
+            .then(() => eventLoader.loadBooksButtonEvent(data))
+            .catch(() => this.redirect(appUrls.BOOK_ERROR_URL));
     })
 
     this.get(appUrls.COMMUNITY_URL, function() {
@@ -195,7 +198,7 @@ let app = new Sammy(function() {
         }
 
         template.get('error-page')
-          .then((temp) => pageLoader.loadPage(temp));
+            .then((temp) => pageLoader.loadPage(temp));
 
     });
 

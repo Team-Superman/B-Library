@@ -76,11 +76,11 @@ function loadUserNavigationEvents() {
     });
 }
 
-function loadModalEvents(data){
-     $('.book-learn-more').on('click', function(ev) {
+function loadModalEvents(data) {
+    $('.book-learn-more').on('click', function(ev) {
         let bookTitle = $(ev.target).parent().find('h2').html();
-        if(!bookTitle){
-          bookTitle = $(ev.target).parents().eq(2).find('h2').html();
+        if (!bookTitle) {
+            bookTitle = $(ev.target).parents().eq(2).find('h2').html();
         }
         let book = data.books.find(x => x.title === bookTitle);
 
@@ -96,8 +96,8 @@ function loadModalEvents(data){
 
     $('.mark-as-read').on('click', function(ev) {
         let bookTitle = $(ev.target).parent().find('h2').html();
-        if(!bookTitle){
-          bookTitle = $(ev.target).parents().eq(2).find('h2').html();
+        if (!bookTitle) {
+            bookTitle = $(ev.target).parents().eq(2).find('h2').html();
         }
 
         $('#book-read').find('legend').html(bookTitle);
@@ -105,11 +105,11 @@ function loadModalEvents(data){
 
     $('.author-learn-more').on('click', function(ev) {
         let authorName = $(ev.target).parent().find('h2').html();
-        if(!authorName){
-          authorName = $(ev.target).parents().eq(2).find('h2').html();
+        if (!authorName) {
+            authorName = $(ev.target).parents().eq(2).find('h2').html();
         }
 
-        let author = data.authors.find(x => { return `${x.firstName} ${x.lastName}` === authorName;});
+        let author = data.authors.find(x => { return `${x.firstName} ${x.lastName}` === authorName; });
 
         $('#author-img').attr('src', author.picture._downloadURL);
         $('#author-info .author-content h2').html(`${author.firstName} ${author.lastName}`);
@@ -129,7 +129,7 @@ function loadModalEvents(data){
 
 function loadHomePageEvents(data) {
     let promise = new Promise((resolve, reject) => {
-    resolve(data);
+        resolve(data);
     })
 
     return promise;
@@ -137,56 +137,56 @@ function loadHomePageEvents(data) {
 
 function loadAuthorsPageEvents(data) {
 
-  $('.page').on('click', function(ev) {
-      let $this = $(ev.target);
-      let pageNumber = $this.html();
-      let startIndex = (pageNumber * 4) - 4;
-      for (let i = startIndex; i < startIndex + 4; i += 1) {
-              let fieldID = `#author-field-${i - startIndex}`;
-              let selectorCover = `${fieldID} .thumbnail img`;
-              let selectorHiddenTitle = `${fieldID} .thumbnail h2`;
-              if (data.authors[i]) {
-                  $(selectorCover).attr('src', data.authors[i].picture._downloadURL)
-                  $(selectorHiddenTitle).html(`${data.authors[i].firstName} ${data.authors[i].lastName}`);
-                  $(fieldID).show();
-              } else {
-                  $(fieldID).hide();
-              }
-      };
+    $('.page').on('click', function(ev) {
+        let $this = $(ev.target);
+        let pageNumber = $this.html();
+        let startIndex = (pageNumber * 4) - 4;
+        for (let i = startIndex; i < startIndex + 4; i += 1) {
+            let fieldID = `#author-field-${i - startIndex}`;
+            let selectorCover = `${fieldID} .thumbnail img`;
+            let selectorHiddenTitle = `${fieldID} .thumbnail h2`;
+            if (data.authors[i]) {
+                $(selectorCover).attr('src', data.authors[i].picture._downloadURL)
+                $(selectorHiddenTitle).html(`${data.authors[i].firstName} ${data.authors[i].lastName}`);
+                $(fieldID).show();
+            } else {
+                $(fieldID).hide();
+            }
+        };
     });
 
     //New search approach
 
     let promise = new Promise((resolve, reject) => {
-      resolve(data);
+        resolve(data);
     });
 
     return promise;
 }
 
 function loadBooksPageEvents(data) {
-  $('.page').on('click', function(ev) {
-      let $this = $(ev.target);
-      let pageNumber = $this.html();
-      let startIndex = (pageNumber * 8) - 8;
-      for (let i = startIndex; i < startIndex + 8; i += 1) {
-              let fieldID = `#book-field-${i - startIndex}`;
-              let selectorCover = `${fieldID} .thumbnail img`;
-              let selectorHiddenTitle = `${fieldID} .thumbnail h2`;
-              if (data.books[i]) {
-                  $(selectorCover).attr('src', data.books[i].cover._downloadURL)
-                  $(selectorHiddenTitle).html(data.books[i].title);
-                  $(fieldID).show();
-              } else {
-                  $(fieldID).hide();
-              }
-      };
+    $('.page').on('click', function(ev) {
+        let $this = $(ev.target);
+        let pageNumber = $this.html();
+        let startIndex = (pageNumber * 8) - 8;
+        for (let i = startIndex; i < startIndex + 8; i += 1) {
+            let fieldID = `#book-field-${i - startIndex}`;
+            let selectorCover = `${fieldID} .thumbnail img`;
+            let selectorHiddenTitle = `${fieldID} .thumbnail h2`;
+            if (data.books[i]) {
+                $(selectorCover).attr('src', data.books[i].cover._downloadURL)
+                $(selectorHiddenTitle).html(data.books[i].title);
+                $(fieldID).show();
+            } else {
+                $(fieldID).hide();
+            }
+        };
     });
 
     //New search approach
 
     let promise = new Promise((resolve, reject) => {
-      resolve(data);
+        resolve(data);
     });
 
     return promise;
@@ -251,7 +251,7 @@ function loadBooksButtonEvent(data) {
     });
 
     let promise = new Promise((resolve, reject) => {
-      resolve(data);
+        resolve(data);
     });
 
     return promise;
@@ -259,42 +259,42 @@ function loadBooksButtonEvent(data) {
 
 function loadAuthorButtonEvent(data) {
     $('.author-add-favorite').on('click', function(ev) {
-      let authorName = $(ev.target).parent().eq(1).find('h2').html();
-      if(!authorName){
-        authorName = $(ev.target).parents().eq(2).find('h2').html();
-      }
+        let authorName = $(ev.target).parent().eq(1).find('h2').html();
+        if (!authorName) {
+            authorName = $(ev.target).parents().eq(2).find('h2').html();
+        }
 
-      let author = data.authors.find(x => { return `${x.firstName} ${x.lastName}` === authorName});
+        let author = data.authors.find(x => { return `${x.firstName} ${x.lastName}` === authorName });
 
-      author.amountOfFavorites += 1;
+        author.amountOfFavorites += 1;
 
-      let head = header.getHeader(true, false);
-      request.put(`${kinveyUrls.KINVEY_AUTHORS_URL}/${author._id}`, head, author)
-        .then(() => {
-          return request.get(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head)
-        })
-        .then((user) => {
-          let amountOfFavoriteAuthors = Object.keys(user.favoriteAuthors).length;
-          let nextPropertyKey = (amountOfFavoriteAuthors + 1).toString();
-          user.favoriteAuthors[nextPropertyKey] = {
-            '_type': "KinveyRef",
-            '_id': author._id,
-            '_collection': "books"
-          }
+        let head = header.getHeader(true, false);
+        request.put(`${kinveyUrls.KINVEY_AUTHORS_URL}/${author._id}`, head, author)
+            .then(() => {
+                return request.get(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head)
+            })
+            .then((user) => {
+                let amountOfFavoriteAuthors = Object.keys(user.favoriteAuthors).length;
+                let nextPropertyKey = (amountOfFavoriteAuthors + 1).toString();
+                user.favoriteAuthors[nextPropertyKey] = {
+                    '_type': "KinveyRef",
+                    '_id': author._id,
+                    '_collection': "books"
+                }
 
-          return request.put(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head, user);
-        })
-        .then((response) => {
-          notifier.show('Author added successfully', 'success');
-        })
-        .catch((err) => {
-          err = err.responseJSON.description;
-          notifier.show(err, 'error');
-        })
+                return request.put(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head, user);
+            })
+            .then((response) => {
+                notifier.show('Author added successfully', 'success');
+            })
+            .catch((err) => {
+                err = err.responseJSON.description;
+                notifier.show(err, 'error');
+            })
     });
 
-    let promise = new Promise((resolve, reject)=>{
-      resolve(data);
+    let promise = new Promise((resolve, reject) => {
+        resolve(data);
     })
 
     return promise;
@@ -320,7 +320,6 @@ function loadProfilePageEvents(data) {
                 }
 
             } else {
-                console.log(data.favoriteAuthors[i]);
                 let fieldID = `#author-field-${i - startIndex}`;
                 let selector = `${fieldID} .thumbnail img`
                 if (data.favoriteAuthors[i]) {
@@ -334,34 +333,34 @@ function loadProfilePageEvents(data) {
     });
 
     $('.book-learn-more').on('click', function(ev) {
-       let bookTitle = $(ev.target).parents().eq(2).find('h2').html();
+        let bookTitle = $(ev.target).parents().eq(2).find('h2').html();
 
-       let reviewedBook = data.readBooks.find(x => x.book.title === bookTitle);
-       let book = reviewedBook.book;
+        let reviewedBook = data.readBooks.find(x => x.book.title === bookTitle);
+        let book = reviewedBook.book;
 
-       $('#book-img').attr('src', book.cover._downloadURL);
-       $('#book-info .book-content h2').html(book.title);
-       $('#book-info .book-content .book-content-author').html(`by ${book.author}`);
-       $('#book-info .book-content .book-content-rating').html(`<b>Rating:</b> ${book.rating}`);
-       $('#book-info .book-content .book-content-publish-year').html(`<b>Published:</b> ${book.year}`);
-       $('#book-info .book-content .book-content-pages').html(`<b>Pages:</b> ${book.pages}`);
-       $('#book-info .book-content .book-content-isbn').html(`ISBN:</b> ${book.isbn}`);
-       $('#book-info .book-content .book-content-description').html(book.description);
-   });
+        $('#book-img').attr('src', book.cover._downloadURL);
+        $('#book-info .book-content h2').html(book.title);
+        $('#book-info .book-content .book-content-author').html(`by ${book.author}`);
+        $('#book-info .book-content .book-content-rating').html(`<b>Rating:</b> ${book.rating}`);
+        $('#book-info .book-content .book-content-publish-year').html(`<b>Published:</b> ${book.year}`);
+        $('#book-info .book-content .book-content-pages').html(`<b>Pages:</b> ${book.pages}`);
+        $('#book-info .book-content .book-content-isbn').html(`ISBN:</b> ${book.isbn}`);
+        $('#book-info .book-content .book-content-description').html(book.description);
+    });
 
-   $('.book-read-review').on('click', function(ev) {
-      let bookTitle = $(ev.target).parents().eq(2).find('h2').html();
+    $('.book-read-review').on('click', function(ev) {
+        let bookTitle = $(ev.target).parents().eq(2).find('h2').html();
 
-      let reviewedBook = data.readBooks.find(x => x.book.title === bookTitle);
+        let reviewedBook = data.readBooks.find(x => x.book.title === bookTitle);
 
-      $('#book-review-img').attr('src', reviewedBook.book.cover._downloadURL);
-      $('#book-review .book-content h2').html(reviewedBook.book.title);
-      $('#book-review .book-content .book-content-rating').html(`<b>Rating:</b> ${reviewedBook.rating}`);
-      $('#book-review .book-content .book-content-review').html(`${reviewedBook.review}`);
-  });
+        $('#book-review-img').attr('src', reviewedBook.book.cover._downloadURL);
+        $('#book-review .book-content h2').html(reviewedBook.book.title);
+        $('#book-review .book-content .book-content-rating').html(`<b>Rating:</b> ${reviewedBook.rating}`);
+        $('#book-review .book-content .book-content-review').html(`${reviewedBook.review}`);
+    });
 
     let promise = new Promise((resolve, reject) => {
-      resolve(data);
+        resolve(data);
     });
 
     return promise;
