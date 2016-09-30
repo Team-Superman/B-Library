@@ -42,11 +42,21 @@ function loadModal(template) {
     return promise;
 }
 
+function loadAuthorBooksPage(template, data){
+  let promise = new Promise((resolve, reject) => {
+    $('.single-author-container').append(template(data));
+    resolve();
+  })
+
+  return promise;
+}
+
 let pageLoader = {
     loadPage,
     loadFrontNavigation,
     loadUserNavigation,
-    loadModal
+    loadModal,
+    loadAuthorBooksPage
 };
 
 export { pageLoader };

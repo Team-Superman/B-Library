@@ -94,9 +94,17 @@ let app = new Sammy(function() {
       };
 
       request.get(`${kinveyUrls.KINVEY_AUTHORS_URL}/${this.params.id}?resolve_depth=3&retainReferences=false`, head)
-        .then((author) => { data.authors.push(author); console.log(data); })
+        .then((author) => {
+          data.authors.push(author);
+          data.books = author.listOfBooks.books;
+          data.firstBooks = author.listOfBooks.books.slice(0, 4);
+          data.totalBookPages = author.listOfBooks.books.length / 4;
+          console.log(data);
+         })
         .then(() => { return template.get('author-single-page')})
         .then((temp) => pageLoader.loadPage(temp, data))
+        .then(() => { return template.get('author-single-page-books') })
+        .then((temp) => pageLoader.loadAuthorBooksPage(temp, data))
         .then(() => eventLoader.loadAuthorButtonEvent(data));
         //.catch(() => this.redirect(appUrls.BOOK_ERROR_URL));
     })

@@ -271,24 +271,29 @@ function loadAuthorButtonEvent(data) {
       let head = header.getHeader(true, false);
       request.put(`${kinveyUrls.KINVEY_AUTHORS_URL}/${author._id}`, head, author)
         .then(() => {
-          return request.get(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head)
+          return request.get(`${kinveyUrls.KINVEY_USER_URL}/?pattern=${localStorage.USER_NAME}&resolve_depth=5&retainReferences=false`, head);
         })
-        .then((user) => {
-          let amountOfFavoriteAuthors = Object.keys(user.favoriteAuthors).length;
-          let nextPropertyKey = (amountOfFavoriteAuthors + 1).toString();
-          user.favoriteAuthors[nextPropertyKey] = {
+        .then((users) => {
+          let newUser = users[0];
+
+          let favAuthor = {
             '_type': "KinveyRef",
             '_id': author._id,
             '_collection': "books"
           }
 
-          return request.put(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head, user);
+          head['Custom-Add-Author'] = 'true';
+
+          newUser.favoriteAuthors.push(favAuthor);
+
+          return request.put(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head, newUser);
         })
         .then((response) => {
           notifier.show('Author added successfully', 'success');
         })
         .catch((err) => {
-          err = err.responseJSON.description;
+          console.log(err);
+          //err = err.responseJSON.description;
           notifier.show(err, 'error');
         })
     });
