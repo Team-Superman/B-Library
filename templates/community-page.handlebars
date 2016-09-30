@@ -35,12 +35,19 @@
                 </div>
 
                 <div class="users-info">
-                    {{#username}}
-                        <div class="profile-info">
-                            <div><b>First name:</b> {{firstName}}</div>
-                            <div><b>Last name:</b> {{lastName}}</div>
+                    {{#Users}}
+                        <div class="col-xs-10 col-sm-10 col-md-3 col profile-content">
+                            <img src="../assets/images/avatar.png" class="img-responsive img-circle" alt="">
+                            <div class="profile-info">
+                                <h2>{{username}}</h2>
+                                <div class='col xs-11 profile-details'>
+                                    <div><b>First name:</b> {{firstName}}</div>
+                                    <div><b>Last name:</b> {{lastName}}</div>
+                                    <div><b>Email address:</b> {{email}}</div>
+                                </div>
+                            </div>
                         </div>
-                    {{/username}}
+                    {{/Users}}
                 </div>
             </div>
         </div>
