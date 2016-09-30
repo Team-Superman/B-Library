@@ -108,11 +108,26 @@ let app = new Sammy(function() {
     })
 
     this.get(`${appUrls.BOOKS_URL}/:id`, function(){
+      if (!localStorage.AUTH_TOKEN) {
+          this.redirect(appUrls.MAIN_URL);
+          return;
+      }
 
       let head = header.getHeader(true, false);
 
+      let data = {
+        'books': [],
+      };
+
       request.get(`${kinveyUrls.KINVEY_BOOKS_URL}/${this.params.id}`, head)
-        .then();//(data) => pageLoader.loadPage());
+        .then((book) => { data.books.push(book); })
+        .then(() => { return template.get('book-single-page')})
+        .then((temp) => pageLoader.loadPage(temp, data))
+        .then(() => { return template.get('book-read-modal') })
+        .then((temp) => pageLoader.loadModal(temp))
+        .then(() => eventLoader.loadModalEvents(data))
+        .then(() => eventLoader.loadBooksButtonEvent(data))
+        .catch(() => this.redirect(appUrls.BOOK_ERROR_URL));
     })
 
     this.get(appUrls.COMMUNITY_URL, function() {
@@ -144,8 +159,8 @@ let app = new Sammy(function() {
             .then((temp) => pageLoader.loadModal(temp))
             .then(() => { return template.get('book-review-modal') })
             .then((temp) => pageLoader.loadModal(temp))
-            .then(() => eventLoader.loadProfilePageEvents(userdata));
-        //.then(() => eventLoader.loadModalEvents(data));
+            .then(() => eventLoader.loadProfilePageEvents(userdata))
+            .then(() => eventLoader.loadModalEvents(userdata));
     })
 
     this.get(/.*/, function() {

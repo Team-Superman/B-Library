@@ -5,7 +5,8 @@ const MAIN_URL = '#/',
     AUTHORS_URL = '#/authors',
     BOOKS_URL = '#/books',
     COMMUNITY_URL = '#/community',
-    PROFILE_URL = '#/profile';
+    PROFILE_URL = '#/profile',
+    BOOK_ERROR_URL = '#/book-not-found';
 
 let appUrls = {
     MAIN_URL,
@@ -13,7 +14,8 @@ let appUrls = {
     AUTHORS_URL,
     BOOKS_URL,
     COMMUNITY_URL,
-    PROFILE_URL
+    PROFILE_URL,
+    BOOK_ERROR_URL
 }
 
 export { appUrls }

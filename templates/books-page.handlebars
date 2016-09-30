@@ -22,7 +22,9 @@
           <div id="book-field-{{@key}}" class="col-xs-6 col-md-3">
             <div class="thumbnail" id="{{_id}}">
               <h2 class="hidden-title">{{title}}</h2>
-              <img src="{{cover._downloadURL}}" alt="">
+              <a href="#/books/{{_id}}">
+            		<img src="{{cover._downloadURL}}" alt="">
+							</a>
               <div class="caption">
                 <p>
                   <a href="#" class="btn btn-primary btn-sm btn-block btn-responsive book-learn-more" data-toggle="modal" data-target="#book-info">Learn more</a>
