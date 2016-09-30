@@ -10,7 +10,7 @@ import Sammy from 'sammy';
 
 function register(data) {
     let head = header.getHeader(false, true);
-    request.post(`https://baas.kinvey.com/user/${kinveyUrls.KINVEY_APP_ID}`, head, data)
+    request.post(`${kinveyUrls.KINVEY_USER_URL}`, head, data)
         .then(response => {
             notifier.show('SIGN UP SUCCESSFUL', 'success');
             let user = {
@@ -34,7 +34,7 @@ function login(user) {
 
         let head = header.getHeader(false, true);
 
-        request.post(`https://baas.kinvey.com/user/${kinveyUrls.KINVEY_APP_ID}/login`, head, data)
+        request.post(`${kinveyUrls.KINVEY_USER_URL}/login`, head, data)
             .then(response => {
                 localStorage.setItem('AUTH_TOKEN', response._kmd.authtoken);
                 localStorage.setItem('USER_NAME', response.username);

@@ -213,9 +213,9 @@ function loadBooksButtonEvent(data) {
         book.rating = newBookRating;
 
         let head = header.getHeader(true, false);
-        request.put(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/books/${book._id}`, head, book)
+        request.put(`${kinveyUrls.KINVEY_BOOKS_URL}/${book._id}`, head, book)
             .then(() => {
-                return request.get(`https://baas.kinvey.com/user/${kinveyUrls.KINVEY_APP_ID}/${localStorage.USER_ID}`, head)
+                return request.get(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head)
             })
             .then((user) => {
                 let readBook = {
@@ -228,7 +228,7 @@ function loadBooksButtonEvent(data) {
                     }
                 }
                 user.readBooks.push(readBook);
-                return request.put(`https://baas.kinvey.com/user/${kinveyUrls.KINVEY_APP_ID}/${localStorage.USER_ID}`, head, user);
+                return request.put(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head, user);
             })
             .then((response) => {
                 notifier.show('Book added successfully', 'success');
@@ -269,9 +269,9 @@ function loadAuthorButtonEvent(data) {
       author.amountOfFavorites += 1;
 
       let head = header.getHeader(true, false);
-      request.put(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/authors/${author._id}`, head, author)
+      request.put(`${kinveyUrls.KINVEY_AUTHORS_URL}/${author._id}`, head, author)
         .then(() => {
-          return request.get(`https://baas.kinvey.com/user/${kinveyUrls.KINVEY_APP_ID}/${localStorage.USER_ID}`, head)
+          return request.get(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head)
         })
         .then((user) => {
           let amountOfFavoriteAuthors = Object.keys(user.favoriteAuthors).length;
@@ -282,7 +282,7 @@ function loadAuthorButtonEvent(data) {
             '_collection': "books"
           }
 
-          return request.put(`https://baas.kinvey.com/user/${kinveyUrls.KINVEY_APP_ID}/${localStorage.USER_ID}`, head, user);
+          return request.put(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head, user);
         })
         .then((response) => {
           notifier.show('Author added successfully', 'success');

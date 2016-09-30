@@ -19,10 +19,10 @@ let app = new Sammy(function() {
         }
 
         template.get('front-navigation')
-            .then(temp => pageLoader.loadFrontNavigation(temp));
+            .then((temp) => pageLoader.loadFrontNavigation(temp));
 
         template.get('front-page')
-            .then(temp => pageLoader.loadFrontPage(temp))
+            .then((temp) => pageLoader.loadPage(temp))
             .then(() => eventLoader.loadFrontPageEvents());
     });
 
@@ -35,16 +35,16 @@ let app = new Sammy(function() {
         let top5 = {};
 
         template.get('user-navigation')
-            .then(temp => pageLoader.loadUserNavigation(temp))
+            .then((temp) => pageLoader.loadUserNavigation(temp))
             .then(() => eventLoader.loadUserNavigationEvents());
 
         let head = header.getHeader(true, false);
-        request.get(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/books/?query={}&limit=5&sort={"countRead": -1}`, head)
+        request.get(`${kinveyUrls.KINVEY_BOOKS_URL}/?query={}&limit=5&sort={"countRead": -1}`, head)
             .then((books) => { top5.books = books })
-            .then(() => { return request.get(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/authors?query={}&limit=5&sort={"amountOfFavorites": -1}`, head) })
+            .then(() => { return request.get(`${kinveyUrls.KINVEY_AUTHORS_URL}/?query={}&limit=5&sort={"amountOfFavorites": -1}`, head) })
             .then((auth) => { top5.authors = auth })
             .then(() => { return template.get('home-page') })
-            .then(temp => pageLoader.loadUserHomePage(temp, top5))
+            .then(temp => pageLoader.loadPage(temp, top5))
             .then(() => { return template.get('book-info-modal') })
             .then((temp) => pageLoader.loadModal(temp))
             .then(() => { return template.get('book-read-modal') })
@@ -66,14 +66,14 @@ let app = new Sammy(function() {
         let data = {};
         let head = header.getHeader(true, false);
 
-        request.get(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/authors`, head)
+        request.get(`${kinveyUrls.KINVEY_AUTHORS_URL}`, head)
             .then((auth) => {
                 data.authors = auth;
                 data.firstAuthors = auth.slice(0, 4);
                 data.totalAuthorPages = auth.length / 4;
             })
             .then(() => { return template.get('authors-page') })
-            .then(temp => pageLoader.loadAuthorsPage(temp, data))
+            .then((temp) => pageLoader.loadPage(temp, data))
             .then(() => { return template.get('author-info-modal') })
             .then((temp) => pageLoader.loadModal(temp))
             .then(() => eventLoader.loadAuthorsPageEvents(data))
@@ -90,14 +90,14 @@ let app = new Sammy(function() {
         let data = {};
         let head = header.getHeader(true, false);
 
-        request.get(`https://baas.kinvey.com/appdata/${kinveyUrls.KINVEY_APP_ID}/books`, head)
+        request.get(`${kinveyUrls.KINVEY_BOOKS_URL}`, head)
             .then((books) => {
                 data.books = books;
                 data.firstBooks = books.slice(0, 8);
                 data.totalBookPages = books.length / 8;
             })
             .then(() => { return template.get('books-page') })
-            .then(temp => pageLoader.loadAuthorsPage(temp, data))
+            .then((temp) => pageLoader.loadPage(temp, data))
             .then(() => { return template.get('book-info-modal') })
             .then((temp) => pageLoader.loadModal(temp))
             .then(() => { return template.get('book-read-modal') })
@@ -107,6 +107,14 @@ let app = new Sammy(function() {
             .then((data) => eventLoader.loadBooksButtonEvent(data));
     })
 
+    this.get(`${appUrls.BOOKS_URL}/:id`, function(){
+
+      let head = header.getHeader(true, false);
+
+      request.get(`${kinveyUrls.KINVEY_BOOKS_URL}/${this.params.id}`, head)
+        .then();//(data) => pageLoader.loadPage());
+    })
+
     this.get(appUrls.COMMUNITY_URL, function() {
         if (!localStorage.AUTH_TOKEN) {
             this.redirect(appUrls.MAIN_URL);
@@ -114,10 +122,7 @@ let app = new Sammy(function() {
         }
 
         template.get('community-page')
-            .then((temp) => {
-                pageLoader.loadCommunityPage(temp);
-                console.log(temp);
-            });
+            .then((temp) => { pageLoader.loadPage(temp); });
 
     })
 
@@ -125,7 +130,7 @@ let app = new Sammy(function() {
         let username = localStorage.getItem('USER_NAME')
         let userdata;
         let head = header.getHeader(true, false);
-        request.get(`https://baas.kinvey.com/user/${kinveyUrls.KINVEY_APP_ID}/?pattern=${username}&resolve_depth=5&retainReferences=false`, head)
+        request.get(`${kinveyUrls.KINVEY_USER_URL}/?pattern=${username}&resolve_depth=5&retainReferences=false`, head)
             .then((user) => {
                 userdata = user[0];
                 userdata.firstAuthors = userdata.favoriteAuthors.slice(0, 4);
@@ -134,7 +139,7 @@ let app = new Sammy(function() {
                 userdata.totalAuthorsPages = userdata.favoriteAuthors.length / 4;
             })
             .then(() => { return template.get('profile-page') })
-            .then(temp => pageLoader.loadProfilePage(temp, userdata))
+            .then((temp) => pageLoader.loadPage(temp, userdata))
             .then(() => { return template.get('book-info-modal') })
             .then((temp) => pageLoader.loadModal(temp))
             .then(() => { return template.get('book-review-modal') })
@@ -146,15 +151,16 @@ let app = new Sammy(function() {
     this.get(/.*/, function() {
         if (localStorage.AUTH_TOKEN) {
             template.get('user-navigation')
-                .then(temp => pageLoader.loadUserNavigation(temp))
+                .then((temp) => pageLoader.loadUserNavigation(temp))
                 .then(() => eventLoader.loadUserNavigationEvents());
         } else {
             template.get('front-navigation')
-                .then(temp => pageLoader.loadFrontNavigation(temp))
+                .then((temp) => pageLoader.loadFrontNavigation(temp))
                 .then(() => eventLoader.loadFrontPageEvents());
         }
 
-        pageLoader.loadErrorPage();
+        template.get('error-page')
+          .then((temp) => pageLoader.loadPage(temp));
 
     });
 

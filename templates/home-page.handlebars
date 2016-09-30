@@ -9,7 +9,9 @@
                         {{#each books}}
                           <div class="row book-container">
                               <div class="col-sm-4">
+                                <a href="#/books/{{_id}}">
                                 <img src="{{cover._downloadURL}}" alt="empty" class="img-responsive"/>
+                                </a>
                               </div>
                               <div class="col-sm-8 book-content">
                                 <h2 id="book-title">{{title}}</h2>

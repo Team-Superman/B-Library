@@ -5,9 +5,9 @@ import 'jquery';
 let NAV_SELECTOR = 'nav';
 let MAIN_SELECTOR = 'main'
 
-function loadFrontPage(template) {
+function loadPage(template, data) {
     let promise = new Promise((resolve, reject) => {
-        $(MAIN_SELECTOR).html(template());
+        $(MAIN_SELECTOR).html(template(data));
         resolve();
     });
 
@@ -23,51 +23,12 @@ function loadFrontNavigation(template) {
     return promise;
 }
 
-function loadUserHomePage(template, data) {
-    let promise = new Promise((resolve, reject) => {
-        $(MAIN_SELECTOR).html(template(data));
-        resolve();
-    });
-
-    return promise;
-}
-
-function loadAuthorsPage(template, data) {
-    console.log(data);
-    let promise = new Promise((resolve, reject) => {
-        $(MAIN_SELECTOR).html(template(data));
-        resolve(data);
-    });
-
-    return promise;
-}
-
 function loadUserNavigation(template) {
     let user = localStorage.getItem('USER_NAME');
     let promise = new Promise((resolve, reject) => {
         $(NAV_SELECTOR).html(template(user));
         resolve();
     });
-
-    return promise;
-}
-
-function loadErrorPage() {
-    let promise = new Promise((resolve, reject) => {
-        let errorBackground = $('<img/>').attr('src', '../../assets/images/error-page.jpg')
-            .attr('class', 'img-responsive');
-        $(MAIN_SELECTOR).html(errorBackground);
-        resolve();
-    });
-
-    return promise;
-}
-
-function loadProfilePage(template, data) {
-    let promise = new Promise((resolve, reject) => {
-        $(MAIN_SELECTOR).html(template(data));
-        resolve();
-    })
 
     return promise;
 }
@@ -81,25 +42,11 @@ function loadModal(template) {
     return promise;
 }
 
-function loadCommunityPage(template) {
-    let promise = new Promise((resolve, reject) => {
-        $(MAIN_SELECTOR).html(template());
-        resolve();
-    });
-
-    return promise;
-}
-
 let pageLoader = {
-    loadFrontPage,
+    loadPage,
     loadFrontNavigation,
     loadUserNavigation,
-    loadUserHomePage,
-    loadAuthorsPage,
-    loadErrorPage,
-    loadProfilePage,
-    loadModal,
-    loadCommunityPage
+    loadModal
 };
 
 export { pageLoader };
