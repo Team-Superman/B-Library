@@ -22,19 +22,16 @@ function getUserLoginDetails() {
 
 function loadFrontPageEvents() {
 
-    $('#sign-in-user').unbind('click');
     $('#sign-in-user').on('click', function(ev) {
         userModel.login(getUserLoginDetails());
     });
 
-    $('#login-password').unbind('keydown');
     $('#login-password').on('keydown', function(ev) {
         if (ev.which === 13) {
             userModel.login(getUserLoginDetails());
         }
     });
 
-    $('#input-confirm-password').unbind('input');
     $('#input-confirm-password').on('input', function(ev) {
         let $this = $(ev.target);
 
@@ -45,7 +42,6 @@ function loadFrontPageEvents() {
         }
     })
 
-    $('#input-password').unbind('input');
     $('#input-password').on('input', function(ev) {
         let $this = $(ev.target);
         let confirmPassword = $('#input-confirm-password')
@@ -56,16 +52,20 @@ function loadFrontPageEvents() {
         }
     })
 
-    $('#sign-up-user').unbind('click');
     $('#sign-up-user').on('click', function(ev) {
-
+        let randomAvatarNumber = Math.floor(Math.random() * 10)
         let user = {
             "username": $('#input-username').val(),
             "password": CryptoJS.SHA1($('#input-password').val()).toString(),
             "firstName": $('#input-first-name').val(),
             "lastName": $('#input-last-name').val(),
             "email": $('#input-email-address').val(),
-            "readBooks": []
+            "readBooks": [],
+            "avatar": {
+              "_type": "KinveyRef",
+              "_id": kinveyUrls.KINVEY_AVATAR_IDS[randomAvatarNumber],
+              "_collection": "avatars"
+            }
         };
 
         if (validator.validateNames(user.firstName, user.lastName) &&
@@ -78,7 +78,6 @@ function loadFrontPageEvents() {
 }
 
 function loadUserNavigationEvents() {
-    $('#sign-out-user').unbind('click');
     $('#sign-out-user').on('click', function(ev) {
         userModel.logout();
     });
@@ -146,7 +145,6 @@ function loadBookModalEvent(data) {
         $('#book-info .book-content .book-content-description').html(book.description);
     });
 
-    $('.mark-as-read').unbind('click');
     $('.mark-as-read').on('click', function(ev) {
         let bookTitle = $(ev.target).parent().find('h2').html();
         if (!bookTitle) {
@@ -179,7 +177,6 @@ function loadHomePageEvents(data) {
 function loadAuthorsPageEvents(data) {
     loadAuthorContainerEvents(data);
 
-    $('.btn-search').unbind('click');
     $('.btn-search').on('click', function(ev) {
         let matchedAuthors = {};
         let pattern = $('.input-author-search').val();
@@ -205,7 +202,7 @@ function loadAuthorsPageEvents(data) {
 }
 
 function loadBooksPageEvents(data) {
-    $('.page').unbind('click');
+
     $('.page').on('click', function(ev) {
         let $this = $(ev.target);
         let pageNumber = $this.html();
@@ -237,7 +234,7 @@ function loadBooksPageEvents(data) {
 }
 
 function loadBooksButtonEvent(data) {
-    $('.read-review').unbind('click');
+
     $('.read-review').on('click', function(ev) {
         let reviewModal = $(ev.target).parent().parent();
 
@@ -289,7 +286,7 @@ function loadBooksButtonEvent(data) {
         }, 500);
     });
 
-    $('.close-read').unbind('click');
+
     $('.close-read').on('click', function(ev) {
         let reviewModal = $(ev.target).parent().parent();
 
@@ -305,7 +302,7 @@ function loadBooksButtonEvent(data) {
 }
 
 function loadAuthorButtonEvent(data) {
-    $('.author-add-favorite').unbind('click');
+
     $('.author-add-favorite').on('click', function(ev) {
         let authorName = $(ev.target).parent().find('h2').html();
         if (!authorName) {
@@ -352,7 +349,7 @@ function loadAuthorButtonEvent(data) {
 };
 
 function loadProfilePageEvents(data) {
-    $('.page').unbind('click');
+
     $('.page').on('click', function(ev) {
         let $this = $(ev.target);
         let pageNumber = $this.html();
@@ -388,7 +385,6 @@ function loadProfilePageEvents(data) {
         };
     });
 
-    $('.book-learn-more').unbind('click');
     $('.book-learn-more').on('click', function(ev) {
         let bookTitle = $(ev.target).parents().eq(2).find('h2').html();
 
@@ -405,7 +401,6 @@ function loadProfilePageEvents(data) {
         $('#book-info .book-content .book-content-description').html(book.description);
     });
 
-    $('.author-learn-more').unbind('click');
     $('.author-learn-more').on('click', function(ev) {
         let authorName = $(ev.target).parents().eq(3).find('h2').html();
 
@@ -422,7 +417,6 @@ function loadProfilePageEvents(data) {
 
     });
 
-    $('.book-read-review').unbind('click');
     $('.book-read-review').on('click', function(ev) {
         let bookTitle = $(ev.target).parents().eq(2).find('h2').html();
 

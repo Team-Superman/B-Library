@@ -174,7 +174,7 @@ let app = new Sammy(function() {
         let data = {};
         let head = header.getHeader(true, false);
 
-        request.get(`${kinveyUrls.KINVEY_USER_URL}`, head)
+        request.get(`${kinveyUrls.KINVEY_USER_URL}/?resolve_depth=3&retainReferences=false`, head)
             .then((users) => { data.users = users; })
             .then(() => { return template.get('community-page'); })
             .then((temp) => {
@@ -194,6 +194,9 @@ let app = new Sammy(function() {
         request.get(`${kinveyUrls.KINVEY_USER_URL}/?pattern=${this.params.username}&resolve_depth=5&retainReferences=false`, head)
             .then((user) => {
                 userdata = user[0];
+                if(userdata.username === localStorage.USER_NAME){
+                  userdata.ownprofile = true;
+                }
                 userdata.firstAuthors = userdata.favoriteAuthors.slice(0, 4);
                 userdata.firstBooks = userdata.readBooks.slice(0, 4);
                 userdata.totalBookPages = userdata.readBooks.length / 4;
@@ -205,8 +208,9 @@ let app = new Sammy(function() {
             .then((temp) => pageLoader.loadModal(temp))
             .then(() => { return template.get('book-review-modal') })
             .then((temp) => pageLoader.loadModal(temp))
+            .then(() => { return template.get('author-info-modal') })
+            .then((temp) => pageLoader.loadModal(temp))
             .then(() => eventLoader.loadProfilePageEvents(userdata))
-            .then(() => eventLoader.loadModalEvents(userdata))
             .catch(() => this.redirect(appUrls.USER_ERROR_URL));
     });
 
@@ -217,10 +221,14 @@ let app = new Sammy(function() {
         request.get(`${kinveyUrls.KINVEY_USER_URL}/?pattern=${username}&resolve_depth=5&retainReferences=false`, head)
             .then((user) => {
                 userdata = user[0];
+                if(userdata.username === localStorage.USER_NAME){
+                  userdata.ownprofile = true;
+                }
                 userdata.firstAuthors = userdata.favoriteAuthors.slice(0, 4);
                 userdata.firstBooks = userdata.readBooks.slice(0, 4);
                 userdata.totalBookPages = userdata.readBooks.length / 4;
                 userdata.totalAuthorsPages = userdata.favoriteAuthors.length / 4;
+                console.log(userdata);
             })
             .then(() => { return template.get('profile-page') })
             .then((temp) => pageLoader.loadPage(temp, userdata))
