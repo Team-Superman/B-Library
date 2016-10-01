@@ -22,16 +22,19 @@ function getUserLoginDetails() {
 
 function loadFrontPageEvents() {
 
+    $('#sign-in-user').unbind('click');
     $('#sign-in-user').on('click', function(ev) {
         userModel.login(getUserLoginDetails());
     });
 
+    $('#login-password').unbind('keydown');
     $('#login-password').on('keydown', function(ev) {
         if (ev.which === 13) {
             userModel.login(getUserLoginDetails());
         }
     });
 
+    $('#input-confirm-password').unbind('input');
     $('#input-confirm-password').on('input', function(ev) {
         let $this = $(ev.target);
 
@@ -42,6 +45,7 @@ function loadFrontPageEvents() {
         }
     })
 
+    $('#input-password').unbind('input');
     $('#input-password').on('input', function(ev) {
         let $this = $(ev.target);
         let confirmPassword = $('#input-confirm-password')
@@ -52,6 +56,7 @@ function loadFrontPageEvents() {
         }
     })
 
+    $('#sign-up-user').unbind('click');
     $('#sign-up-user').on('click', function(ev) {
 
         let user = {
@@ -73,12 +78,14 @@ function loadFrontPageEvents() {
 }
 
 function loadUserNavigationEvents() {
+    $('#sign-out-user').unbind('click');
     $('#sign-out-user').on('click', function(ev) {
         userModel.logout();
     });
 }
 
 function loadModalEvents(data) {
+    $('.book-learn-more').unbind('click');
     $('.book-learn-more').on('click', function(ev) {
         let bookTitle = $(ev.target).parent().find('h2').html();
         if (!bookTitle) {
@@ -96,6 +103,7 @@ function loadModalEvents(data) {
         $('#book-info .book-content .book-content-description').html(book.description);
     });
 
+    $('.mark-as-read').unbind('click');
     $('.mark-as-read').on('click', function(ev) {
         let bookTitle = $(ev.target).parent().find('h2').html();
         if (!bookTitle) {
@@ -105,11 +113,16 @@ function loadModalEvents(data) {
         $('#book-read').find('legend').html(bookTitle);
     });
 
+    $('.author-learn-more').unbind('click');
     $('.author-learn-more').on('click', function(ev) {
         let authorName = $(ev.target).parent().find('h2').html();
         if (!authorName) {
+            authorName = $(ev.target).parents().eq(1).find('h2').html();
+        }
+        if (!authorName) {
             authorName = $(ev.target).parents().eq(2).find('h2').html();
         }
+        console.log(authorName);
 
         let author = data.authors.find(x => { return `${x.firstName} ${x.lastName}` === authorName; });
 
@@ -138,6 +151,7 @@ function loadHomePageEvents(data) {
 }
 
 function loadAuthorsPageEvents(data) {
+    $('.page').unbind('click');
     $('.page').on('click', function(ev) {
         let $this = $(ev.target);
         let pageNumber = $this.html();
@@ -158,6 +172,7 @@ function loadAuthorsPageEvents(data) {
         };
     });
 
+    $('.btn-search').unbind('click');
     $('.btn-search').on('click', function(ev) {
         let matchedAuthors = {};
         let pattern = $('.input-author-search').val();
@@ -170,7 +185,10 @@ function loadAuthorsPageEvents(data) {
         matchedAuthors.firstAuthors = matchedAuthors.authors.slice(0, 4);
         console.log(matchedAuthors);
         template.get('list-authors')
-            .then(temp => pageLoader.loadColletionsList(temp, matchedAuthors, selector));
+            .then(temp => pageLoader.loadColletionsList(temp, matchedAuthors, selector))
+            .then(() => eventLoader.loadAuthorsPageEvents(data))
+            .then((data) => eventLoader.loadAuthorButtonEvent(data))
+            .then((data) => eventLoader.loadModalEvents(data));
 
     })
 
@@ -182,6 +200,7 @@ function loadAuthorsPageEvents(data) {
 }
 
 function loadBooksPageEvents(data) {
+    $('.page').unbind('click');
     $('.page').on('click', function(ev) {
         let $this = $(ev.target);
         let pageNumber = $this.html();
@@ -213,6 +232,7 @@ function loadBooksPageEvents(data) {
 }
 
 function loadBooksButtonEvent(data) {
+    $('.read-review').unbind('click');
     $('.read-review').on('click', function(ev) {
         let reviewModal = $(ev.target).parent().parent();
 
@@ -264,6 +284,7 @@ function loadBooksButtonEvent(data) {
         }, 500);
     });
 
+    $('.close-read').unbind('click');
     $('.close-read').on('click', function(ev) {
         let reviewModal = $(ev.target).parent().parent();
 
@@ -279,6 +300,7 @@ function loadBooksButtonEvent(data) {
 }
 
 function loadAuthorButtonEvent(data) {
+    $('.author-add-favorite').unbind('click');
     $('.author-add-favorite').on('click', function(ev) {
         let authorName = $(ev.target).parent().find('h2').html();
         if (!authorName) {
@@ -325,6 +347,7 @@ function loadAuthorButtonEvent(data) {
 };
 
 function loadProfilePageEvents(data) {
+    $('.page').unbind('click');
     $('.page').on('click', function(ev) {
         let $this = $(ev.target);
         let pageNumber = $this.html();
@@ -360,6 +383,7 @@ function loadProfilePageEvents(data) {
         };
     });
 
+    $('.book-learn-more').unbind('click');
     $('.book-learn-more').on('click', function(ev) {
         let bookTitle = $(ev.target).parents().eq(2).find('h2').html();
 
@@ -376,6 +400,24 @@ function loadProfilePageEvents(data) {
         $('#book-info .book-content .book-content-description').html(book.description);
     });
 
+    $('.author-learn-more').unbind('click');
+    $('.author-learn-more').on('click', function(ev) {
+        let authorName = $(ev.target).parents().eq(3).find('h2').html();
+
+        console.log(data.favoriteAuthors);
+
+        let author = data.favoriteAuthors.find(x => { return `${x.firstName} ${x.lastName}` === authorName; });
+
+        $('#author-img').attr('src', author.picture._downloadURL);
+        $('#author-info .author-content h2').html(`${author.firstName} ${author.lastName}`);
+        $('#author-info .author-content .author-content-genre').html(`<b>Genre:</b> ${author.genre}`);
+        $('#author-info .author-content .author-content-birth-date').html(`<b>Date of birth:</b> ${author.dateOfBirth}`);
+        $('#author-info .author-content .author-content-birth-place').html(`<b>Place of birth:</b> ${author.born}`);
+        $('#author-info .author-content .author-content-description').html(author.description);
+
+    });
+
+    $('.book-read-review').unbind('click');
     $('.book-read-review').on('click', function(ev) {
         let bookTitle = $(ev.target).parents().eq(2).find('h2').html();
 
