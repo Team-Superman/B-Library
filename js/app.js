@@ -210,6 +210,8 @@ let app = new Sammy(function() {
             .then((temp) => pageLoader.loadModal(temp))
             .then(() => { return template.get('author-info-modal') })
             .then((temp) => pageLoader.loadModal(temp))
+            .then(() => { return template.get('select-avatar-modal') })
+            .then((temp) => pageLoader.loadModal(temp))
             .then(() => eventLoader.loadProfilePageEvents(userdata))
             .catch(() => this.redirect(appUrls.USER_ERROR_URL));
     });
@@ -217,6 +219,7 @@ let app = new Sammy(function() {
     this.get(appUrls.PROFILE_URL, function() {
         let username = localStorage.getItem('USER_NAME')
         let userdata;
+        let avatars;
         let head = header.getHeader(true, false);
         request.get(`${kinveyUrls.KINVEY_USER_URL}/?pattern=${username}&resolve_depth=5&retainReferences=false`, head)
             .then((user) => {
@@ -238,6 +241,10 @@ let app = new Sammy(function() {
             .then((temp) => pageLoader.loadModal(temp))
             .then(() => { return template.get('author-info-modal') })
             .then((temp) => pageLoader.loadModal(temp))
+            .then(() => { return request.get(`${kinveyUrls.KINVEY_APPDATA_URL}/avatars`, head); })
+            .then((av) => { avatars = av; console.log(avatars);})
+            .then(() => { return template.get('select-avatar-modal') })
+            .then((temp) => pageLoader.loadModal(temp, avatars))
             .then(() => eventLoader.loadProfilePageEvents(userdata));
     });
 

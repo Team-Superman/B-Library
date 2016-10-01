@@ -42,9 +42,9 @@ function loadUserNavigation(template) {
     return promise;
 }
 
-function loadModal(template) {
+function loadModal(template, data) {
     let promise = new Promise((resolve, reject) => {
-        $(MAIN_SELECTOR).append(template());
+        $(MAIN_SELECTOR).append(template(data));
         resolve();
     });
 

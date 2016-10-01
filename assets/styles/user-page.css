@@ -42,3 +42,7 @@
 .hidden-title {
   display: none;
 }
+
+.avatars {
+  margin: 15px 5px;
+}

@@ -428,6 +428,34 @@ function loadProfilePageEvents(data) {
         $('#book-review .book-content .book-content-review').html(`${reviewedBook.review}`);
     });
 
+    $('.selected-avatar').on('click', function(ev){
+      let newAvatarId = $(ev.target).parent().attr('id');
+      
+      let head = header.getHeader(true, false);
+      request.get(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head)
+          .then((user) => {
+              let newAvatar = {
+                  '_type': 'KinveyRef',
+                  '_id': newAvatarId,
+                  '_collection': "avatars"
+              }
+              user.avatar = newAvatar;
+              return request.put(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head, user);
+          })
+          .then((response) => {
+              notifier.show('Avatar changed successfully. Reload page to see changes.', 'success');
+          })
+          .catch((err) => {
+              err = err.responseJSON.error;
+              notifier.show(err, 'error');
+          });
+
+      setTimeout(() => {
+          $('.close-read').trigger('click');
+      }, 500);
+
+    })
+
     let promise = new Promise((resolve, reject) => {
         resolve(data);
     });
