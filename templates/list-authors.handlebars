@@ -1,9 +1,9 @@
- <div class="row collection-container">
-        {{#each this}}
+      <div class="row collection-container">
+        {{#each firstAuthors}}
           <div id="author-field-{{@key}}" class="col-xs-12 col-sm-6 col-md-3">
             <div class="thumbnail" id="{{_id}}">
             	<h2 class="hidden-title">{{firstName}} {{lastName}}</h2>
-              <a href="#/authors/{{_id}}">
+                <a href="#/authors/{{_id}}">
               	<img src="{{picture._downloadURL}}" alt="">
 							</a>
               <div class="caption">

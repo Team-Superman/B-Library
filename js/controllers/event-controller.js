@@ -159,18 +159,20 @@ function loadAuthorsPageEvents(data) {
     });
 
     $('.btn-search').on('click', function(ev) {
-        console.log(data);
+        let matchedAuthors = {};
         let pattern = $('.input-author-search').val();
-        let matchedAuthors = data.authors.filter((author) =>
+        matchedAuthors.authors = data.authors.filter((author) =>
             author.firstName.toLowerCase().indexOf(pattern.toLowerCase()) >= 0 ||
             author.lastName.toLowerCase().indexOf(pattern.toLowerCase()) >= 0);
         let selector = '.search-authors';
 
-        matchedAuthors.totalAuthorPages = matchedAuthors.length / 4;
+        matchedAuthors.totalAuthorPages = matchedAuthors.authors.length / 4;
+        matchedAuthors.firstAuthors = matchedAuthors.authors.slice(0, 4);
         console.log(matchedAuthors);
         template.get('list-authors')
-            .then(temp => pageLoader.loadColletionsList(temp, matchedAuthors, selector))
-    });
+            .then(temp => pageLoader.loadColletionsList(temp, matchedAuthors, selector));
+
+    })
 
     let promise = new Promise((resolve, reject) => {
         resolve(data);
