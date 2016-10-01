@@ -78,7 +78,51 @@ function loadUserNavigationEvents() {
     });
 }
 
-function loadModalEvents(data) {
+function loadAuthorModalEvent(data) {
+    $('.author-learn-more').on('click', function(ev) {
+        let authorName = $(ev.target).parent().find('h2').html();
+        if (!authorName) {
+            authorName = $(ev.target).parents().eq(2).find('h2').html();
+        }
+
+        let author = data.authors.find(x => { return `${x.firstName} ${x.lastName}` === authorName; });
+
+        $('#author-img').attr('src', author.picture._downloadURL);
+        $('#author-info .author-content h2').html(`${author.firstName} ${author.lastName}`);
+        $('#author-info .author-content .author-content-genre').html(`<b>Genre:</b> ${author.genre}`);
+        $('#author-info .author-content .author-content-birth-date').html(`<b>Date of birth:</b> ${author.dateOfBirth}`);
+        $('#author-info .author-content .author-content-birth-place').html(`<b>Place of birth:</b> ${author.born}`);
+        $('#author-info .author-content .author-content-description').html(author.description);
+
+    });
+}
+
+function loadAuthorContainerEvents(data) {
+    loadAuthorModalEvent(data);
+
+    $('.page').on('click', function(ev) {
+        console.log('vlizam');
+        let $this = $(ev.target);
+        let pageNumber = $this.html();
+        let startIndex = (pageNumber * 4) - 4;
+        for (let i = startIndex; i < startIndex + 4; i += 1) {
+            let fieldID = `#author-field-${i - startIndex}`;
+            let selectorCover = `${fieldID} .thumbnail img`;
+            let selectorHiddenTitle = `${fieldID} .thumbnail h2`;
+            let selectorAnchor = `${fieldID} .thumbnail a `;
+            if (data.authors[i]) {
+                $(selectorCover).attr('src', data.authors[i].picture._downloadURL)
+                $(selectorHiddenTitle).html(`${data.authors[i].firstName} ${data.authors[i].lastName}`);
+                $(selectorAnchor).attr('href', `#/authors/${data.authors[i]._id}`);
+                $(fieldID).show();
+            } else {
+                $(fieldID).hide();
+            }
+        };
+    });
+}
+
+function loadBookModalEvent(data) {
     $('.book-learn-more').on('click', function(ev) {
         let bookTitle = $(ev.target).parent().find('h2').html();
         if (!bookTitle) {
@@ -104,23 +148,11 @@ function loadModalEvents(data) {
 
         $('#book-read').find('legend').html(bookTitle);
     });
+}
 
-    $('.author-learn-more').on('click', function(ev) {
-        let authorName = $(ev.target).parent().find('h2').html();
-        if (!authorName) {
-            authorName = $(ev.target).parents().eq(2).find('h2').html();
-        }
-
-        let author = data.authors.find(x => { return `${x.firstName} ${x.lastName}` === authorName; });
-
-        $('#author-img').attr('src', author.picture._downloadURL);
-        $('#author-info .author-content h2').html(`${author.firstName} ${author.lastName}`);
-        $('#author-info .author-content .author-content-genre').html(`<b>Genre:</b> ${author.genre}`);
-        $('#author-info .author-content .author-content-birth-date').html(`<b>Date of birth:</b> ${author.dateOfBirth}`);
-        $('#author-info .author-content .author-content-birth-place').html(`<b>Place of birth:</b> ${author.born}`);
-        $('#author-info .author-content .author-content-description').html(author.description);
-
-    });
+function loadModalEvents(data) {
+    loadAuthorModalEvent(data);
+    loadBookModalEvent(data);
 
     let promise = new Promise((resolve, reject) => {
         resolve(data);
@@ -138,25 +170,7 @@ function loadHomePageEvents(data) {
 }
 
 function loadAuthorsPageEvents(data) {
-    $('.page').on('click', function(ev) {
-        let $this = $(ev.target);
-        let pageNumber = $this.html();
-        let startIndex = (pageNumber * 4) - 4;
-        for (let i = startIndex; i < startIndex + 4; i += 1) {
-            let fieldID = `#author-field-${i - startIndex}`;
-            let selectorCover = `${fieldID} .thumbnail img`;
-            let selectorHiddenTitle = `${fieldID} .thumbnail h2`;
-            let selectorAnchor = `${fieldID} .thumbnail a `;
-            if (data.authors[i]) {
-                $(selectorCover).attr('src', data.authors[i].picture._downloadURL)
-                $(selectorHiddenTitle).html(`${data.authors[i].firstName} ${data.authors[i].lastName}`);
-                $(selectorAnchor).attr('href', `#/authors/${data.authors[i]._id}`);
-                $(fieldID).show();
-            } else {
-                $(fieldID).hide();
-            }
-        };
-    });
+    loadAuthorContainerEvents(data);
 
     $('.btn-search').on('click', function(ev) {
         let matchedAuthors = {};
@@ -170,7 +184,8 @@ function loadAuthorsPageEvents(data) {
         matchedAuthors.firstAuthors = matchedAuthors.authors.slice(0, 4);
         console.log(matchedAuthors);
         template.get('list-authors')
-            .then(temp => pageLoader.loadColletionsList(temp, matchedAuthors, selector));
+            .then(temp => pageLoader.loadColletionsList(temp, matchedAuthors, selector))
+            .then(() => loadAuthorContainerEvents(matchedAuthors));
 
     })
 
