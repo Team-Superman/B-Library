@@ -377,15 +377,15 @@ function loadUserContainerEvents(data) {
 
         for (let i = startIndex; i < startIndex + 8; i += 1) {
             let fieldID = `#user-field-${i - startIndex}`;
-            let selectorProfile = `${fieldID} .profile-links`;
-            let selectorImg = `${fieldID} .users-img`;
-            let selectorUsername = `${fieldID} .profile-content-community h3`;
-            let selectorName = `${fieldID} .user-personal-name`;
             if (users[i]) {
-                $(selectorProfile).attr('src', `./#/community/${users[i].username}`)
+                let selectorProfile = `${fieldID} .profile-links`;
+                let selectorImg = `${fieldID} .users-image`;
+                let selectorUsername = `${fieldID} .profile-content-community h3`;
+                let selectorName = `${fieldID} .user-personal-name`;
+                $(selectorProfile).attr('href', `./#/community/${users[i].username}`)
                 $(selectorImg).attr('src', `${users[i].avatar.avatar._downloadURL}`)
                 $(selectorUsername).html(users[i].username);
-                $(selectorName).html(`${users[i].firstName} ${users[i].lastname}`);
+                $(selectorName).html(`${users[i].firstName} ${users[i].lastName}`);
                 $(fieldID).show();
             } else {
                 $(fieldID).hide();
@@ -397,6 +397,24 @@ function loadUserContainerEvents(data) {
 
 function loadUserPageEvents(data) {
     loadUserContainerEvents(data);
+
+    $('.btn-search').on('click', function(ev) {
+        let matchedUsers = {};
+        let pattern = $('.input-user-search').val();
+        matchedUsers.users = data.users.filter((user) =>
+            user.firstName.toLowerCase().indexOf(pattern.toLowerCase()) >= 0 ||
+            user.lastName.toLowerCase().indexOf(pattern.toLowerCase()) >= 0 ||
+            user.username.toLowerCase().indexOf(pattern.toLowerCase()) >= 0);
+        let selector = '.search-users';
+        console.log(matchedUsers);
+        matchedUsers.totalUserPages = matchedUsers.users.length / 8;
+        matchedUsers.firstUsers = matchedUsers.users.slice(0, 8);
+        matchedUsers.noUsers = matchedUsers.totalUserPages <= 0;
+        template.get('list-users')
+            .then(temp => pageLoader.loadColletionsList(temp, matchedUsers, selector))
+            .then(() => loadUserContainerEvents(matchedUsers));
+
+    })
 }
 
 function loadProfilePageEvents(data) {
