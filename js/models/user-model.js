@@ -14,8 +14,8 @@ function register(data) {
         .then(response => {
             notifier.show('SIGN UP SUCCESSFUL', 'success');
             let user = {
-              username: response.username,
-              password: response.password
+                username: response.username,
+                password: response.password
             }
             login(user);
         })

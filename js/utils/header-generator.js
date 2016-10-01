@@ -8,17 +8,14 @@ let header = (function() {
 
     function createUserCredentials() {
         let authtoken = userModel.current().authtoken;
-
         let authorization = `Kinvey ${authtoken}`;
-        console.log(authorization);
+
         return authorization;
     }
 
     function createBasicCredentials() {
         let token = btoa(`${kinveyUrls.KINVEY_APP_ID}:${kinveyUrls.KINVEY_APP_SECRET}`);
-
         let authorization = `Basic ${token}`;
-        console.log(authorization);
 
         return authorization;
     }

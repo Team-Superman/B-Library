@@ -106,7 +106,6 @@ function loadAuthorContainerEvents(data) {
     loadAuthorModalEvent(data);
 
     $('.page').on('click', function(ev) {
-        console.log('vlizam');
         let $this = $(ev.target);
         let pageNumber = $this.html();
         let startIndex = (pageNumber * 4) - 4;
@@ -212,7 +211,8 @@ function loadAuthorsPageEvents(data) {
 
         matchedAuthors.totalAuthorPages = matchedAuthors.authors.length / 4;
         matchedAuthors.firstAuthors = matchedAuthors.authors.slice(0, 4);
-        console.log(matchedAuthors)
+
+        template.get('list-authors')
             .then(temp => pageLoader.loadColletionsList(temp, matchedAuthors, selector))
             .then(() => loadAuthorContainerEvents(matchedAuthors));
 
@@ -329,7 +329,6 @@ function loadAuthorButtonEvent(data) {
         }
 
         let author = data.authors.find(x => { return `${x.firstName} ${x.lastName}` === authorName });
-
         let head = header.getHeader(true, false);
 
         request.get(`${kinveyUrls.KINVEY_USER_URL}/?pattern=${localStorage.USER_NAME}`, head)
@@ -342,7 +341,6 @@ function loadAuthorButtonEvent(data) {
                 }
 
                 head['custom-author'] = 'true';
-
                 newUser.favoriteAuthors.push(favAuthor);
 
                 return request.put(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head, newUser);
@@ -369,7 +367,6 @@ function loadAuthorButtonEvent(data) {
 
 function loadUserContainerEvents(data) {
     $('.page').on('click', function(ev) {
-        console.log('vlizam');
         let $this = $(ev.target);
         let users = data.users;
         let pageNumber = $this.html();
@@ -406,7 +403,6 @@ function loadUserPageEvents(data) {
             user.lastName.toLowerCase().indexOf(pattern.toLowerCase()) >= 0 ||
             user.username.toLowerCase().indexOf(pattern.toLowerCase()) >= 0);
         let selector = '.search-users';
-        console.log(matchedUsers);
         matchedUsers.totalUserPages = matchedUsers.users.length / 8;
         matchedUsers.firstUsers = matchedUsers.users.slice(0, 8);
         matchedUsers.noUsers = matchedUsers.totalUserPages <= 0;
@@ -472,9 +468,6 @@ function loadProfilePageEvents(data) {
 
     $('.author-learn-more').on('click', function(ev) {
         let authorName = $(ev.target).parents().eq(3).find('h2').html();
-
-        console.log(data.favoriteAuthors);
-
         let author = data.favoriteAuthors.find(x => { return `${x.firstName} ${x.lastName}` === authorName; });
 
         $('#author-img').attr('src', author.picture._downloadURL);
@@ -488,7 +481,6 @@ function loadProfilePageEvents(data) {
 
     $('.book-read-review').on('click', function(ev) {
         let bookTitle = $(ev.target).parents().eq(2).find('h2').html();
-
         let reviewedBook = data.readBooks.find(x => x.book.title === bookTitle);
 
         $('#book-review-img').attr('src', reviewedBook.book.cover._downloadURL);
@@ -502,8 +494,8 @@ function loadProfilePageEvents(data) {
         let reviewedBook = data.readBooks.find(x => x.book.title === bookTitle);
         let newUser = {};
         let bookIndex = -1;
-
         let head = header.getHeader(true, false);
+
         request.get(`${kinveyUrls.KINVEY_USER_URL}/?pattern=${localStorage.USER_NAME}&resolve_depth=2&retainReferences=false`, head)
             .then((user) => {
                 newUser = user[0];
@@ -524,7 +516,6 @@ function loadProfilePageEvents(data) {
 
                 let oldCountRead = reviewedBook.book.countRead;
                 let oldBookRating = reviewedBook.book.rating;
-
                 let newCountRead = oldCountRead - 1;
                 let newBookRating = ((oldBookRating * oldCountRead) - reviewedBook.rating) / newCountRead;
                 newBookRating = Math.round(newBookRating * 10) / 10;
@@ -552,8 +543,8 @@ function loadProfilePageEvents(data) {
         let author = data.favoriteAuthors.find(x => { return `${x.firstName} ${x.lastName}` === authorName; });
         let newUser = {};
         let authorIndex = -1;
-
         let head = header.getHeader(true, false);
+   
         request.get(`${kinveyUrls.KINVEY_USER_URL}/?pattern=${localStorage.USER_NAME}&resolve_depth=2&retainReferences=false`, head)
             .then((user) => {
                 newUser = user[0];
@@ -571,10 +562,7 @@ function loadProfilePageEvents(data) {
             .then(() => { return request.put(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head, newUser); })
             .then(() => { return request.get(`${kinveyUrls.KINVEY_AUTHORS_URL}/${author._id}`, head); })
             .then((author) => {
-
-                console.log(author);
                 author.amountOfFavorites = author.amountOfFavorites - 1;
-
                 return request.put(`${kinveyUrls.KINVEY_AUTHORS_URL}/${author._id}`, head, author);
             })
             .then((response) => {
@@ -588,8 +576,8 @@ function loadProfilePageEvents(data) {
 
     $('.selected-avatar').on('click', function(ev) {
         let newAvatarId = $(ev.target).parent().attr('id');
-
         let head = header.getHeader(true, false);
+     
         request.get(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head)
             .then((user) => {
                 let newAvatar = {

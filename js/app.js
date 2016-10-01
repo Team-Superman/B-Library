@@ -88,7 +88,6 @@ let app = new Sammy(function() {
         }
 
         let head = header.getHeader(true, false);
-
         let data = {
             'authors': [],
         };
@@ -99,7 +98,6 @@ let app = new Sammy(function() {
                 data.books = author.listOfBooks.books;
                 data.firstBooks = author.listOfBooks.books.slice(0, 4);
                 data.totalBookPages = author.listOfBooks.books.length / 4;
-                console.log(data);
             })
             .then(() => { return template.get('author-single-page') })
             .then((temp) => pageLoader.loadPage(temp, data))
@@ -149,7 +147,6 @@ let app = new Sammy(function() {
         }
 
         let head = header.getHeader(true, false);
-
         let data = {
             'books': [],
         };
@@ -238,7 +235,6 @@ let app = new Sammy(function() {
                 userdata.firstBooks = userdata.readBooks.slice(0, 4);
                 userdata.totalBookPages = userdata.readBooks.length / 4;
                 userdata.totalAuthorsPages = userdata.favoriteAuthors.length / 4;
-                console.log(userdata);
             })
             .then(() => { return template.get('profile-page') })
             .then((temp) => pageLoader.loadPage(temp, userdata))
@@ -251,7 +247,6 @@ let app = new Sammy(function() {
             .then(() => { return request.get(`${kinveyUrls.KINVEY_APPDATA_URL}/avatars`, head); })
             .then((av) => {
                 avatars = av;
-                console.log(avatars);
             })
             .then(() => { return template.get('select-avatar-modal') })
             .then((temp) => pageLoader.loadModal(temp, avatars))

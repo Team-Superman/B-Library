@@ -7,7 +7,7 @@
   {{else}}
     <div class="row">
       {{#each firstUsers}}
-        <div class="col-xs-12 col-sm-6 col-md-3 profile-box">
+        <div id="user-field-{{@key}}" class="col-xs-12 col-sm-6 col-md-3 profile-box">
           <a href="./#/community/{{username}}" class="profile-links">
           <div class="profile-content-community">
             <img src="{{avatar.avatar._downloadURL}}" class="img-responsive img-circle users-image" alt="">

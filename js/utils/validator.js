@@ -39,7 +39,6 @@ let validator = (function() {
 
     function validateEmail(email) {
         if (!(/^\w.+@[a-zA-Z]+?\.[a-zA-Z]{2,3}$/.test(email))) {
-          console.log('EMAIL');
             notifier.show('Email must be in the following format name@maildomain where "name" can contain latin letters, numbers, _ and .',
               'error');
             return false;
