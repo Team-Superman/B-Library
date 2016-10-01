@@ -14,6 +14,15 @@ function loadPage(template, data) {
     return promise;
 }
 
+function loadColletionsList(template, data, selector) {
+    let promise = new Promise((resolve, reject) => {
+        $(selector).html(template(data));
+        resolve();
+    });
+
+    return promise;
+}
+
 function loadFrontNavigation(template) {
     let promise = new Promise((resolve, reject) => {
         $(NAV_SELECTOR).html(template())
@@ -42,13 +51,13 @@ function loadModal(template) {
     return promise;
 }
 
-function loadAuthorBooksPage(template, data){
-  let promise = new Promise((resolve, reject) => {
-    $('.author-books').append(template(data));
-    resolve();
-  })
+function loadAuthorBooksPage(template, data) {
+    let promise = new Promise((resolve, reject) => {
+        $('.author-books').append(template(data));
+        resolve();
+    })
 
-  return promise;
+    return promise;
 }
 
 let pageLoader = {
@@ -56,7 +65,8 @@ let pageLoader = {
     loadFrontNavigation,
     loadUserNavigation,
     loadModal,
-    loadAuthorBooksPage
+    loadAuthorBooksPage,
+    loadColletionsList
 };
 
 export { pageLoader };
