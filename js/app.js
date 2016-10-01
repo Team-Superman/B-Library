@@ -112,6 +112,7 @@ let app = new Sammy(function() {
         .then(() => eventLoader.loadAuthorButtonEvent(data))
         .then(() => eventLoader.loadModalEvents(data))
         .then(() => eventLoader.loadBooksButtonEvent(data))
+        .then(() => eventLoader.loadBooksPageEvents(data))
         .catch(() => this.redirect(appUrls.AUTHOR_ERROR_URL));
     });
 
