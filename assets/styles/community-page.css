@@ -1,0 +1,27 @@
+.profile-content-community {
+  border-radius: 10px;
+  border: 1px solid #dce4ec;
+  text-align: center;
+}
+
+.profile-content-community > .users-image{
+  max-width: 110px;
+  margin: -60px auto 0;
+}
+
+#search-user {
+  text-align: center;
+  margin: 10px 0px;
+}
+
+.profile-box {
+  margin-top: 80px;
+}
+
+.user-personal-name {
+  color: #AAAAAA;
+}
+
+.profile-links {
+  text-decoration: none !important;
+}
