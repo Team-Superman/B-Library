@@ -228,8 +228,9 @@ let app = new Sammy(function() {
             .then((temp) => pageLoader.loadModal(temp))
             .then(() => { return template.get('book-review-modal') })
             .then((temp) => pageLoader.loadModal(temp))
-            .then(() => eventLoader.loadProfilePageEvents(userdata))
-            .then(() => eventLoader.loadModalEvents(userdata))
+            .then(() => { return template.get('author-info-modal') })
+            .then((temp) => pageLoader.loadModal(temp))
+            .then(() => eventLoader.loadProfilePageEvents(userdata));
     });
 
     this.get(appUrls.PAGE_NOT_FOUND_URL, function() {
