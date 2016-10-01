@@ -145,7 +145,7 @@ function loadAuthorsPageEvents(data) {
               let fieldID = `#author-field-${i - startIndex}`;
               let selectorCover = `${fieldID} .thumbnail img`;
               let selectorHiddenTitle = `${fieldID} .thumbnail h2`;
-              let selectorAnchor = `${fieldID} .thumbnail a `
+              let selectorAnchor = `${fieldID} .thumbnail a `;
               if (data.authors[i]) {
                   $(selectorCover).attr('src', data.authors[i].picture._downloadURL)
                   $(selectorHiddenTitle).html(`${data.authors[i].firstName} ${data.authors[i].lastName}`);
@@ -170,14 +170,17 @@ function loadBooksPageEvents(data) {
   $('.page').on('click', function(ev) {
       let $this = $(ev.target);
       let pageNumber = $this.html();
-      let startIndex = (pageNumber * 8) - 8;
-      for (let i = startIndex; i < startIndex + 8; i += 1) {
+      let booksOnPage = data.firstBooks.length;
+      let startIndex = (pageNumber * booksOnPage) - booksOnPage;
+      for (let i = startIndex; i < startIndex + booksOnPage; i += 1) {
               let fieldID = `#book-field-${i - startIndex}`;
               let selectorCover = `${fieldID} .thumbnail img`;
               let selectorHiddenTitle = `${fieldID} .thumbnail h2`;
+              let selectorAnchor = `${fieldID} .thumbnail a`;
               if (data.books[i]) {
                   $(selectorCover).attr('src', data.books[i].cover._downloadURL)
                   $(selectorHiddenTitle).html(data.books[i].title);
+                  $(selectorAnchor).attr('href', `#/books/${data.books[i]._id}`);
                   $(fieldID).show();
               } else {
                   $(fieldID).hide();
@@ -317,16 +320,17 @@ function loadProfilePageEvents(data) {
                 let fieldID = `#book-field-${i - startIndex}`;
                 let selectorCover = `${fieldID} .thumbnail img`;
                 let selectorHiddenTitle = `${fieldID} .thumbnail h2`;
+                let selectorAnchor = `${fieldID} .thumbnail a`
                 if (data.readBooks[i]) {
                     $(selectorCover).attr('src', data.readBooks[i].book.cover._downloadURL)
                     $(selectorHiddenTitle).html(data.readBooks[i].book.title);
+                    $(selectorAnchor).attr('href', `#/books/${data.readBooks[i].book._id}`);
                     $(fieldID).show();
                 } else {
                     $(fieldID).hide();
                 }
 
             } else {
-                console.log(data.favoriteAuthors[i]);
                 let fieldID = `#author-field-${i - startIndex}`;
                 let selector = `${fieldID} .thumbnail img`;
                 let selectorAnchor = `${fieldID} .thumbnail a`;
