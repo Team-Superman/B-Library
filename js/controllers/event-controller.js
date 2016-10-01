@@ -62,9 +62,9 @@ function loadFrontPageEvents() {
             "email": $('#input-email-address').val(),
             "readBooks": [],
             "avatar": {
-              "_type": "KinveyRef",
-              "_id": kinveyUrls.KINVEY_AVATAR_IDS[randomAvatarNumber],
-              "_collection": "avatars"
+                "_type": "KinveyRef",
+                "_id": kinveyUrls.KINVEY_AVATAR_IDS[randomAvatarNumber],
+                "_collection": "avatars"
             }
         };
 
@@ -155,6 +155,31 @@ function loadBookModalEvent(data) {
     });
 }
 
+function loadBooksContainerEvent(data) {
+    loadBookModalEvent(data);
+
+    $('.page').on('click', function(ev) {
+        let $this = $(ev.target);
+        let pageNumber = $this.html();
+        let booksOnPage = data.firstBooks.length;
+        let startIndex = (pageNumber * booksOnPage) - booksOnPage;
+        for (let i = startIndex; i < startIndex + booksOnPage; i += 1) {
+            let fieldID = `#book-field-${i - startIndex}`;
+            let selectorCover = `${fieldID} .thumbnail img`;
+            let selectorHiddenTitle = `${fieldID} .thumbnail h2`;
+            let selectorAnchor = `${fieldID} .thumbnail a`;
+            if (data.books[i]) {
+                $(selectorCover).attr('src', data.books[i].cover._downloadURL)
+                $(selectorHiddenTitle).html(data.books[i].title);
+                $(selectorAnchor).attr('href', `#/books/${data.books[i]._id}`);
+                $(fieldID).show();
+            } else {
+                $(fieldID).hide();
+            }
+        };
+    });
+}
+
 function loadModalEvents(data) {
     loadAuthorModalEvent(data);
     loadBookModalEvent(data);
@@ -187,8 +212,7 @@ function loadAuthorsPageEvents(data) {
 
         matchedAuthors.totalAuthorPages = matchedAuthors.authors.length / 4;
         matchedAuthors.firstAuthors = matchedAuthors.authors.slice(0, 4);
-        console.log(matchedAuthors);
-        template.get('list-authors')
+        console.log(matchedAuthors)
             .then(temp => pageLoader.loadColletionsList(temp, matchedAuthors, selector))
             .then(() => loadAuthorContainerEvents(matchedAuthors));
 
@@ -202,29 +226,23 @@ function loadAuthorsPageEvents(data) {
 }
 
 function loadBooksPageEvents(data) {
+    loadBooksContainerEvent(data);
 
-    $('.page').on('click', function(ev) {
-        let $this = $(ev.target);
-        let pageNumber = $this.html();
-        let booksOnPage = data.firstBooks.length;
-        let startIndex = (pageNumber * booksOnPage) - booksOnPage;
-        for (let i = startIndex; i < startIndex + booksOnPage; i += 1) {
-            let fieldID = `#book-field-${i - startIndex}`;
-            let selectorCover = `${fieldID} .thumbnail img`;
-            let selectorHiddenTitle = `${fieldID} .thumbnail h2`;
-            let selectorAnchor = `${fieldID} .thumbnail a`;
-            if (data.books[i]) {
-                $(selectorCover).attr('src', data.books[i].cover._downloadURL)
-                $(selectorHiddenTitle).html(data.books[i].title);
-                $(selectorAnchor).attr('href', `#/books/${data.books[i]._id}`);
-                $(fieldID).show();
-            } else {
-                $(fieldID).hide();
-            }
-        };
-    });
+    $('.btn-search').on('click', function(ev) {
+        let matchedBooks = {};
+        let pattern = $('.input-book-search').val();
+        matchedBooks.books = data.books.filter((book) =>
+            book.title.toLowerCase().indexOf(pattern.toLowerCase()) >= 0);
+        let selector = '.search-books';
 
-    //New search approach
+        matchedBooks.totalBookPages = matchedBooks.books.length / 8;
+        matchedBooks.firstBooks = matchedBooks.books.slice(0, 8);
+
+        template.get('list-books')
+            .then(temp => pageLoader.loadColletionsList(temp, matchedBooks, selector))
+            .then(() => loadBooksContainerEvent(matchedBooks));
+
+    })
 
     let promise = new Promise((resolve, reject) => {
         resolve(data);
@@ -245,6 +263,7 @@ function loadBooksButtonEvent(data) {
         let rating = reviewModal.find('select').val() | 0;
 
         let head = header.getHeader(true, false);
+        head['add-book'] = 'true';
 
         request.get(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head)
             .then((user) => {
@@ -428,31 +447,31 @@ function loadProfilePageEvents(data) {
         $('#book-review .book-content .book-content-review').html(`${reviewedBook.review}`);
     });
 
-    $('.selected-avatar').on('click', function(ev){
-      let newAvatarId = $(ev.target).parent().attr('id');
-      
-      let head = header.getHeader(true, false);
-      request.get(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head)
-          .then((user) => {
-              let newAvatar = {
-                  '_type': 'KinveyRef',
-                  '_id': newAvatarId,
-                  '_collection': "avatars"
-              }
-              user.avatar = newAvatar;
-              return request.put(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head, user);
-          })
-          .then((response) => {
-              notifier.show('Avatar changed successfully. Reload page to see changes.', 'success');
-          })
-          .catch((err) => {
-              err = err.responseJSON.error;
-              notifier.show(err, 'error');
-          });
+    $('.selected-avatar').on('click', function(ev) {
+        let newAvatarId = $(ev.target).parent().attr('id');
 
-      setTimeout(() => {
-          $('.close-read').trigger('click');
-      }, 500);
+        let head = header.getHeader(true, false);
+        request.get(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head)
+            .then((user) => {
+                let newAvatar = {
+                    '_type': 'KinveyRef',
+                    '_id': newAvatarId,
+                    '_collection': "avatars"
+                }
+                user.avatar = newAvatar;
+                return request.put(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head, user);
+            })
+            .then((response) => {
+                notifier.show('Avatar changed successfully. Reload page to see changes.', 'success');
+            })
+            .catch((err) => {
+                err = err.responseJSON.error;
+                notifier.show(err, 'error');
+            });
+
+        setTimeout(() => {
+            $('.close-read').trigger('click');
+        }, 500);
 
     })
 

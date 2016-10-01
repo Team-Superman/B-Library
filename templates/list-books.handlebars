@@ -1,22 +1,4 @@
-<div class="row search-container">
-	<div class="col-xs-10 col-sm-10 col-md-3 col search-content">
-		<div class="profile-info">
-			<div class='col xs-11'>
-        <div class="form-group search-group">
-          <input class="form-control input-book-search" id="focusedInput" type="text">
-          <a href="/" class="btn btn-primary btn-sm btn-block btn-responsive btn-search" onclick="return false">Search</a>
-        </div>
-        <ul class="nav nav-pills nav-stacked">
-          <li><a href="#">Classics</a></li>
-          <li><a href="#">Fantasy</a></li>
-          <li><a href="#">Fiction</a></li>
-          <li><a href="#">Mystery</a></li>
-          <li><a href="#">Science Fiction</a></li>
-        </ul>
-			</div>
-		</div>
-	</div>
-	<div class="col-xs-10 col-sm-10 col-md-8 col search-content search-books">
+
       <div class="row collection-container">
         {{#each firstBooks}}
           <div id="book-field-{{@key}}" class="col-xs-12 col-sm-6 col-md-3">
@@ -40,5 +22,5 @@
         <li><a class="page" href="/" onclick="return false">{{this}}</a></li>
       {{/for}}
     </ul>
-  </div>
-</div>
+
+    
