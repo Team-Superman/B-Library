@@ -19,7 +19,13 @@
 }
 
 .book-content > .book-content-description  {
-  margin-top: 10px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    height: 215px;
+}
+
+.book-content > a {
+  margin-top: 5px;
 }
 
 .author-content > .author-content-genre, .author-content-birth-date, .author-content-birth-place, .author-content-favorite, .author-content-description {
@@ -28,8 +34,23 @@
 
 .author-content > .author-content-description  {
   margin-top: 10px;
+  margin-bottom: 0px;
+  height: 260px;
+}
+
+.author-content > a {
+  margin-top: 5px;
 }
 
 textarea {
   resize: none;
+}
+
+.panel-heading > .panel-title {
+  text-align: center;
+}
+
+#search-user {
+  text-align: center;
+  margin: 10px 0px;
 }

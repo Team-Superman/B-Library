@@ -12,9 +12,11 @@
           <p class="author-content-genre"><b>Genre:</b> {{genre}}</p>
           <p class="author-content-birth-date"><b>Date of birth:</b> {{dateOfBirth}}</p>
           <p class="author-content-birth-place"><b>Place of birth:</b> {{born}}</p>
-          <textarea readonly class="form-control book-content-description">{{description}}</textarea>
-          <a href="#/authors/{{_id}}" class="btn btn-success btn-sm author-add-favorite pull-right">Add to favorites</a>
+          <textarea readonly class="form-control single-author-description">{{description}}</textarea>
+          <a href="#/authors/{{_id}}" class="btn btn-success btn-md author-add-favorite pull-right">Add to favorites</a>
         </div>
+    </div>
+    <div class="row single-author-container author-books">
     </div>
   </div>
 </div>

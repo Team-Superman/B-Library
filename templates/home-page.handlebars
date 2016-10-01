@@ -2,18 +2,18 @@
         <div class="col-md-6 portfolio-item" id="left-side-mainpage">
             <div id="home-page-books" class="panel panel-primary">
                 <div class="panel-heading">
-                    <h1 class="panel-title">Top 5 Books</h1>
+                    <h1 class="panel-title">Top Five Books</h1>
                 </div>
                 <div class="panel-body">
                     <div class="list-group">
                         {{#each books}}
                           <div class="row book-container">
-                              <div class="col-md-4">
+                              <div class="col-sm-4">
                                 <a href="#/books/{{_id}}">
                                 <img src="{{cover._downloadURL}}" alt="empty" class="img-responsive"/>
                                 </a>
                               </div>
-                              <div class="col-md-8 book-content">
+                              <div class="col-sm-8 book-content">
                                 <h2 id="book-title">{{title}}</h2>
                                 <p class="book-content-author">by {{author}}</p>
                                 <p class="book-content-count-read"><b>Read:</b> {{countRead}}</p>
@@ -31,7 +31,7 @@
         <div class="col-md-6 portfolio-item" id="left-side-mainpage">
             <div id="home-page-authors" class="panel panel-primary">
                 <div class="panel-heading">
-                    <h1 class="panel-title">Top 5 Authors</h1>
+                    <h1 class="panel-title">Top Five Authors</h1>
                 </div>
                 <div class="panel-body">
                     <div class="list-group">

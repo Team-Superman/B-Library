@@ -44,7 +44,7 @@ function loadModal(template) {
 
 function loadAuthorBooksPage(template, data){
   let promise = new Promise((resolve, reject) => {
-    $('.single-author-container').append(template(data));
+    $('.author-books').append(template(data));
     resolve();
   })
 

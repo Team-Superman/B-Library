@@ -90,7 +90,7 @@ function loadModalEvents(data){
         $('#book-info .book-content .book-content-rating').html(`<b>Rating:</b> ${book.rating}`);
         $('#book-info .book-content .book-content-publish-year').html(`<b>Published:</b> ${book.year}`);
         $('#book-info .book-content .book-content-pages').html(`<b>Pages:</b> ${book.pages}`);
-        $('#book-info .book-content .book-content-isbn').html(`ISBN:</b> ${book.isbn}`);
+        $('#book-info .book-content .book-content-isbn').html(`<b>ISBN:</b> ${book.isbn}`);
         $('#book-info .book-content .book-content-description').html(book.description);
     });
 
@@ -277,7 +277,7 @@ function loadAuthorButtonEvent(data) {
           let favAuthor = {
             '_type': "KinveyRef",
             '_id': author._id,
-            '_collection': "books"
+            '_collection': "authors"
           }
 
           head['custom-author'] = 'true';
@@ -307,7 +307,6 @@ function loadAuthorButtonEvent(data) {
 };
 
 function loadProfilePageEvents(data) {
-  console.log(data);
     $('.page').on('click', function(ev) {
         let $this = $(ev.target);
         let pageNumber = $this.html();

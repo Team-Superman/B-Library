@@ -17,7 +17,7 @@
   margin: 5px 0px;
 }
 
-.single-author-container textarea {
+.single-author-container .single-author-description {
   margin-top: 0px;
   margin-bottom: 0px;
   height: 350px;
@@ -30,4 +30,8 @@
 .col-centered {
     float: none;
     margin: 0 auto;
+}
+
+.author-books {
+  padding-top: 20px;
 }
