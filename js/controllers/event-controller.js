@@ -367,6 +367,38 @@ function loadAuthorButtonEvent(data) {
     return promise;
 };
 
+function loadUserContainerEvents(data) {
+    $('.page').on('click', function(ev) {
+        console.log('vlizam');
+        let $this = $(ev.target);
+        let users = data.users;
+        let pageNumber = $this.html();
+        let startIndex = (pageNumber * 8) - 8;
+
+        for (let i = startIndex; i < startIndex + 8; i += 1) {
+            let fieldID = `#user-field-${i - startIndex}`;
+            let selectorProfile = `${fieldID} .profile-links`;
+            let selectorImg = `${fieldID} .users-img`;
+            let selectorUsername = `${fieldID} .profile-content-community h3`;
+            let selectorName = `${fieldID} .user-personal-name`;
+            if (users[i]) {
+                $(selectorProfile).attr('src', `./#/community/${users[i].username}`)
+                $(selectorImg).attr('src', `${users[i].avatar.avatar._downloadURL}`)
+                $(selectorUsername).html(users[i].username);
+                $(selectorName).html(`${users[i].firstName} ${users[i].lastname}`);
+                $(fieldID).show();
+            } else {
+                $(fieldID).hide();
+            }
+
+        }
+    });
+}
+
+function loadUserPageEvents(data) {
+    loadUserContainerEvents(data);
+}
+
 function loadProfilePageEvents(data) {
 
     $('.page').on('click', function(ev) {
@@ -447,93 +479,93 @@ function loadProfilePageEvents(data) {
         $('#book-review .book-content .book-content-review').html(`${reviewedBook.review}`);
     });
 
-    $('.book-remove-read').on('click', function(ev){
-      let bookTitle = $(ev.target).parents().eq(2).find('h2').html();
-      let reviewedBook = data.readBooks.find(x => x.book.title === bookTitle);
-      let newUser = {};
-      let bookIndex = -1;
+    $('.book-remove-read').on('click', function(ev) {
+        let bookTitle = $(ev.target).parents().eq(2).find('h2').html();
+        let reviewedBook = data.readBooks.find(x => x.book.title === bookTitle);
+        let newUser = {};
+        let bookIndex = -1;
 
-      let head = header.getHeader(true, false);
-      request.get(`${kinveyUrls.KINVEY_USER_URL}/?pattern=${localStorage.USER_NAME}&resolve_depth=2&retainReferences=false`, head)
-          .then((user) => {
-            newUser = user[0];
+        let head = header.getHeader(true, false);
+        request.get(`${kinveyUrls.KINVEY_USER_URL}/?pattern=${localStorage.USER_NAME}&resolve_depth=2&retainReferences=false`, head)
+            .then((user) => {
+                newUser = user[0];
 
-            for (var i = 0, len = newUser.readBooks.length; i < len; i+=1) {
-              if(newUser.readBooks[i].book._id === reviewedBook.book._id){
-                bookIndex = i;
-              }
-            }
+                for (var i = 0, len = newUser.readBooks.length; i < len; i += 1) {
+                    if (newUser.readBooks[i].book._id === reviewedBook.book._id) {
+                        bookIndex = i;
+                    }
+                }
 
-            if(bookIndex >= 0){
-              newUser.readBooks.splice(bookIndex, 1);
-            }
-          })
-          .then(() => { return request.put(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head, newUser); })
-          .then(() => { return request.get(`${kinveyUrls.KINVEY_BOOKS_URL}/${reviewedBook.book._id}`, head); })
-          .then((book) => {
+                if (bookIndex >= 0) {
+                    newUser.readBooks.splice(bookIndex, 1);
+                }
+            })
+            .then(() => { return request.put(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head, newUser); })
+            .then(() => { return request.get(`${kinveyUrls.KINVEY_BOOKS_URL}/${reviewedBook.book._id}`, head); })
+            .then((book) => {
 
-            let oldCountRead = reviewedBook.book.countRead;
-            let oldBookRating = reviewedBook.book.rating;
+                let oldCountRead = reviewedBook.book.countRead;
+                let oldBookRating = reviewedBook.book.rating;
 
-            let newCountRead = oldCountRead - 1;
-            let newBookRating = ((oldBookRating * oldCountRead) - reviewedBook.rating) / newCountRead;
-            newBookRating = Math.round(newBookRating * 10) / 10;
+                let newCountRead = oldCountRead - 1;
+                let newBookRating = ((oldBookRating * oldCountRead) - reviewedBook.rating) / newCountRead;
+                newBookRating = Math.round(newBookRating * 10) / 10;
 
-            if(newCountRead === 0){
-              newBookRating = 0;
-            }
+                if (newCountRead === 0) {
+                    newBookRating = 0;
+                }
 
-            book.rating = newBookRating;
-            book.countRead = newCountRead;
+                book.rating = newBookRating;
+                book.countRead = newCountRead;
 
-            return request.put(`${kinveyUrls.KINVEY_BOOKS_URL}/${reviewedBook.book._id}`, head, book);
-          })
-          .then((response) => {
-              notifier.show('Book removed successfully. Reload page to see changes.', 'success');
-          })
-          .catch((err) => {
-              err = err.responseJSON.error;
-              notifier.show(err, 'error');
-          });
+                return request.put(`${kinveyUrls.KINVEY_BOOKS_URL}/${reviewedBook.book._id}`, head, book);
+            })
+            .then((response) => {
+                notifier.show('Book removed successfully. Reload page to see changes.', 'success');
+            })
+            .catch((err) => {
+                err = err.responseJSON.error;
+                notifier.show(err, 'error');
+            });
     });
 
-    $('.author-remove-favorite').on('click', function(ev){
-      let authorName = $(ev.target).parents().eq(3).find('h2').html();
-      let author = data.favoriteAuthors.find(x => { return `${x.firstName} ${x.lastName}` === authorName; });
-      let newUser = {};
-      let authorIndex = -1;
+    $('.author-remove-favorite').on('click', function(ev) {
+        let authorName = $(ev.target).parents().eq(3).find('h2').html();
+        let author = data.favoriteAuthors.find(x => { return `${x.firstName} ${x.lastName}` === authorName; });
+        let newUser = {};
+        let authorIndex = -1;
 
-      let head = header.getHeader(true, false);
-      request.get(`${kinveyUrls.KINVEY_USER_URL}/?pattern=${localStorage.USER_NAME}&resolve_depth=2&retainReferences=false`, head)
-          .then((user) => {
-            newUser = user[0];
+        let head = header.getHeader(true, false);
+        request.get(`${kinveyUrls.KINVEY_USER_URL}/?pattern=${localStorage.USER_NAME}&resolve_depth=2&retainReferences=false`, head)
+            .then((user) => {
+                newUser = user[0];
 
-            for (var i = 0, len = newUser.favoriteAuthors.length; i < len; i+=1) {
-              if(newUser.favoriteAuthors[i]._id === author._id){
-                authorIndex = i;
-              }
-            }
+                for (var i = 0, len = newUser.favoriteAuthors.length; i < len; i += 1) {
+                    if (newUser.favoriteAuthors[i]._id === author._id) {
+                        authorIndex = i;
+                    }
+                }
 
-            if(authorIndex >= 0){
-              newUser.favoriteAuthors.splice(authorIndex, 1);
-            }
-          })
-          .then(() => { return request.put(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head, newUser); })
-          .then(() => { return request.get(`${kinveyUrls.KINVEY_AUTHORS_URL}/${author._id}`, head); })
-          .then((author) => {
+                if (authorIndex >= 0) {
+                    newUser.favoriteAuthors.splice(authorIndex, 1);
+                }
+            })
+            .then(() => { return request.put(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head, newUser); })
+            .then(() => { return request.get(`${kinveyUrls.KINVEY_AUTHORS_URL}/${author._id}`, head); })
+            .then((author) => {
 
-            console.log(author);
-            author.amountOfFavorites = author.amountOfFavorites - 1;
+                console.log(author);
+                author.amountOfFavorites = author.amountOfFavorites - 1;
 
-            return request.put(`${kinveyUrls.KINVEY_AUTHORS_URL}/${author._id}`, head, author);
-          })
-          .then((response) => {
-              notifier.show('Author removed successfully. Reload page to see changes.', 'success');
-          })
-          .catch((err) => {
-              err = err.responseJSON.error;
-              notifier.show(err, 'error');
-          });
+                return request.put(`${kinveyUrls.KINVEY_AUTHORS_URL}/${author._id}`, head, author);
+            })
+            .then((response) => {
+                notifier.show('Author removed successfully. Reload page to see changes.', 'success');
+            })
+            .catch((err) => {
+                err = err.responseJSON.error;
+                notifier.show(err, 'error');
+            });
     });
 
     $('.selected-avatar').on('click', function(ev) {
@@ -580,7 +612,8 @@ let eventLoader = {
     loadBooksButtonEvent,
     loadProfilePageEvents,
     loadModalEvents,
-    loadAuthorButtonEvent
+    loadAuthorButtonEvent,
+    loadUserPageEvents
 }
 
 export { eventLoader }

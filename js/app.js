@@ -175,11 +175,17 @@ let app = new Sammy(function() {
         let head = header.getHeader(true, false);
 
         request.get(`${kinveyUrls.KINVEY_USER_URL}/?resolve_depth=3&retainReferences=false`, head)
-            .then((users) => { data.users = users; })
+            .then((users) => {
+                data.users = users;
+                data.users.sort((a, b) => a.username < b.username);
+                data.firstUsers = data.users.slice(0, 8);
+                data.totalUserPages = data.users.length / 8;
+            })
             .then(() => { return template.get('community-page'); })
             .then((temp) => {
                 pageLoader.loadPage(temp, data);
-            });
+            })
+            .then(() => eventLoader.loadUserPageEvents(data));
 
     });
 
@@ -189,8 +195,8 @@ let app = new Sammy(function() {
             return;
         }
 
-        if(this.params.username === localStorage.USER_NAME){
-          this.redirect(appUrls.PROFILE_URL);
+        if (this.params.username === localStorage.USER_NAME) {
+            this.redirect(appUrls.PROFILE_URL);
         }
 
         let userdata;
@@ -225,8 +231,8 @@ let app = new Sammy(function() {
         request.get(`${kinveyUrls.KINVEY_USER_URL}/?pattern=${username}&resolve_depth=5&retainReferences=false`, head)
             .then((user) => {
                 userdata = user[0];
-                if(userdata.username === localStorage.USER_NAME){
-                  userdata.ownprofile = true;
+                if (userdata.username === localStorage.USER_NAME) {
+                    userdata.ownprofile = true;
                 }
                 userdata.firstAuthors = userdata.favoriteAuthors.slice(0, 4);
                 userdata.firstBooks = userdata.readBooks.slice(0, 4);
@@ -243,7 +249,10 @@ let app = new Sammy(function() {
             .then(() => { return template.get('author-info-modal') })
             .then((temp) => pageLoader.loadModal(temp))
             .then(() => { return request.get(`${kinveyUrls.KINVEY_APPDATA_URL}/avatars`, head); })
-            .then((av) => { avatars = av; console.log(avatars);})
+            .then((av) => {
+                avatars = av;
+                console.log(avatars);
+            })
             .then(() => { return template.get('select-avatar-modal') })
             .then((temp) => pageLoader.loadModal(temp, avatars))
             .then(() => eventLoader.loadProfilePageEvents(userdata));
