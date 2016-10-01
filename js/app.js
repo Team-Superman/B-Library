@@ -189,14 +189,15 @@ let app = new Sammy(function() {
             return;
         }
 
+        if(this.params.username === localStorage.USER_NAME){
+          this.redirect(appUrls.PROFILE_URL);
+        }
+
         let userdata;
         let head = header.getHeader(true, false);
         request.get(`${kinveyUrls.KINVEY_USER_URL}/?pattern=${this.params.username}&resolve_depth=5&retainReferences=false`, head)
             .then((user) => {
                 userdata = user[0];
-                if(userdata.username === localStorage.USER_NAME){
-                  userdata.ownprofile = true;
-                }
                 userdata.firstAuthors = userdata.favoriteAuthors.slice(0, 4);
                 userdata.firstBooks = userdata.readBooks.slice(0, 4);
                 userdata.totalBookPages = userdata.readBooks.length / 4;
