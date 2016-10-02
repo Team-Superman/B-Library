@@ -18,7 +18,7 @@ let userModel = (function(){
                     username: response.username,
                     password: response.password
                 }
-                login(user);
+                this.login(user);
             })
             .catch((err) => {
                 err = err.responseJSON.description;
