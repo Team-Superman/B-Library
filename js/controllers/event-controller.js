@@ -62,6 +62,7 @@ let eventLoader = (function(){
               "firstName": $('#input-first-name').val(),
               "lastName": $('#input-last-name').val(),
               "email": $('#input-email-address').val(),
+              "favoriteAuthors": {},
               "readBooks": [],
               "avatar": {
                   "_type": "KinveyRef",
@@ -115,7 +116,7 @@ let eventLoader = (function(){
               let fieldID = `#author-field-${i - startIndex}`;
               let selectorCover = `${fieldID} .thumbnail img`;
               let selectorHiddenTitle = `${fieldID} .thumbnail h2`;
-              let selectorAnchor = `${fieldID} .thumbnail a `;
+              let selectorAnchor = `${fieldID} .thumbnail > a `;
               if (data.authors[i]) {
                   $(selectorCover).attr('src', data.authors[i].picture._downloadURL)
                   $(selectorHiddenTitle).html(`${data.authors[i].firstName} ${data.authors[i].lastName}`);
@@ -168,7 +169,7 @@ let eventLoader = (function(){
               let fieldID = `#book-field-${i - startIndex}`;
               let selectorCover = `${fieldID} .thumbnail img`;
               let selectorHiddenTitle = `${fieldID} .thumbnail h2`;
-              let selectorAnchor = `${fieldID} .thumbnail a`;
+              let selectorAnchor = `${fieldID} .thumbnail > a`;
               if (data.books[i]) {
                   $(selectorCover).attr('src', data.books[i].cover._downloadURL)
                   $(selectorHiddenTitle).html(data.books[i].title);
@@ -233,8 +234,9 @@ let eventLoader = (function(){
       $('.btn-search').on('click', function(ev) {
           let matchedBooks = {};
           let pattern = $('.input-book-search').val();
-          matchedBooks.books = data.books.filter((book) =>
-              book.title.toLowerCase().indexOf(pattern.toLowerCase()) >= 0);
+          matchedBooks.books = data.books.filter((book) => {
+              return book.title.toLowerCase().indexOf(pattern.toLowerCase()) >= 0
+          });
           let selector = '.search-books';
 
           matchedBooks.totalBookPages = matchedBooks.books.length / 8;
@@ -247,14 +249,11 @@ let eventLoader = (function(){
       })
 
       $('.btn-book-genre').on('click', function(ev){
-        console.log(data.books);
         let matchedBooks = {};
         let pattern = $(ev.target).html();
         matchedBooks.books = data.books.filter((book) => {
           return book.genre.toLowerCase().indexOf(pattern.toLowerCase()) >=0;
         });
-
-        console.log(matchedBooks);
         let selector = '.search-books';
 
         matchedBooks.totalBookPages = matchedBooks.books.length / 8;
@@ -354,8 +353,6 @@ let eventLoader = (function(){
     }else if(data.favoriteAuthors){
        authors = data.favoriteAuthors;
     }
-
-    console.log(authors);
 
       $('.author-add-favorite').on('click', function(ev) {
           let authorName = $(ev.target).parent().find('h2').html();
@@ -463,7 +460,7 @@ let eventLoader = (function(){
                   let fieldID = `#book-field-${i - startIndex}`;
                   let selectorCover = `${fieldID} .thumbnail img`;
                   let selectorHiddenTitle = `${fieldID} .thumbnail h2`;
-                  let selectorAnchor = `${fieldID} .thumbnail a`
+                  let selectorAnchor = `${fieldID} .thumbnail > a`
                   if (data.readBooks[i]) {
                       $(selectorCover).attr('src', data.readBooks[i].book.cover._downloadURL)
                       $(selectorHiddenTitle).html(data.readBooks[i].book.title);
@@ -476,7 +473,7 @@ let eventLoader = (function(){
               } else {
                   let fieldID = `#author-field-${i - startIndex}`;
                   let selector = `${fieldID} .thumbnail img`;
-                  let selectorAnchor = `${fieldID} .thumbnail a`;
+                  let selectorAnchor = `${fieldID} .thumbnail > a`;
                   if (data.favoriteAuthors[i]) {
                       $(selector).attr('src', data.favoriteAuthors[i].picture._downloadURL);
                       $(selectorAnchor).attr('href', `#/authors/${data.favoriteAuthors[i]._id}`);
