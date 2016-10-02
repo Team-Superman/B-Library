@@ -43,6 +43,10 @@
 * Show personal information about the user
 * Show user's read books and favourite authors
 
+## Installation
+* Install the dependencies with
+`npm install` and `bower install`.
+
 ##GitHub Commits
 
 ##Screenshots
