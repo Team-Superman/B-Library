@@ -77,7 +77,8 @@ let eventLoader = (function(){
                 validator.validateUsername(user.username) &&
                 validator.validateEmail(user.email) &&
                 validator.validatePassword()) {
-                userModel.register(user);
+                userModel.register(user)
+                  .then(response => userModel.login(response));
             }
         });
     };
