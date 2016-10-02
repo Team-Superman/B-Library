@@ -264,9 +264,62 @@ let app = new Sammy(function() {
                 .then(() => eventLoader.loadFrontPageEvents());
         }
 
+        let image = '../../assets/images/error-page.jpg';
+
         template.get('error-page')
-            .then((temp) => pageLoader.loadPage(temp));
+            .then((temp) => pageLoader.loadPage(temp, image));
     });
+
+    this.get(appUrls.AUTHOR_ERROR_URL, function() {
+      if (localStorage.AUTH_TOKEN) {
+          template.get('user-navigation')
+              .then((temp) => pageLoader.loadUserNavigation(temp))
+              .then(() => eventLoader.loadUserNavigationEvents());
+      } else {
+          template.get('front-navigation')
+              .then((temp) => pageLoader.loadFrontNavigation(temp))
+              .then(() => eventLoader.loadFrontPageEvents());
+      }
+
+      let image = '../../assets/images/error-author-page.jpg';
+
+      template.get('error-page')
+          .then((temp) => pageLoader.loadPage(temp, image));
+  });
+
+  this.get(appUrls.BOOK_ERROR_URL, function() {
+    if (localStorage.AUTH_TOKEN) {
+        template.get('user-navigation')
+            .then((temp) => pageLoader.loadUserNavigation(temp))
+            .then(() => eventLoader.loadUserNavigationEvents());
+    } else {
+        template.get('front-navigation')
+            .then((temp) => pageLoader.loadFrontNavigation(temp))
+            .then(() => eventLoader.loadFrontPageEvents());
+    }
+
+    let image = '../../assets/images/error-book-page.jpg';
+
+    template.get('error-page')
+        .then((temp) => pageLoader.loadPage(temp, image));
+  });
+
+  this.get(appUrls.USER_ERROR_URL, function() {
+    if (localStorage.AUTH_TOKEN) {
+        template.get('user-navigation')
+            .then((temp) => pageLoader.loadUserNavigation(temp))
+            .then(() => eventLoader.loadUserNavigationEvents());
+    } else {
+        template.get('front-navigation')
+            .then((temp) => pageLoader.loadFrontNavigation(temp))
+            .then(() => eventLoader.loadFrontPageEvents());
+    }
+
+    let image = '../../assets/images/error-person-page.jpg';
+
+    template.get('error-page')
+        .then((temp) => pageLoader.loadPage(temp, image));
+  });
 
     this.get(/.*/, function() {
         this.redirect(appUrls.PAGE_NOT_FOUND_URL);

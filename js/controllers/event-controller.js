@@ -244,6 +244,22 @@ function loadBooksPageEvents(data) {
 
     })
 
+    $('.btn-book-genre').on('click', function(ev){
+      let matchedBooks = {};
+      let pattern = $(ev.target).html();
+      matchedBooks.books = data.books.filter((book) => {
+        return book.genre.toLowerCase().indexOf(pattern.toLowerCase()) >=0;
+      });
+      let selector = '.search-books';
+
+      matchedBooks.totalBookPages = matchedBooks.books.length / 8;
+      matchedBooks.firstBooks = matchedBooks.books.slice(0, 8);
+
+      template.get('list-books')
+          .then(temp => pageLoader.loadColletionsList(temp, matchedBooks, selector))
+          .then(() => loadBooksContainerEvent(matchedBooks));
+    });
+
     let promise = new Promise((resolve, reject) => {
         resolve(data);
     });
@@ -544,7 +560,7 @@ function loadProfilePageEvents(data) {
         let newUser = {};
         let authorIndex = -1;
         let head = header.getHeader(true, false);
-   
+
         request.get(`${kinveyUrls.KINVEY_USER_URL}/?pattern=${localStorage.USER_NAME}&resolve_depth=2&retainReferences=false`, head)
             .then((user) => {
                 newUser = user[0];
@@ -577,7 +593,7 @@ function loadProfilePageEvents(data) {
     $('.selected-avatar').on('click', function(ev) {
         let newAvatarId = $(ev.target).parent().attr('id');
         let head = header.getHeader(true, false);
-     
+
         request.get(`${kinveyUrls.KINVEY_USER_URL}/${localStorage.USER_ID}`, head)
             .then((user) => {
                 let newAvatar = {
