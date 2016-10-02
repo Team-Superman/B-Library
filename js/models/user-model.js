@@ -9,7 +9,9 @@ import Sammy from 'sammy';
 
 let userModel = (function(){
   class User {
+
     register(data) {
+      let promise = new Promise((resolve, reject) => {
         let head = header.getHeader(false, true);
         request.post(`${kinveyUrls.KINVEY_USER_URL}`, head, data)
             .then(response => {
@@ -18,12 +20,15 @@ let userModel = (function(){
                     username: response.username,
                     password: response.password
                 }
-                this.login(user);
+                resolve(response);
             })
             .catch((err) => {
                 err = err.responseJSON.description;
                 notifier.show(err, 'error');
             });
+          });
+
+          return promise;
     }
 
     login(user) {
@@ -46,6 +51,8 @@ let userModel = (function(){
                             this.trigger('redirectToUrl', '#/home');
                         });
                     });
+
+                    resolve();
                 })
                 .catch((error) => {
                     notifier.show('Invalid username or password', 'error');
@@ -64,6 +71,8 @@ let userModel = (function(){
                     this.trigger('redirectToUrl', '#/')
                 });
             });
+
+            resolve();
         });
 
         return promise;
