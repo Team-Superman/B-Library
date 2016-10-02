@@ -216,6 +216,8 @@ let app = new Sammy(function() {
             .then((temp) => pageLoader.loadModal(temp))
             .then(() => { return template.get('select-avatar-modal') })
             .then((temp) => pageLoader.loadModal(temp))
+            .then(() => { return template.get('book-read-modal'); })
+            .then((temp) => pageLoader.loadModal(temp))
             .then(() => eventLoader.loadProfilePageEvents(userdata))
             .catch(() => this.redirect(appUrls.USER_ERROR_URL));
     });

@@ -36,6 +36,8 @@
 											<a href="#" class="btn btn-success btn-sm btn-block btn-responsive book-read-review" data-toggle="modal" data-target="#book-review">Read review</a>
 											{{#if ../ownprofile}}
 											<a href="#/profile" class="btn btn-default btn-sm btn-block btn-responsive book-remove-read">Remove from read</a>
+											{{else}}
+											<a href="#/community/{{../username}}" class="btn btn-primary btn-sm btn-block btn-responsive mark-as-read" data-toggle="modal" data-target="#book-read" }="">Mark as read</a>
 											{{/if}}
 										</p>
 									</div>
@@ -64,7 +66,7 @@
 										{{#if ../ownprofile}}
 										<a href="#/profile" class="btn btn-default btn-sm btn-block btn-responsive author-remove-favorite">Remove from favorites</a>
 										{{else}}
-										<a href="#/profile" class="btn btn-success btn-sm btn-block btn-responsive author-add-favorite">Add to favorites</a>
+										<a href="#/community/{{../username}}" class="btn btn-success btn-sm btn-block btn-responsive author-add-favorite">Add to favorites</a>
 										{{/if}}
 									</p>
 					      </div>

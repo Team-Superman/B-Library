@@ -247,11 +247,14 @@ let eventLoader = (function(){
       })
 
       $('.btn-book-genre').on('click', function(ev){
+        console.log(data.books);
         let matchedBooks = {};
         let pattern = $(ev.target).html();
         matchedBooks.books = data.books.filter((book) => {
           return book.genre.toLowerCase().indexOf(pattern.toLowerCase()) >=0;
         });
+
+        console.log(matchedBooks);
         let selector = '.search-books';
 
         matchedBooks.totalBookPages = matchedBooks.books.length / 8;
@@ -270,12 +273,18 @@ let eventLoader = (function(){
   }
 
   function loadBooksButtonEvent(data) {
+    let books;
+    if(data.books){
+      books = data.books;
+    }else if(data.readBooks){
+      books = data.readBooks.map(b => {return b.book});
+    }
 
       $('.read-review').on('click', function(ev) {
           let reviewModal = $(ev.target).parent().parent();
 
           let bookTitle = reviewModal.find('legend').html();
-          let book = data.books.find(x => x.title === bookTitle);
+          let book = books.find(x => x.title === bookTitle);
 
           let review = reviewModal.find('textarea').val();
           let rating = reviewModal.find('select').val() | 0;
@@ -339,6 +348,14 @@ let eventLoader = (function(){
   }
 
   function loadAuthorButtonEvent(data) {
+    let authors;
+    if(data.authors){
+      authors = data.authors;
+    }else if(data.favoriteAuthors){
+       authors = data.favoriteAuthors;
+    }
+
+    console.log(authors);
 
       $('.author-add-favorite').on('click', function(ev) {
           let authorName = $(ev.target).parent().find('h2').html();
@@ -346,7 +363,7 @@ let eventLoader = (function(){
               authorName = $(ev.target).parents().eq(2).find('h2').html();
           }
 
-          let author = data.authors.find(x => { return `${x.firstName} ${x.lastName}` === authorName });
+          let author = authors.find(x => { return `${x.firstName} ${x.lastName}` === authorName });
           let head = header.getHeader(true, false);
 
           request.get(`${kinveyUrls.KINVEY_USER_URL}/?pattern=${localStorage.USER_NAME}`, head)
@@ -433,6 +450,9 @@ let eventLoader = (function(){
 
   function loadProfilePageEvents(data) {
 
+      loadBooksButtonEvent(data);
+      loadAuthorButtonEvent(data);
+
       $('.page').on('click', function(ev) {
           let $this = $(ev.target);
           let pageNumber = $this.html();
@@ -505,6 +525,15 @@ let eventLoader = (function(){
           $('#book-review .book-content h2').html(reviewedBook.book.title);
           $('#book-review .book-content .book-content-rating').html(`<b>Rating:</b> ${reviewedBook.rating}`);
           $('#book-review .book-content .book-content-review').html(`${reviewedBook.review}`);
+      });
+
+      $('.mark-as-read').on('click', function(ev) {
+          let bookTitle = $(ev.target).parent().find('h2').html();
+          if (!bookTitle) {
+              bookTitle = $(ev.target).parents().eq(2).find('h2').html();
+          }
+
+          $('#book-read').find('legend').html(bookTitle);
       });
 
       $('.book-remove-read').on('click', function(ev) {
