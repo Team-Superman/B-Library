@@ -553,8 +553,10 @@ let eventLoader = (function(){
                   notifier.show('Book removed successfully. Reload page to see changes.', 'success');
               })
               .catch((err) => {
-                  if(err.responseJSON.error){
+                  if(err.responseJSON){
                     err = err.responseJSON.error;
+                  }else{
+                    err = err.message;
                   }
                   notifier.show(err, 'error');
               });
@@ -593,6 +595,11 @@ let eventLoader = (function(){
                   notifier.show('Author removed successfully. Reload page to see changes.', 'success');
               })
               .catch((err) => {
+                if(err.responseJSON){
+                  err = err.responseJSON.error;
+                }else{
+                  err = err.message;
+                }
                   notifier.show(err, 'error');
               });
       });
@@ -615,9 +622,6 @@ let eventLoader = (function(){
                   notifier.show('Avatar changed successfully. Reload page to see changes.', 'success');
               })
               .catch((err) => {
-                if(err.responseJSON.error){
-                  err = err.responseJSON.error;
-                }
                 notifier.show(err, 'error');
               });
 
