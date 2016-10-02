@@ -1,26 +1,23 @@
-
-      <div class="row collection-container">
-        {{#each firstBooks}}
-          <div id="book-field-{{@key}}" class="col-xs-12 col-sm-6 col-md-3">
-            <div class="thumbnail" id="{{_id}}">
-              <h2 class="hidden-title">{{title}}</h2>
-              <a href="#/books/{{_id}}">
-            		<img src="{{cover._downloadURL}}" alt="">
-							</a>
-              <div class="caption">
-                <p>
-                  <a href="#" class="btn btn-primary btn-sm btn-block btn-responsive book-learn-more" data-toggle="modal" data-target="#book-info">Learn more</a>
-                  <a href="#" class="btn btn-success btn-sm btn-block btn-responsive btn-sm mark-as-read" data-toggle="modal" data-target="#book-read">Mark as read</a>
-                </p>
-              </div>
-            </div>
-          </div>
-        {{/each}}
+<div class="row collection-container">
+  {{#each firstBooks}}
+    <div id="book-field-{{@key}}" class="col-xs-12 col-sm-6 col-md-3">
+      <div class="thumbnail" id="{{_id}}">
+        <h2 class="hidden-title">{{title}}</h2>
+        <a href="#/books/{{_id}}">
+      		<img src="{{cover._downloadURL}}" alt="">
+				</a>
+        <div class="caption">
+          <p>
+            <a href="#" class="btn btn-primary btn-sm btn-block btn-responsive book-learn-more" data-toggle="modal" data-target="#book-info">Learn more</a>
+            <a href="#" class="btn btn-success btn-sm btn-block btn-responsive btn-sm mark-as-read" data-toggle="modal" data-target="#book-read">Mark as read</a>
+          </p>
+        </div>
       </div>
-    <ul class="pagination">
-      {{#for 1 totalBookPages 1}}
-        <li><a class="page" href="/" onclick="return false">{{this}}</a></li>
-      {{/for}}
-    </ul>
-
-    
+    </div>
+  {{/each}}
+</div>
+<ul class="pagination">
+  {{#for 1 totalBookPages 1}}
+    <li><a class="page" href="/" onclick="return false">{{this}}</a></li>
+  {{/for}}
+</ul>

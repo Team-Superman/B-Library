@@ -1,28 +1,28 @@
-  <h3 id="search-user">Results:</h3>
-  {{#if noUsers}}
-    <div class="alert alert-dismissible alert-warning" id="no-results-paragraph">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <p><strong>There is no such user.</strong></p>
-    </div>
-  {{else}}
-    <div class="row">
-      {{#each firstUsers}}
-        <div id="user-field-{{@key}}" class="col-xs-12 col-sm-6 col-md-3 profile-box">
-          <a href="./#/community/{{username}}" class="profile-links">
-          <div class="profile-content-community">
-            <img src="{{avatar.avatar._downloadURL}}" class="img-responsive img-circle users-image" alt="">
-            <div class="profile-info">
-                <h3>{{username}}</h3>
-                <h4 class="user-personal-name">{{firstName}} {{lastName}}</h4>
-            </div>
+<h3 id="search-user">Results:</h3>
+{{#if noUsers}}
+  <div class="alert alert-dismissible alert-warning" id="no-results-paragraph">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <p><strong>There is no such user.</strong></p>
+  </div>
+{{else}}
+  <div class="row">
+    {{#each firstUsers}}
+      <div id="user-field-{{@key}}" class="col-xs-12 col-sm-6 col-md-3 profile-box">
+        <a href="./#/community/{{username}}" class="profile-links">
+        <div class="profile-content-community">
+          <img src="{{avatar.avatar._downloadURL}}" class="img-responsive img-circle users-image" alt="">
+          <div class="profile-info">
+              <h3>{{username}}</h3>
+              <h4 class="user-personal-name">{{firstName}} {{lastName}}</h4>
           </div>
-          </a>
         </div>
-      {{/each}}
-    </div>
-    <ul class="pagination">
-      {{#for 1 totalUserPages 1}}
-        <li><a class="page" href="/" onclick="return false">{{this}}</a></li>
-      {{/for}}
-    </ul>
-  {{/if}}
+        </a>
+      </div>
+    {{/each}}
+  </div>
+  <ul class="pagination">
+    {{#for 1 totalUserPages 1}}
+      <li><a class="page" href="/" onclick="return false">{{this}}</a></li>
+    {{/for}}
+  </ul>
+{{/if}}

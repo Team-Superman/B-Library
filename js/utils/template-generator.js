@@ -4,39 +4,43 @@ import handlebars from 'handlebars';
 import Handlebars from 'handlebars';
 import 'jquery';
 
-var cache = {};
 
-(function() {
-    handlebars.registerHelper('for', function(from, to, incr, block) {
-        var accum = '';
-        for (var i = from; i < to + 1; i += incr) {
-            accum += block.fn(i);
-        }
-        return accum;
-    });
-})()
 
-function get(name) {
-    let promise = new Promise((resolve, reject) => {
+let template = (function(){
+  var cache = {};
 
-        if (cache[name]) {
-            resolve(cache[name]);
-            return;
-        }
+  (function() {
+      handlebars.registerHelper('for', function(from, to, incr, block) {
+          var accum = '';
+          for (var i = from; i < to + 1; i += incr) {
+              accum += block.fn(i);
+          }
+          return accum;
+      });
+  }());
 
-        let url = `templates/${name}.handlebars`;
-        $.get(url, function(templateHtml) {
-            let template = handlebars.compile(templateHtml);
-            cache[name] = template;
-            resolve(template);
-        })
-    });
+  class Template {
+    get(name) {
+        let promise = new Promise((resolve, reject) => {
 
-    return promise;
-}
+            if (cache[name]) {
+                resolve(cache[name]);
+                return;
+            }
 
-let template = {
-    get: get
-};
+            let url = `templates/${name}.handlebars`;
+            $.get(url, function(templateHtml) {
+                let template = handlebars.compile(templateHtml);
+                cache[name] = template;
+                resolve(template);
+            })
+        });
 
-export { template }
+        return promise;
+    }
+  }
+
+  return new Template();
+}());
+
+export { template };

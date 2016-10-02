@@ -1,7 +1,9 @@
 import { notifier } from 'notifier';
 
 let validator = (function() {
-    function validatePassword() {
+
+  class Validator {
+    validatePassword() {
         if ($('#input-password').val() !== $('#input-confirm-password').val()) {
             notifier.show('Confirm password field is different than password field', 'error');
             return false;
@@ -16,7 +18,7 @@ let validator = (function() {
         return true;
     }
 
-    function validateUsername(username) {
+    validateUsername(username) {
         if (username.length < 4 || username.length > 20) {
             notifier.show('Username must be between 4 and 20 characters long inclusive!', 'error');
             return false;
@@ -25,7 +27,7 @@ let validator = (function() {
         return true;
     }
 
-    function validateNames(firstname, lastname) {
+    validateNames(firstname, lastname) {
         if (/[^A-Za-z]/.test(firstname) ||
             /[^A-Za-z]/.test(lastname) ||
             firstname.length < 1 ||
@@ -37,7 +39,7 @@ let validator = (function() {
         return true;
     }
 
-    function validateEmail(email) {
+    validateEmail(email) {
         if (!(/^\w.+@[a-zA-Z]+?\.[a-zA-Z]{2,3}$/.test(email))) {
             notifier.show('Email must be in the following format name@maildomain where "name" can contain latin letters, numbers, _ and .',
               'error');
@@ -46,13 +48,9 @@ let validator = (function() {
 
         return true;
     }
+  }
 
-    return {
-        validateUsername,
-        validatePassword,
-        validateNames,
-        validateEmail
-    }
-})();
+  return new Validator();
+}());
 
 export { validator }

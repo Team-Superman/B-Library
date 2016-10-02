@@ -1,58 +1,57 @@
-    <div class="row">
-        <div class="col-md-6 portfolio-item" id="left-side-mainpage">
-            <div id="home-page-books" class="panel panel-primary">
-                <div class="panel-heading">
-                    <h1 class="panel-title">Top Five Books</h1>
-                </div>
-                <div class="panel-body">
-                    <div class="list-group">
-                        {{#each books}}
-                          <div class="row book-container">
-                              <div class="col-sm-4">
-                                <a href="#/books/{{_id}}">
-                                <img src="{{cover._downloadURL}}" alt="empty" class="img-responsive"/>
-                                </a>
-                              </div>
-                              <div class="col-sm-8 book-content">
-                                <h2 id="book-title">{{title}}</h2>
-                                <p class="book-content-author">by {{author}}</p>
-                                <p class="book-content-count-read"><b>Read:</b> {{countRead}}</p>
-                                <p class="book-content-rating"><b>Rating:</b> {{rating}}</p>
-                                <a href="#" class="btn btn-primary btn-sm book-learn-more" data-toggle="modal" data-target="#book-info"}>Learn more</a>
-                                <a href="#" class="btn btn-success btn-sm mark-as-read" data-toggle="modal" data-target="#book-read"}>Mark as read</a>
-                              </div>
-                          </div>
-                        {{/each}}
+<div class="row">
+  <div class="col-md-6 portfolio-item" id="left-side-mainpage">
+      <div id="home-page-books" class="panel panel-primary">
+          <div class="panel-heading">
+              <h1 class="panel-title">Top Five Books</h1>
+          </div>
+          <div class="panel-body">
+              <div class="list-group">
+                  {{#each books}}
+                    <div class="row book-container">
+                        <div class="col-sm-4">
+                          <a href="#/books/{{_id}}">
+                          <img src="{{cover._downloadURL}}" alt="empty" class="img-responsive"/>
+                          </a>
+                        </div>
+                        <div class="col-sm-8 book-content">
+                          <h2 id="book-title">{{title}}</h2>
+                          <p class="book-content-author">by {{author}}</p>
+                          <p class="book-content-count-read"><b>Read:</b> {{countRead}}</p>
+                          <p class="book-content-rating"><b>Rating:</b> {{rating}}</p>
+                          <a href="#" class="btn btn-primary btn-sm book-learn-more" data-toggle="modal" data-target="#book-info"}>Learn more</a>
+                          <a href="#" class="btn btn-success btn-sm mark-as-read" data-toggle="modal" data-target="#book-read"}>Mark as read</a>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 portfolio-item" id="left-side-mainpage">
-            <div id="home-page-authors" class="panel panel-primary">
-                <div class="panel-heading">
-                    <h1 class="panel-title">Top Five Authors</h1>
-                </div>
-                <div class="panel-body">
-                    <div class="list-group">
-                        {{#each authors}}
-                          <div class="row author-container">
-                              <div class="col-sm-4">
-                                <a href="#/authors/{{_id}}">
-                                  <img src="{{picture._downloadURL}}" alt="empty" class="img-responsive"/>
-                                </a>
-                              </div>
-                              <div class="col-sm-8 author-content">
-                                <h2>{{firstName}} {{lastName}}</h2>
-                                <p class="author-content-genre"><b>Genre:</b> {{genre}}</p>
-                                <p class="author-content-favorite"><b>Added as favorite</b>: {{amountOfFavorites}}</p>
-                                <a href="#" class="btn btn-primary btn-sm author-learn-more" data-toggle="modal" data-target="#author-info">Learn more</a>
-                                <a href="#/home" class="btn btn-success btn-sm author-add-favorite">Add to favorites</a>
-                              </div>
-                          </div>
-                        {{/each}}
-                      </div>
-                  </div>
+                  {{/each}}
               </div>
           </div>
       </div>
+  </div>
+  <div class="col-md-6 portfolio-item" id="left-side-mainpage">
+      <div id="home-page-authors" class="panel panel-primary">
+          <div class="panel-heading">
+              <h1 class="panel-title">Top Five Authors</h1>
+          </div>
+          <div class="panel-body">
+              <div class="list-group">
+                  {{#each authors}}
+                    <div class="row author-container">
+                        <div class="col-sm-4">
+                          <a href="#/authors/{{_id}}">
+                            <img src="{{picture._downloadURL}}" alt="empty" class="img-responsive"/>
+                          </a>
+                        </div>
+                        <div class="col-sm-8 author-content">
+                          <h2>{{firstName}} {{lastName}}</h2>
+                          <p class="author-content-genre"><b>Genre:</b> {{genre}}</p>
+                          <p class="author-content-favorite"><b>Added as favorite</b>: {{amountOfFavorites}}</p>
+                          <a href="#" class="btn btn-primary btn-sm author-learn-more" data-toggle="modal" data-target="#author-info">Learn more</a>
+                          <a href="#/home" class="btn btn-success btn-sm author-add-favorite">Add to favorites</a>
+                        </div>
+                    </div>
+                  {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

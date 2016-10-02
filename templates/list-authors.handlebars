@@ -1,23 +1,23 @@
-      <div class="row collection-container">
-        {{#each firstAuthors}}
-          <div id="author-field-{{@key}}" class="col-xs-12 col-sm-6 col-md-3">
-            <div class="thumbnail" id="{{_id}}">
-            	<h2 class="hidden-title">{{firstName}} {{lastName}}</h2>
-                <a href="#/authors/{{_id}}">
-              	<img src="{{picture._downloadURL}}" alt="">
-							</a>
-              <div class="caption">
-                <p>
-                  <a href="#" class="btn btn-primary btn-sm btn-block btn-responsive author-learn-more" data-toggle="modal" data-target="#author-info">Learn more</a>
-                  <a href="#/authors" class="btn btn-success btn-sm btn-block btn-responsive btn-sm author-add-favorite">Add to favorites</a>
-                </p>
-              </div>
-            </div>
-          </div>
-        {{/each}}
+<div class="row collection-container">
+  {{#each firstAuthors}}
+    <div id="author-field-{{@key}}" class="col-xs-12 col-sm-6 col-md-3">
+      <div class="thumbnail" id="{{_id}}">
+      	<h2 class="hidden-title">{{firstName}} {{lastName}}</h2>
+          <a href="#/authors/{{_id}}">
+        	<img src="{{picture._downloadURL}}" alt="">
+				</a>
+        <div class="caption">
+          <p>
+            <a href="#" class="btn btn-primary btn-sm btn-block btn-responsive author-learn-more" data-toggle="modal" data-target="#author-info">Learn more</a>
+            <a href="#/authors" class="btn btn-success btn-sm btn-block btn-responsive btn-sm author-add-favorite">Add to favorites</a>
+          </p>
+        </div>
       </div>
-    <ul class="pagination">
-      {{#for 1 totalAuthorPages 1}}
-        <li><a class="page" href="/" onclick="return false">{{this}}</a></li>
-      {{/for}}
-    </ul>
+    </div>
+  {{/each}}
+</div>
+<ul class="pagination">
+  {{#for 1 totalAuthorPages 1}}
+    <li><a class="page" href="/" onclick="return false">{{this}}</a></li>
+  {{/for}}
+</ul>
