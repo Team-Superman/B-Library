@@ -63,6 +63,12 @@ let app = new Sammy(function() {
             return;
         }
 
+        if ($('nav').html() === '') {
+            template.get('user-navigation')
+                .then((temp) => pageLoader.loadUserNavigation(temp))
+                .then(() => eventLoader.loadUserNavigationEvents());
+        }
+
         let data = {};
         let head = header.getHeader(true, false);
 
@@ -85,6 +91,12 @@ let app = new Sammy(function() {
         if (!localStorage.AUTH_TOKEN) {
             this.redirect(appUrls.MAIN_URL);
             return;
+        }
+
+        if ($('nav').html() === '') {
+            template.get('user-navigation')
+                .then((temp) => pageLoader.loadUserNavigation(temp))
+                .then(() => eventLoader.loadUserNavigationEvents());
         }
 
         let head = header.getHeader(true, false);
@@ -120,6 +132,12 @@ let app = new Sammy(function() {
             return;
         }
 
+        if ($('nav').html() === '') {
+            template.get('user-navigation')
+                .then((temp) => pageLoader.loadUserNavigation(temp))
+                .then(() => eventLoader.loadUserNavigationEvents());
+        }
+
         let data = {};
         let head = header.getHeader(true, false);
 
@@ -146,6 +164,12 @@ let app = new Sammy(function() {
             return;
         }
 
+        if ($('nav').html() === '') {
+            template.get('user-navigation')
+                .then((temp) => pageLoader.loadUserNavigation(temp))
+                .then(() => eventLoader.loadUserNavigationEvents());
+        }
+
         let head = header.getHeader(true, false);
         let data = {
             'books': [],
@@ -166,6 +190,12 @@ let app = new Sammy(function() {
         if (!localStorage.AUTH_TOKEN) {
             this.redirect(appUrls.MAIN_URL);
             return;
+        }
+
+        if ($('nav').html() === '') {
+            template.get('user-navigation')
+                .then((temp) => pageLoader.loadUserNavigation(temp))
+                .then(() => eventLoader.loadUserNavigationEvents());
         }
 
         let data = {};
@@ -196,6 +226,12 @@ let app = new Sammy(function() {
             this.redirect(appUrls.PROFILE_URL);
         }
 
+        if ($('nav').html() === '') {
+            template.get('user-navigation')
+                .then((temp) => pageLoader.loadUserNavigation(temp))
+                .then(() => eventLoader.loadUserNavigationEvents());
+        }
+
         let userdata;
         let head = header.getHeader(true, false);
         request.get(`${kinveyUrls.KINVEY_USER_URL}/?pattern=${this.params.username}&resolve_depth=5&retainReferences=false`, head)
@@ -224,6 +260,12 @@ let app = new Sammy(function() {
     });
 
     this.get(appUrls.PROFILE_URL, function() {
+        if ($('nav').html() === '') {
+            template.get('user-navigation')
+                .then((temp) => pageLoader.loadUserNavigation(temp))
+                .then(() => eventLoader.loadUserNavigationEvents());
+        }
+
         let username = localStorage.getItem('USER_NAME')
         let userdata;
         let avatars;
@@ -274,55 +316,55 @@ let app = new Sammy(function() {
     });
 
     this.get(appUrls.AUTHOR_ERROR_URL, function() {
-      if (localStorage.AUTH_TOKEN) {
-          template.get('user-navigation')
-              .then((temp) => pageLoader.loadUserNavigation(temp))
-              .then(() => eventLoader.loadUserNavigationEvents());
-      } else {
-          template.get('front-navigation')
-              .then((temp) => pageLoader.loadFrontNavigation(temp))
-              .then(() => eventLoader.loadFrontPageEvents());
-      }
+        if (localStorage.AUTH_TOKEN) {
+            template.get('user-navigation')
+                .then((temp) => pageLoader.loadUserNavigation(temp))
+                .then(() => eventLoader.loadUserNavigationEvents());
+        } else {
+            template.get('front-navigation')
+                .then((temp) => pageLoader.loadFrontNavigation(temp))
+                .then(() => eventLoader.loadFrontPageEvents());
+        }
 
-      let image = '../../assets/images/error-author-page.jpg';
+        let image = '../../assets/images/error-author-page.jpg';
 
-      template.get('error-page')
-          .then((temp) => pageLoader.loadPage(temp, image));
-  });
+        template.get('error-page')
+            .then((temp) => pageLoader.loadPage(temp, image));
+    });
 
-  this.get(appUrls.BOOK_ERROR_URL, function() {
-    if (localStorage.AUTH_TOKEN) {
-        template.get('user-navigation')
-            .then((temp) => pageLoader.loadUserNavigation(temp))
-            .then(() => eventLoader.loadUserNavigationEvents());
-    } else {
-        template.get('front-navigation')
-            .then((temp) => pageLoader.loadFrontNavigation(temp))
-            .then(() => eventLoader.loadFrontPageEvents());
-    }
+    this.get(appUrls.BOOK_ERROR_URL, function() {
+        if (localStorage.AUTH_TOKEN) {
+            template.get('user-navigation')
+                .then((temp) => pageLoader.loadUserNavigation(temp))
+                .then(() => eventLoader.loadUserNavigationEvents());
+        } else {
+            template.get('front-navigation')
+                .then((temp) => pageLoader.loadFrontNavigation(temp))
+                .then(() => eventLoader.loadFrontPageEvents());
+        }
 
-    let image = '../../assets/images/error-book-page.jpg';
+        let image = '../../assets/images/error-book-page.jpg';
 
-    template.get('error-page')
-        .then((temp) => pageLoader.loadPage(temp, image));
-  });
+        template.get('error-page')
+            .then((temp) => pageLoader.loadPage(temp, image));
+    });
 
-  this.get(appUrls.USER_ERROR_URL, function() {
-    if (localStorage.AUTH_TOKEN) {
-        template.get('user-navigation')
-            .then((temp) => pageLoader.loadUserNavigation(temp))
-            .then(() => eventLoader.loadUserNavigationEvents());
-    } else {
-        template.get('front-navigation')
-            .then((temp) => pageLoader.loadFrontNavigation(temp))
-            .then(() => eventLoader.loadFrontPageEvents());
-    }
+    this.get(appUrls.USER_ERROR_URL, function() {
+        if (localStorage.AUTH_TOKEN) {
+            template.get('user-navigation')
+                .then((temp) => pageLoader.loadUserNavigation(temp))
+                .then(() => eventLoader.loadUserNavigationEvents());
+        } else {
+            template.get('front-navigation')
+                .then((temp) => pageLoader.loadFrontNavigation(temp))
+                .then(() => eventLoader.loadFrontPageEvents());
+        }
 
-    let image = '../../assets/images/error-person-page.jpg';
+        let image = '../../assets/images/error-person-page.jpg';
 
-    template.get('error-page')
-        .then((temp) => pageLoader.loadPage(temp, image));
-  });
+        template.get('error-page')
+            .then((temp) => pageLoader.loadPage(temp, image));
+    });
 
     this.get(/.*/, function() {
         this.redirect(appUrls.PAGE_NOT_FOUND_URL);
