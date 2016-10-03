@@ -260,11 +260,18 @@ let app = new Sammy(function() {
     });
 
     this.get(appUrls.PROFILE_URL, function() {
+        if (!localStorage.AUTH_TOKEN) {
+            this.redirect(appUrls.MAIN_URL);
+            return;
+        }
+
         if ($('nav').html() === '') {
             template.get('user-navigation')
                 .then((temp) => pageLoader.loadUserNavigation(temp))
                 .then(() => eventLoader.loadUserNavigationEvents());
         }
+
+
 
         let username = localStorage.getItem('USER_NAME')
         let userdata;
