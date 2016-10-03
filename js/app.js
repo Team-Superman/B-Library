@@ -39,7 +39,7 @@ let app = new Sammy(function() {
             .then(() => eventLoader.loadUserNavigationEvents());
 
         let head = header.getHeader(true, false);
-        request.get(`${kinveyUrls.KINVEY_BOOKS_URL}/?query={}&limit=5&sort={"countRead": -1}`, head)
+        request.get(`${kinveyUrls.KINVEY_BOOKS_URL}/?query={}&limit=5&sort={"countRead": -1, "rating": -1}`, head)
             .then((books) => { top5.books = books })
             .then(() => { return request.get(`${kinveyUrls.KINVEY_AUTHORS_URL}/?query={}&limit=5&sort={"amountOfFavorites": -1}`, head) })
             .then((auth) => { top5.authors = auth })
